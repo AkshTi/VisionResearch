@@ -64,8 +64,7 @@ def main():
         "+algorithm.diffusion.training_schedule.name=cosine",
         "+algorithm.diffusion.training_schedule.shift=0.125",
         "+algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
-        "+algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",
-        "+algorithm.diffusion.schedule_fn_kwargs.interpolated=False",
+        # Note: can't add shifted/interpolated - beta_schedule in checkpoint determines which params are valid
         # --- Experiment: validation/inference mode ---
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
