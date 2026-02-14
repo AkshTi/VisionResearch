@@ -47,10 +47,9 @@ def main():
     print(f"  Checkpoint:     {DFOT_CHECKPOINT}")
     
     # Build the DFoT command
-    # Base algo config is for discrete diffusion; @diffusion/continuous switches
-    # to continuous mode which needs extra configs from dataset_experiment yaml.
-    # Keys marked with + are NEW (not in base config).
-    # Keys without + OVERRIDE existing values in base config.
+    # CRITICAL: When loading pretrained checkpoint, DON'T override configs that
+    # affect model architecture. ONLY add missing keys needed for continuous diffusion.
+    # The checkpoint was trained with specific configs - changing them breaks loading.
     cmd = [
         "python", "main.py",
         f"+name=action_mismatch_step1",
@@ -61,17 +60,12 @@ def main():
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
         "wandb.mode=offline",  # Run offline to bypass W&B auth for testing
-        # --- Continuous diffusion: training schedule (NEW keys) ---
+        # --- Add ONLY the missing keys for continuous diffusion ---
         "+algorithm.diffusion.training_schedule.name=cosine",
         "+algorithm.diffusion.training_schedule.shift=0.125",
-        # --- Continuous diffusion: loss weighting ---
-        "algorithm.diffusion.loss_weighting.strategy=sigmoid",     # Override existing
-        "+algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",   # NEW key
-        # --- Continuous diffusion: beta schedule ---
-        "algorithm.diffusion.beta_schedule=cosine_simple_diffusion",  # Override existing
-        "algorithm.diffusion.schedule_fn_kwargs.shift=0.125",        # Override existing (was 1.0)
-        "+algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",     # NEW key
-        "+algorithm.diffusion.schedule_fn_kwargs.interpolated=False", # NEW key
+        "+algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
+        "+algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",
+        "+algorithm.diffusion.schedule_fn_kwargs.interpolated=False",
         # --- Experiment: validation/inference mode ---
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
