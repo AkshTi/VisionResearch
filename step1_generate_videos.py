@@ -20,9 +20,9 @@ from pathlib import Path
 # Add parent to path
 sys.path.insert(0, str(Path(__file__).parent))
 from config import (
-    DFOT_REPO, RUNS_DIR, N_SAMPLES, K_HISTORY, T_FUTURE, 
+    DFOT_REPO, RUNS_DIR, N_SAMPLES, K_HISTORY, T_FUTURE,
     FRAME_SKIP, DFOT_CHECKPOINT, HISTORY_GUIDANCE_NAME,
-    HISTORY_GUIDANCE_SCALE, SEED
+    HISTORY_GUIDANCE_SCALE, SEED, WANDB_ENTITY
 )
 
 
@@ -55,6 +55,7 @@ def main():
         "experiment=video_generation",
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
+        f"wandb.entity={WANDB_ENTITY}",  # Add W&B username
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",  # Deterministic ordering
         f"experiment.validation.batch_size=1",
