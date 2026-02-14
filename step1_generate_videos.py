@@ -60,6 +60,7 @@ def main():
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
+        "wandb.mode=offline",  # Run offline to bypass W&B auth for testing
         # --- Continuous diffusion: training schedule (NEW keys) ---
         "+algorithm.diffusion.training_schedule.name=cosine",
         "+algorithm.diffusion.training_schedule.shift=0.125",
