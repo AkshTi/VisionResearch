@@ -47,7 +47,10 @@ def main():
     print(f"  Checkpoint:     {DFOT_CHECKPOINT}")
     
     # Build the DFoT command
-    # DFoT needs training_schedule even for inference - add it with + prefix
+    # Base algo config is for discrete diffusion; @diffusion/continuous switches
+    # to continuous mode which needs extra configs from dataset_experiment yaml.
+    # Keys marked with + are NEW (not in base config).
+    # Keys without + OVERRIDE existing values in base config.
     cmd = [
         "python", "main.py",
         f"+name=action_mismatch_step1",
@@ -57,20 +60,27 @@ def main():
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
-        # Required configs for ContinuousDiffusion
-        "+algorithm.diffusion.objective=pred_v",
-        "+algorithm.diffusion.loss_weighting.strategy=sigmoid",
-        "+algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
+        # --- Continuous diffusion: training schedule (NEW keys) ---
         "+algorithm.diffusion.training_schedule.name=cosine",
         "+algorithm.diffusion.training_schedule.shift=0.125",
-        # Experiment settings
+        # --- Continuous diffusion: loss weighting ---
+        "algorithm.diffusion.loss_weighting.strategy=sigmoid",     # Override existing
+        "+algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",   # NEW key
+        # --- Continuous diffusion: beta schedule ---
+        "algorithm.diffusion.beta_schedule=cosine_simple_diffusion",  # Override existing
+        "algorithm.diffusion.schedule_fn_kwargs.shift=0.125",        # Override existing (was 1.0)
+        "+algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",     # NEW key
+        "+algorithm.diffusion.schedule_fn_kwargs.interpolated=False", # NEW key
+        # --- Experiment: validation/inference mode ---
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
         f"experiment.validation.batch_size=1",
+        # --- Dataset configuration ---
         f"dataset.context_length={K_HISTORY}",
         f"dataset.frame_skip={FRAME_SKIP}",
         f"dataset.n_frames={n_frames}",
         f"dataset.num_eval_videos={N_SAMPLES}",
+        # --- History guidance ---
         f"algorithm.tasks.prediction.history_guidance.name={HISTORY_GUIDANCE_NAME}",
         f"+algorithm.tasks.prediction.history_guidance.guidance_scale={HISTORY_GUIDANCE_SCALE}",
     ]
