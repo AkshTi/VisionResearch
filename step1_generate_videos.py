@@ -46,8 +46,8 @@ def main():
     print(f"  Frame skip:     {FRAME_SKIP}")
     print(f"  Checkpoint:     {DFOT_CHECKPOINT}")
     
-    # Build the DFoT command (simplified to match their working example)
-    # The pretrained checkpoint already contains training_schedule, beta_schedule, etc.
+    # Build the DFoT command
+    # DFoT needs training_schedule even for inference - add it with + prefix
     cmd = [
         "python", "main.py",
         f"+name=action_mismatch_step1",
@@ -57,6 +57,10 @@ def main():
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
+        # Add training_schedule (required by model init, even for inference)
+        "+algorithm.diffusion.training_schedule.name=cosine",
+        "+algorithm.diffusion.training_schedule.shift=0.125",
+        # Experiment settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
         f"experiment.validation.batch_size=1",
