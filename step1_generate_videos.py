@@ -56,12 +56,12 @@ def main():
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
-        # Add missing training_schedule config (required even for inference)
-        "algorithm.diffusion.training_schedule.name=cosine",
-        "algorithm.diffusion.training_schedule.shift=0.125",
-        "algorithm.diffusion.beta_schedule=cosine_simple_diffusion",
-        "algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",
-        "algorithm.diffusion.schedule_fn_kwargs.interpolated=False",
+        # Add missing training_schedule config (use + to add new keys)
+        "+algorithm.diffusion.training_schedule.name=cosine",
+        "+algorithm.diffusion.training_schedule.shift=0.125",
+        "+algorithm.diffusion.beta_schedule=cosine_simple_diffusion",
+        "+algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",
+        "+algorithm.diffusion.schedule_fn_kwargs.interpolated=False",
         # Experiment settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
