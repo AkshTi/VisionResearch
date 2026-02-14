@@ -46,23 +46,17 @@ def main():
     print(f"  Frame skip:     {FRAME_SKIP}")
     print(f"  Checkpoint:     {DFOT_CHECKPOINT}")
     
-    # Build the DFoT command
+    # Build the DFoT command (simplified to match their working example)
+    # The pretrained checkpoint already contains training_schedule, beta_schedule, etc.
     cmd = [
         "python", "main.py",
-        "+name=action_mismatch_step1",
+        f"+name=action_mismatch_step1",
         "dataset=realestate10k_mini",
         "algorithm=dfot_video_pose",
         "experiment=video_generation",
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
-        # Add missing training_schedule config (use + to add new keys)
-        "+algorithm.diffusion.training_schedule.name=cosine",
-        "+algorithm.diffusion.training_schedule.shift=0.125",
-        "+algorithm.diffusion.beta_schedule=cosine_simple_diffusion",
-        "+algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",
-        "+algorithm.diffusion.schedule_fn_kwargs.interpolated=False",
-        # Experiment settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
         f"experiment.validation.batch_size=1",
