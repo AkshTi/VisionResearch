@@ -104,7 +104,7 @@ def main():
     except FileNotFoundError:
         print(f"\n  Could not run DFoT (python not found or wrong env).")
         print(f"  Make sure you've activated the dfot conda env:")
-        print(f"  conda activate dfot")
+        print(f"  conda activate mech_interp_gpu")
         return create_mock_outputs(output_dir)
     except subprocess.TimeoutExpired:
         print(f"\n  DFoT generation timed out after 1 hour.")

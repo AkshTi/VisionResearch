@@ -28,7 +28,7 @@ module load cuda/12.1
 
 # Activate environment (use VGGT env if separate, or same as DFoT)
 source ~/.bashrc
-conda activate dfot  # or conda activate vggt
+conda activate mech_interp_gpu  # or conda activate vggt
 
 echo "Python: $(which python)"
 echo "Python version: $(python --version)"

@@ -25,7 +25,7 @@ module load python/3.10
 
 # Activate environment
 source ~/.bashrc
-conda activate dfot
+conda activate mech_interp_gpu
 
 echo "Python: $(which python)"
 echo "Python version: $(python --version)"

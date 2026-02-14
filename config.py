@@ -78,5 +78,5 @@ SEED = 42
 # WANDB SETTINGS (needed for DFoT)
 # ============================================================
 
-WANDB_ENTITY = "your-wandb-username"  # Change this!
+WANDB_ENTITY = "akshatatiwari55" 
 WANDB_PROJECT = "action-mismatch-experiment"

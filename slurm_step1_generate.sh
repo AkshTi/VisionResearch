@@ -29,7 +29,7 @@ module load cuda/12.1
 # Activate DFoT environment
 # Replace with your actual conda env path
 source ~/.bashrc
-conda activate dfot
+conda activate mech_interp_gpu
 
 echo "Python: $(which python)"
 echo "Python version: $(python --version)"
