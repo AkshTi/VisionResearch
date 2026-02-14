@@ -48,16 +48,23 @@ def main():
     
     # Build the DFoT command
     cmd = [
-        "python", "main.py",  # Changed from "-m main" to "main.py" to avoid module import issues
+        "python", "main.py",
         "+name=action_mismatch_step1",
         "dataset=realestate10k_mini",
         "algorithm=dfot_video_pose",
         "experiment=video_generation",
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
-        f"wandb.entity={WANDB_ENTITY}",  # Add W&B username
+        f"wandb.entity={WANDB_ENTITY}",
+        # Add missing training_schedule config (required even for inference)
+        "algorithm.diffusion.training_schedule.name=cosine",
+        "algorithm.diffusion.training_schedule.shift=0.125",
+        "algorithm.diffusion.beta_schedule=cosine_simple_diffusion",
+        "algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",
+        "algorithm.diffusion.schedule_fn_kwargs.interpolated=False",
+        # Experiment settings
         "experiment.tasks=[validation]",
-        "experiment.validation.data.shuffle=False",  # Deterministic ordering
+        "experiment.validation.data.shuffle=False",
         f"experiment.validation.batch_size=1",
         f"dataset.context_length={K_HISTORY}",
         f"dataset.frame_skip={FRAME_SKIP}",
