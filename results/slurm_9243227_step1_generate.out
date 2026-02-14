@@ -1,0 +1,77 @@
+=========================================
+Step 1: Generate Videos with DFoT
+Action-Video Mismatch Experiment
+=========================================
+
+Job ID: 9243227
+Node: node3002
+Start time: Sat Feb 14 15:38:08 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.19
+
+Checking GPU availability...
+Sat Feb 14 15:38:11 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.105.08             Driver Version: 580.105.08     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:4A:00.0 Off |                    0 |
+| N/A   32C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting DFoT video generation...
+=========================================
+
+============================================================
+STEP 1: Generate videos with DFoT
+============================================================
+
+Generating 5 videos with DFoT...
+  History frames: 4
+  Future frames:  8
+  Frame skip:     20
+  Checkpoint:     DFoT_RE10K.ckpt
+
+  Full command:
+  cd diffusion-forcing-transformer && \
+  python main.py +name=action_mismatch_step1 dataset=realestate10k_mini algorithm=dfot_video_pose experiment=video_generation @diffusion/continuous load=pretrained:DFoT_RE10K.ckpt experiment.tasks=[validation] experiment.validation.data.shuffle=False experiment.validation.batch_size=1 dataset.context_length=4 dataset.frame_skip=20 dataset.n_frames=12 dataset.num_eval_videos=5 algorithm.tasks.prediction.history_guidance.name=vanilla +algorithm.tasks.prediction.history_guidance.guidance_scale=4.0
+
+  DFoT failed. Last 1000 chars of stderr:
+python: can't open file '/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/main.py': [Errno 2] No such file or directory
+
+
+  Falling back to mock outputs for development...
+
+  Creating MOCK outputs for development...
+  Created 5 mock samples in runs/action_mismatch/generated
+  These have RANDOM data — replace with real DFoT outputs!
+
+=========================================
+Step 1 Complete
+=========================================
+Exit code: 0
+End time: Sat Feb 14 15:38:13 EST 2026
+
+Generated outputs:
+total 24K
+-rw-rw-r-- 1 akshatat akshatat  986 Feb 14 15:38 manifest.json
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0000
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0001
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0002
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0003
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0004

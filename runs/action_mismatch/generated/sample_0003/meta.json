@@ -1,0 +1,6 @@
+{
+  "sample_id": 3,
+  "n_frames": 8,
+  "is_mock": true,
+  "k_history": 4
+}

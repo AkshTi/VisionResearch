@@ -1,0 +1,29 @@
+{
+  "samples": [
+    {
+      "id": 0,
+      "frames_dir": "runs/action_mismatch/generated/sample_0000/gen_frames",
+      "poses_gt_path": "runs/action_mismatch/generated/sample_0000/poses_gt_future.npy"
+    },
+    {
+      "id": 1,
+      "frames_dir": "runs/action_mismatch/generated/sample_0001/gen_frames",
+      "poses_gt_path": "runs/action_mismatch/generated/sample_0001/poses_gt_future.npy"
+    },
+    {
+      "id": 2,
+      "frames_dir": "runs/action_mismatch/generated/sample_0002/gen_frames",
+      "poses_gt_path": "runs/action_mismatch/generated/sample_0002/poses_gt_future.npy"
+    },
+    {
+      "id": 3,
+      "frames_dir": "runs/action_mismatch/generated/sample_0003/gen_frames",
+      "poses_gt_path": "runs/action_mismatch/generated/sample_0003/poses_gt_future.npy"
+    },
+    {
+      "id": 4,
+      "frames_dir": "runs/action_mismatch/generated/sample_0004/gen_frames",
+      "poses_gt_path": "runs/action_mismatch/generated/sample_0004/poses_gt_future.npy"
+    }
+  ]
+}
