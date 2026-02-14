@@ -6,6 +6,7 @@
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=4
+#SBATCH --chdir=/orcd/home/002/akshatat/VisionResearch
 
 # Step 2: Estimate poses from generated videos using VGGT
 # Submit with: sbatch slurm_step2_poses.sh

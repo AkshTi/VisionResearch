@@ -6,6 +6,7 @@
 #SBATCH --mem=64G
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
+#SBATCH --chdir=/orcd/home/002/akshatat/VisionResearch
 
 # Step 1: Generate videos with pose-conditioned DFoT
 # Submit with: sbatch slurm_step1_generate.sh

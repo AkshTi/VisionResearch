@@ -5,6 +5,7 @@
 #SBATCH --time=00:30:00
 #SBATCH --mem=16G
 #SBATCH --cpus-per-task=4
+#SBATCH --chdir=/orcd/home/002/akshatat/VisionResearch
 
 # Step 4: Fabricate corrupted pose histories (Phase 2 setup)
 # Submit with: sbatch slurm_step4_fabricate.sh

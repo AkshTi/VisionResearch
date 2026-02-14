@@ -5,6 +5,7 @@
 #SBATCH --time=00:30:00
 #SBATCH --mem=16G
 #SBATCH --cpus-per-task=4
+#SBATCH --chdir=/orcd/home/002/akshatat/VisionResearch
 
 # Step 3: Compute pose mismatch statistics (Phase 1 analysis)
 # Submit with: sbatch slurm_step3_mismatch.sh

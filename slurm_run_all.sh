@@ -6,6 +6,7 @@
 #SBATCH --mem=64G
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
+#SBATCH --chdir=/orcd/home/002/akshatat/VisionResearch
 
 # Full pipeline: All 4 steps in sequence
 # Submit with: sbatch slurm_run_all.sh
