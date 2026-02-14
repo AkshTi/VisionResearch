@@ -22,13 +22,13 @@ echo "Start time: $(date)"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 echo ""
 
-# Load modules
-module load python/3.10
-module load cuda/12.1
+# Load modules (commented out - conda env has everything)
+# module load python/3.10
+# module load cuda/12.1
 
 # Activate environment (use VGGT env if separate, or same as DFoT)
 source ~/.bashrc
-conda activate mech_interp_gpu  # or conda activate vggt
+conda activate mech_interp_gpu
 
 echo "Python: $(which python)"
 echo "Python version: $(python --version)"

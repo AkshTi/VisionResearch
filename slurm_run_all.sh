@@ -22,9 +22,9 @@ echo "Start time: $(date)"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 echo ""
 
-# Load modules
-module load python/3.10
-module load cuda/12.1
+# Load modules (commented out - conda env has everything)
+# module load python/3.10
+# module load cuda/12.1
 
 # Activate environment
 source ~/.bashrc

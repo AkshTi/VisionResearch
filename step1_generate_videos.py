@@ -48,7 +48,7 @@ def main():
     
     # Build the DFoT command
     cmd = [
-        "python", "-m", "main",
+        "python", "main.py",  # Changed from "-m main" to "main.py" to avoid module import issues
         "+name=action_mismatch_step1",
         "dataset=realestate10k_mini",
         "algorithm=dfot_video_pose",

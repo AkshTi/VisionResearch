@@ -20,8 +20,8 @@ echo "Node: $SLURM_NODELIST"
 echo "Start time: $(date)"
 echo ""
 
-# Load modules
-module load python/3.10
+# Load modules (commented out - conda env has everything)
+# module load python/3.10
 
 # Activate environment
 source ~/.bashrc

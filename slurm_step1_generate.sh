@@ -22,12 +22,11 @@ echo "Start time: $(date)"
 echo "GPU: $CUDA_VISIBLE_DEVICES"
 echo ""
 
-# Load modules (adjust for MIT ORCD)
-module load python/3.10
-module load cuda/12.1
+# Load modules (commented out - conda env has everything)
+# module load python/3.10
+# module load cuda/12.1
 
 # Activate DFoT environment
-# Replace with your actual conda env path
 source ~/.bashrc
 conda activate mech_interp_gpu
 
