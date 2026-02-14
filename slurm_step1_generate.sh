@@ -35,6 +35,14 @@ echo "Python: $(which python)"
 echo "Python version: $(python --version)"
 echo ""
 
+# Install DFoT dependencies if needed (one-time check)
+if [ ! -f "diffusion-forcing-transformer/.deps_installed" ]; then
+    echo "Installing DFoT dependencies..."
+    pip install -r diffusion-forcing-transformer/requirements.txt -q
+    touch diffusion-forcing-transformer/.deps_installed
+    echo "Dependencies installed ✓"
+fi
+
 # Verify GPU availability
 echo "Checking GPU availability..."
 nvidia-smi
