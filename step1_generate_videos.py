@@ -57,7 +57,10 @@ def main():
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
-        # Add training_schedule (required by model init, even for inference)
+        # Required configs for ContinuousDiffusion
+        "+algorithm.diffusion.objective=pred_v",
+        "+algorithm.diffusion.loss_weighting.strategy=sigmoid",
+        "+algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
         "+algorithm.diffusion.training_schedule.name=cosine",
         "+algorithm.diffusion.training_schedule.shift=0.125",
         # Experiment settings
