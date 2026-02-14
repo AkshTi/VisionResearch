@@ -47,11 +47,12 @@ def main():
     print(f"  Checkpoint:     {DFOT_CHECKPOINT}")
     
     # Build the DFoT command
-    # CRITICAL: When loading pretrained checkpoint, DON'T override configs that
-    # affect model architecture. ONLY add missing keys needed for continuous diffusion.
-    # The checkpoint was trained with specific configs - changing them breaks loading.
+    # Based on their working example from README (line 75-76):
+    # python -m main +name=single_image_to_short dataset=realestate10k_mini
+    # algorithm=dfot_video_pose experiment=video_generation @diffusion/continuous
+    # load=pretrained:DFoT_RE10K.ckpt 'experiment.tasks=[validation]' ...
     cmd = [
-        "python", "main.py",
+        "python", "-m", "main",  # Use -m main like docs show (NOT main.py)
         f"+name=action_mismatch_step1",
         "dataset=realestate10k_mini",
         "algorithm=dfot_video_pose",
@@ -59,22 +60,14 @@ def main():
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
-        "wandb.mode=offline",  # Run offline to bypass W&B auth for testing
-        # --- Add ONLY the missing keys for continuous diffusion ---
-        "+algorithm.diffusion.training_schedule.name=cosine",
-        "+algorithm.diffusion.training_schedule.shift=0.125",
-        "+algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
-        # Note: can't add shifted/interpolated - beta_schedule in checkpoint determines which params are valid
-        # --- Experiment: validation/inference mode ---
+        "wandb.mode=offline",
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
         f"experiment.validation.batch_size=1",
-        # --- Dataset configuration ---
         f"dataset.context_length={K_HISTORY}",
         f"dataset.frame_skip={FRAME_SKIP}",
         f"dataset.n_frames={n_frames}",
         f"dataset.num_eval_videos={N_SAMPLES}",
-        # --- History guidance ---
         f"algorithm.tasks.prediction.history_guidance.name={HISTORY_GUIDANCE_NAME}",
         f"+algorithm.tasks.prediction.history_guidance.guidance_scale={HISTORY_GUIDANCE_SCALE}",
     ]
