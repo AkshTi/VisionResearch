@@ -240,6 +240,8 @@ def main() -> None:
         f"load=pretrained:{DFOT_CHECKPOINT}",
         "wandb.mode=offline",
         f"wandb.entity={WANDB_ENTITY}",
+        # Allow checkpoint loading with minor config differences
+        "algorithm.checkpoint.strict=False",
         # Inference settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
