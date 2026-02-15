@@ -254,6 +254,8 @@ def main() -> None:
         # Wandb config
         f"wandb.entity={WANDB_ENTITY}",
         "wandb.mode=offline",
+        # Fix resumable dataloader check (realestate10k sets subdataset_size=??? which breaks validation-only)
+        "dataset.subdataset_size=null",
         # Backbone architecture matching the TRAINED checkpoint
         "algorithm.backbone.channels=[128,256,576,1152]",
         "algorithm.backbone.num_updown_blocks=[3,3,6]",
