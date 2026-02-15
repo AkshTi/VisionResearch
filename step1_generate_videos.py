@@ -232,16 +232,19 @@ def main() -> None:
     preflight_or_die(output_dir)
 
     # Command from DFoT wiki (pose-conditioned generation) :contentReference[oaicite:1]{index=1}
+    # CRITICAL: Must use FULL config path for pretrained checkpoints
+    # The checkpoint was trained with full RE10K config, not mini
     cmd = [
         "python", "-m", "main",
         "+name=action_mismatch_step1",
-        # Use dataset_experiment config which has correct architecture for checkpoint
-        "dataset_experiment=realestate10k_mini_video_generation",
+        # Use FULL realestate10k config (not mini!) which matches checkpoint architecture
+        "dataset_experiment=realestate10k_video_generation",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         "wandb.mode=offline",
         f"wandb.entity={WANDB_ENTITY}",
-        # Allow checkpoint loading with minor config differences
         "algorithm.checkpoint.strict=False",
+        # Override to use mini dataset for faster testing
+        "dataset.name=realestate10k_mini",
         # Inference settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
