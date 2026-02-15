@@ -243,6 +243,7 @@ def main() -> None:
         f"load=pretrained:{DFOT_CHECKPOINT}",
         f"wandb.entity={WANDB_ENTITY}",
         "wandb.mode=offline",
+        "algorithm.checkpoint.strict=False",
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
         f"experiment.validation.batch_size=1",
