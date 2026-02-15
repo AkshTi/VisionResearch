@@ -243,6 +243,8 @@ def main() -> None:
         "wandb.mode=offline",
         f"wandb.entity={WANDB_ENTITY}",
         "algorithm.checkpoint.strict=False",
+        # Disable torch.compile for inference (not needed, causes issues)
+        "algorithm.compile=false",
         # Override to use mini dataset for faster testing
         "++dataset.name=realestate10k_mini",
         # Inference settings
