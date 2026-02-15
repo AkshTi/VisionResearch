@@ -235,20 +235,11 @@ def main() -> None:
     cmd = [
         "python", "-m", "main",
         "+name=action_mismatch_step1",
-        "dataset=realestate10k_mini",
-        "algorithm=dfot_video_pose",
-        "experiment=video_generation",
-        "@diffusion/continuous",
+        # Use dataset_experiment config which has correct architecture for checkpoint
+        "dataset_experiment=realestate10k_mini_video_generation",
         f"load=pretrained:{DFOT_CHECKPOINT}",
         "wandb.mode=offline",
         f"wandb.entity={WANDB_ENTITY}",
-        # Force-add continuous diffusion configs (++ = add or override)
-        "++algorithm.diffusion.training_schedule.name=cosine",
-        "++algorithm.diffusion.training_schedule.shift=0.125",
-        "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
-        "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
-        # Allow checkpoint loading with config mismatch
-        "algorithm.checkpoint.strict=False",
         # Inference settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
