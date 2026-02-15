@@ -231,8 +231,8 @@ def main() -> None:
 
     preflight_or_die(output_dir)
 
-    # EXACT command from DFoT README Example 2 (single_image_to_short) with our params
-    # https://github.com/buoyancy99/diffusion-forcing/blob/main/README.md
+    # README command + explicit backbone architecture + continuous diffusion params
+    # Force backbone to match pretrained checkpoint: channels [128,256,512,1024], mid_blocks 16
     cmd = [
         "python", "-m", "main",
         "+name=action_mismatch_step1",
@@ -250,9 +250,19 @@ def main() -> None:
         f"dataset.num_eval_videos={N_SAMPLES}",
         f"algorithm.tasks.prediction.history_guidance.name={HISTORY_GUIDANCE_NAME}",
         f"+algorithm.tasks.prediction.history_guidance.guidance_scale={HISTORY_GUIDANCE_SCALE}",
-        # Minimal additions for our setup
+        # Wandb config
         f"wandb.entity={WANDB_ENTITY}",
         "wandb.mode=offline",
+        # Explicitly set backbone to match pretrained checkpoint (prevent overrides)
+        "algorithm.backbone.channels=[128,256,512,1024]",
+        "algorithm.backbone.num_mid_blocks=16",
+        "algorithm.backbone.num_updown_blocks=[3,3,3]",
+        "algorithm.backbone.num_heads=4",
+        # Add missing continuous diffusion params (required by code)
+        "++algorithm.diffusion.training_schedule.name=cosine",
+        "++algorithm.diffusion.training_schedule.shift=0.125",
+        "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
+        "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
     ]
 
     # Run DFoT
