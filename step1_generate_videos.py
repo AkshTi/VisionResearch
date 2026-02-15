@@ -232,31 +232,29 @@ def main() -> None:
     preflight_or_die(output_dir)
 
     # Command from DFoT wiki (pose-conditioned generation) :contentReference[oaicite:1]{index=1}
-    # CRITICAL: Must use FULL config path for pretrained checkpoints
-    # The checkpoint was trained with full RE10K config, not mini
+    # Use EXACT command structure from DFoT README (line 75-76)
+    # This is their proven working config that matches the checkpoint
     cmd = [
         "python", "-m", "main",
         "+name=action_mismatch_step1",
-        # Use FULL realestate10k config (not mini!) which matches checkpoint architecture
-        "dataset_experiment=realestate10k_video_generation",
+        "dataset=realestate10k_mini",
+        "algorithm=dfot_video_pose",
+        "experiment=video_generation",
+        "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
-        "wandb.mode=offline",
-        f"wandb.entity={WANDB_ENTITY}",
-        "algorithm.checkpoint.strict=False",
-        # Disable torch.compile for inference (not needed, causes issues)
-        "algorithm.compile=false",
-        # Override to use mini dataset for faster testing
-        "++dataset.name=realestate10k_mini",
-        # Inference settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
-        "experiment.validation.batch_size=1",
+        f"experiment.validation.batch_size=1",
         f"dataset.context_length={K_HISTORY}",
         f"dataset.frame_skip={FRAME_SKIP}",
         f"dataset.n_frames={n_frames}",
         f"dataset.num_eval_videos={N_SAMPLES}",
         f"algorithm.tasks.prediction.history_guidance.name={HISTORY_GUIDANCE_NAME}",
         f"+algorithm.tasks.prediction.history_guidance.guidance_scale={HISTORY_GUIDANCE_SCALE}",
+        # Additional settings for our setup
+        "wandb.mode=offline",
+        f"wandb.entity={WANDB_ENTITY}",
+        "algorithm.checkpoint.strict=False",
     ]
 
     # Run DFoT
