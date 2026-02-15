@@ -1,0 +1,89 @@
+=========================================
+Step 1: Generate Videos with DFoT
+Action-Video Mismatch Experiment
+=========================================
+
+Job ID: 9244266
+Node: node3003
+Start time: Sat Feb 14 17:43:23 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.19
+
+Checking GPU availability...
+Sat Feb 14 17:43:26 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.105.08             Driver Version: 580.105.08     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:61:00.0 Off |                    0 |
+| N/A   34C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting DFoT video generation...
+=========================================
+
+============================================================
+STEP 1: Generate videos with DFoT
+============================================================
+
+Generating 5 videos with DFoT...
+  History frames: 4
+  Future frames:  8
+  Frame skip:     20
+  Checkpoint:     DFoT_RE10K.ckpt
+
+  Full command:
+  cd diffusion-forcing-transformer && \
+  python main.py +name=action_mismatch_step1 dataset=realestate10k_mini algorithm=dfot_video_pose experiment=video_generation @diffusion/continuous load=pretrained:DFoT_RE10K.ckpt wandb.entity=akshatatiwari55 wandb.mode=offline +algorithm.diffusion.training_schedule.name=cosine +algorithm.diffusion.training_schedule.shift=0.125 +algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0 +algorithm.diffusion.schedule_fn_kwargs.shifted=0.125 +algorithm.diffusion.schedule_fn_kwargs.interpolated=False experiment.tasks=[validation] experiment.validation.data.shuffle=False experiment.validation.batch_size=1 dataset.context_length=4 dataset.frame_skip=20 dataset.n_frames=12 dataset.num_eval_videos=5 algorithm.tasks.prediction.history_guidance.name=vanilla +algorithm.tasks.prediction.history_guidance.guidance_scale=4.0
+
+  DFoT failed. Last 1000 chars of stderr:
+on.py", line 103, in __init__
+    super().__init__(cfg, backbone_cfg, x_shape, max_tokens, external_cond_dim)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/diffusion/discrete_diffusion.py", line 55, in __init__
+    self._build_buffer()
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/diffusion/continuous_diffusion.py", line 111, in _build_buffer
+    super()._build_buffer()
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/diffusion/discrete_diffusion.py", line 80, in _build_buffer
+    betas = make_beta_schedule(
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/diffusion/noise_schedule.py", line 21, in make_beta_schedule
+    alphas_cumprod = schedule_fn(**kwargs)
+TypeError: cosine_schedule() got an unexpected keyword argument 'shifted'
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+
+
+  Falling back to mock outputs for development...
+
+  Creating MOCK outputs for development...
+  Created 5 mock samples in runs/action_mismatch/generated
+  These have RANDOM data — replace with real DFoT outputs!
+
+=========================================
+Step 1 Complete
+=========================================
+Exit code: 0
+End time: Sat Feb 14 17:43:40 EST 2026
+
+Generated outputs:
+total 20K
+-rw-rw-r-- 1 akshatat akshatat  986 Feb 14 17:43 manifest.json
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0000
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0001
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0002
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0003
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0004

@@ -1,0 +1,114 @@
+=========================================
+Step 1: Generate Videos with DFoT
+Action-Video Mismatch Experiment
+=========================================
+
+Job ID: 9247038
+Node: node3402
+Start time: Sat Feb 14 20:58:09 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.19
+
+Checking GPU availability...
+Sat Feb 14 20:58:13 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.105.08             Driver Version: 580.105.08     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:61:00.0 Off |                    0 |
+| N/A   28C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting DFoT video generation...
+=========================================
+
+============================================================
+STEP 1: Generate videos with DFoT
+============================================================
+
+[Preflight]
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python -c import main; print('ok')
+[Warn] DFOT_CHECKPOINT looks like a file/path but does not exist: DFoT_RE10K.ckpt
+      If you intended pretrained name (e.g. DFoT_RE10K.ckpt), set it exactly like DFoT wiki uses.
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python -m main +name=action_mismatch_step1 dataset=realestate10k_mini algorithm=dfot_video_pose experiment=video_generation @diffusion/continuous load=pretrained:DFoT_RE10K.ckpt experiment.tasks=[validation] experiment.validation.data.shuffle=False dataset.context_length=4 dataset.frame_skip=20 dataset.n_frames=12 experiment.validation.batch_size=1 dataset.num_eval_videos=5 algorithm.tasks.prediction.history_guidance.name=vanilla +algorithm.tasks.prediction.history_guidance.guidance_scale=4.0 wandb.entity=akshatatiwari55 wandb.mode=offline algorithm.backbone.channels=[128,256,512,1024] algorithm.backbone.num_mid_blocks=16 algorithm.backbone.num_updown_blocks=[3,3,3] algorithm.backbone.num_heads=4 ++algorithm.diffusion.training_schedule.name=cosine ++algorithm.diffusion.training_schedule.shift=0.125 ++algorithm.diffusion.loss_weighting.strategy=sigmoid ++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0
+
+[DFoT FAILED]
+stdout (tail):
+ [36mOutputs will be saved to:[39m /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-14/20-58-32
+[36mExecuting task:[39m validation out of ['validation']
+[36mThe following keys are not found in the checkpoint:[39m ['diffusion_model.model.down_blocks.2.3.conv.weight', 'diffusion_model.model.down_blocks.2.3.conv.bias']
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-14/20-58-32/wandb/offline-run-20260214_205838-4ede1du2[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-14/20-58-32/wandb/offline-run-20260214_205838-4ede1du2/logs[0m
+
+stderr (tail):
+ r set WANDB_MODE=online to enable cloud syncing.
+wandb: Run data is saved locally in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-14/20-58-32/wandb/offline-run-20260214_205838-4ede1du2
+Restoring states from the checkpoint path at ./huggingface/models--kiwhansong--DFoT/snapshots/0959defb4c4fe010f84791d732cc978ad7d49fef/pretrained_models/DFoT_RE10K.ckpt
+Error executing job with overrides: ['+name=action_mismatch_step1', 'dataset=realestate10k_mini', 'algorithm=dfot_video_pose', 'experiment=video_generation', '++algorithm={diffusion: {is_continuous: True, precond_scale: 0.125}, backbone: {use_fourier_noise_embedding: True}}', 'load=pretrained:DFoT_RE10K.ckpt', 'experiment.tasks=[validation]', 'experiment.validation.data.shuffle=False', 'dataset.context_length=4', 'dataset.frame_skip=20', 'dataset.n_frames=12', 'experiment.validation.batch_size=1', 'dataset.num_eval_videos=5', 'algorithm.tasks.prediction.history_guidance.name=vanilla', '+algorithm.tasks.prediction.history_guidance.guidance_scale=4.0', 'wandb.entity=akshatatiwari55', 'wandb.mode=offline', 'algorithm.backbone.channels=[128,256,512,1024]', 'algorithm.backbone.num_mid_blocks=16', 'algorithm.backbone.num_updown_blocks=[3,3,3]', 'algorithm.backbone.num_heads=4', '++algorithm.diffusion.training_schedule.name=cosine', '++algorithm.diffusion.training_schedule.shift=0.125', '++algorithm.diffusion.loss_weighting.strategy=sigmoid', '++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0']
+Traceback (most recent call last):
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/main.py", line 271, in run
+    run_local(cfg)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/main.py", line 138, in run_local
+    experiment.exec_task(task)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/experiments/base_exp.py", line 87, in exec_task
+    getattr(self, task)()
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/experiments/base_exp.py", line 214, in validation
+    trainer.validate(
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 702, in validate
+    return call._call_and_handle_interrupt(
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 745, in _validate_impl
+    results = self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1046, in _run
+    self._checkpoint_connector._restore_modules_and_callbacks(ckpt_path, weights_only)
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/checkpoint_connector.py", line 411, in _restore_modules_and_callbacks
+    self.restore_model()
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lightning/pytorch/trainer/connectors/checkpoint_connector.py", line 283, in restore_model
+    call._call_lightning_module_hook(self.trainer, "on_load_checkpoint", self._loaded_checkpoint)
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 177, in _call_lightning_module_hook
+    output = fn(*args, **kwargs)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/dfot_video.py", line 1482, in on_load_checkpoint
+    raise ValueError(
+ValueError: Thus, the checkpoint cannot be loaded. To ignore this error, turn off strict checkpoint loading by setting `algorithm.checkpoint.strict=False`.
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+
+
+=========================================
+Step 1 Complete
+=========================================
+Exit code: 1
+End time: Sat Feb 14 20:58:44 EST 2026
+
+Generated outputs:
+total 24K
+-rw-rw-r-- 1 akshatat akshatat  986 Feb 14 17:55 manifest.json
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0000
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0001
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0002
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0003
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0004

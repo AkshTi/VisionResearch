@@ -1,0 +1,118 @@
+=========================================
+Step 1: Generate Videos with DFoT
+Action-Video Mismatch Experiment
+=========================================
+
+Job ID: 9246346
+Node: node2804
+Start time: Sat Feb 14 20:30:08 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.19
+
+Checking GPU availability...
+Sat Feb 14 20:30:12 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.105.08             Driver Version: 580.105.08     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:CA:00.0 Off |                    0 |
+| N/A   37C    P8             34W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting DFoT video generation...
+=========================================
+
+============================================================
+STEP 1: Generate videos with DFoT
+============================================================
+
+[Preflight]
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python -c import main; print('ok')
+[Warn] DFOT_CHECKPOINT looks like a file/path but does not exist: DFoT_RE10K.ckpt
+      If you intended pretrained name (e.g. DFoT_RE10K.ckpt), set it exactly like DFoT wiki uses.
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python -m main +name=action_mismatch_step1 dataset_experiment=realestate10k_video_generation load=pretrained:DFoT_RE10K.ckpt wandb.mode=offline wandb.entity=akshatatiwari55 algorithm.checkpoint.strict=False algorithm.compile=false ++dataset.name=realestate10k_mini experiment.tasks=[validation] experiment.validation.data.shuffle=False experiment.validation.batch_size=1 dataset.context_length=4 dataset.frame_skip=20 dataset.n_frames=12 dataset.num_eval_videos=5 algorithm.tasks.prediction.history_guidance.name=vanilla +algorithm.tasks.prediction.history_guidance.guidance_scale=4.0
+
+[DFoT FAILED]
+stdout (tail):
+ [36mOutputs will be saved to:[39m /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-14/20-30-33
+[36mExecuting task:[39m validation out of ['validation']
+
+stderr (tail):
+  package or pin to Setuptools<81.
+  from pkg_resources import DistributionNotFound, get_distribution
+/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/timm/models/layers/__init__.py:49: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+Error executing job with overrides: ['+name=action_mismatch_step1', 'dataset_experiment=realestate10k_video_generation', 'load=pretrained:DFoT_RE10K.ckpt', 'wandb.mode=offline', 'wandb.entity=akshatatiwari55', 'algorithm.checkpoint.strict=False', 'algorithm.compile=false', '++dataset.name=realestate10k_mini', 'experiment.tasks=[validation]', 'experiment.validation.data.shuffle=False', 'experiment.validation.batch_size=1', 'dataset.context_length=4', 'dataset.frame_skip=20', 'dataset.n_frames=12', 'dataset.num_eval_videos=5', 'algorithm.tasks.prediction.history_guidance.name=vanilla', '+algorithm.tasks.prediction.history_guidance.guidance_scale=4.0']
+Traceback (most recent call last):
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/main.py", line 271, in run
+    run_local(cfg)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/main.py", line 138, in run_local
+    experiment.exec_task(task)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/experiments/base_exp.py", line 87, in exec_task
+    getattr(self, task)()
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/experiments/base_exp.py", line 188, in validation
+    self.algo = self._build_algo()
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/experiments/base_exp.py", line 73, in _build_algo
+    return self.compatible_algorithms[algo_name](self.root_cfg.algorithm)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/dfot_video.py", line 82, in __init__
+    super().__init__(cfg)
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/common/base_pytorch_algo.py", line 28, in __init__
+    self._build_model()
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/dfot_video.py", line 109, in _build_model
+    diffusion_cls(
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/diffusion/discrete_diffusion.py", line 54, in __init__
+    self._build_model()
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/diffusion/discrete_diffusion.py", line 71, in _build_model
+    self.model = model_cls(
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/backbones/dit/dit3d.py", line 51, in __init__
+    self.dit_base = DiTBase(
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/backbones/dit/dit_base.py", line 123, in __init__
+    [
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/backbones/dit/dit_base.py", line 124, in <listcomp>
+    DiTBlock(
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/backbones/dit/dit_blocks.py", line 171, in __init__
+    self.attn = Attention(
+  File "/orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/algorithms/dfot/backbones/dit/dit_blocks.py", line 37, in __init__
+    assert dim % num_heads == 0, "dim should be divisible by num_heads"
+AssertionError: dim should be divisible by num_heads
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+
+
+=========================================
+Step 1 Complete
+=========================================
+Exit code: 1
+End time: Sat Feb 14 20:30:37 EST 2026
+
+Generated outputs:
+total 24K
+-rw-rw-r-- 1 akshatat akshatat  986 Feb 14 17:55 manifest.json
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0000
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0001
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0002
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0003
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 14 15:13 sample_0004
