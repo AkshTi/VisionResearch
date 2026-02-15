@@ -242,9 +242,11 @@ def main() -> None:
         f"load=pretrained:{DFOT_CHECKPOINT}",
         "wandb.mode=offline",
         f"wandb.entity={WANDB_ENTITY}",
-        # Add missing continuous diffusion keys
-        "+algorithm.diffusion.training_schedule.name=cosine",
-        "+algorithm.diffusion.training_schedule.shift=0.125",
+        # Force-add continuous diffusion configs (++ = add or override)
+        "++algorithm.diffusion.training_schedule.name=cosine",
+        "++algorithm.diffusion.training_schedule.shift=0.125",
+        "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
+        "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
         # Inference settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
