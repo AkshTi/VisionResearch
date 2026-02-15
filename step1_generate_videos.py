@@ -241,6 +241,7 @@ def main() -> None:
         "experiment=video_generation",
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
+        "algorithm.checkpoint.strict=False",
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
         f"dataset.context_length={K_HISTORY}",
