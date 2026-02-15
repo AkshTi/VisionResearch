@@ -231,8 +231,8 @@ def main() -> None:
 
     preflight_or_die(output_dir)
 
-    # README command + explicit backbone architecture + continuous diffusion params
-    # Force backbone to match pretrained checkpoint: channels [128,256,512,1024], mid_blocks 16
+    # Checkpoint was trained with realestate10k_video_generation.yaml overrides
+    # Must match EXACT architecture: channels [128,256,576,1152], 20 mid blocks, 9 heads
     cmd = [
         "python", "-m", "main",
         "+name=action_mismatch_step1",
@@ -241,7 +241,7 @@ def main() -> None:
         "experiment=video_generation",
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
-        "algorithm.checkpoint.strict=False",
+        "algorithm.checkpoint.strict=false",
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
         f"dataset.context_length={K_HISTORY}",
@@ -254,12 +254,12 @@ def main() -> None:
         # Wandb config
         f"wandb.entity={WANDB_ENTITY}",
         "wandb.mode=offline",
-        # Explicitly set backbone to match pretrained checkpoint (prevent overrides)
-        "algorithm.backbone.channels=[128,256,512,1024]",
-        "algorithm.backbone.num_mid_blocks=16",
-        "algorithm.backbone.num_updown_blocks=[3,3,3]",
-        "algorithm.backbone.num_heads=4",
-        # Add missing continuous diffusion params (required by code)
+        # Backbone architecture matching the TRAINED checkpoint
+        "algorithm.backbone.channels=[128,256,576,1152]",
+        "algorithm.backbone.num_updown_blocks=[3,3,6]",
+        "algorithm.backbone.num_mid_blocks=20",
+        "algorithm.backbone.num_heads=9",
+        # Continuous diffusion params (required by code, not in @diffusion/continuous)
         "++algorithm.diffusion.training_schedule.name=cosine",
         "++algorithm.diffusion.training_schedule.shift=0.125",
         "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
