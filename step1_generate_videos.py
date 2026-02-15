@@ -231,33 +231,28 @@ def main() -> None:
 
     preflight_or_die(output_dir)
 
-    # Command from DFoT README + required continuous diffusion params
-    # @diffusion/continuous is incomplete, need to force-add missing keys with ++
+    # EXACT command from DFoT README Example 2 (single_image_to_short) with our params
+    # https://github.com/buoyancy99/diffusion-forcing/blob/main/README.md
     cmd = [
-        "python", "main.py",
+        "python", "-m", "main",
         "+name=action_mismatch_step1",
         "dataset=realestate10k_mini",
         "algorithm=dfot_video_pose",
         "experiment=video_generation",
         "@diffusion/continuous",
         f"load=pretrained:{DFOT_CHECKPOINT}",
-        f"wandb.entity={WANDB_ENTITY}",
-        "wandb.mode=offline",
-        "algorithm.checkpoint.strict=False",
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
-        f"experiment.validation.batch_size=1",
         f"dataset.context_length={K_HISTORY}",
         f"dataset.frame_skip={FRAME_SKIP}",
         f"dataset.n_frames={n_frames}",
+        f"experiment.validation.batch_size=1",
         f"dataset.num_eval_videos={N_SAMPLES}",
         f"algorithm.tasks.prediction.history_guidance.name={HISTORY_GUIDANCE_NAME}",
         f"+algorithm.tasks.prediction.history_guidance.guidance_scale={HISTORY_GUIDANCE_SCALE}",
-        # Required for continuous diffusion (missing from @diffusion/continuous config)
-        "++algorithm.diffusion.training_schedule.name=cosine",
-        "++algorithm.diffusion.training_schedule.shift=0.125",
-        "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
-        "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
+        # Minimal additions for our setup
+        f"wandb.entity={WANDB_ENTITY}",
+        "wandb.mode=offline",
     ]
 
     # Run DFoT
