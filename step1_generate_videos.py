@@ -244,7 +244,7 @@ def main() -> None:
         f"wandb.entity={WANDB_ENTITY}",
         "algorithm.checkpoint.strict=False",
         # Override to use mini dataset for faster testing
-        "dataset.name=realestate10k_mini",
+        "++dataset.name=realestate10k_mini",
         # Inference settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
