@@ -1,0 +1,92 @@
+=========================================
+Step 3: Compute Pose Mismatch
+Action-Video Mismatch Experiment - Phase 1
+=========================================
+
+Job ID: 9248603
+Node: node1625
+Start time: Sat Feb 14 22:21:10 EST 2026
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.19
+
+=========================================
+Computing rotation errors and drift...
+=========================================
+
+============================================================
+STEP 3: Compute pose mismatch
+============================================================
+  sample_0000: 8 frames
+    Relative rot error: mean=5.00°, max=5.00°
+    Cumulative drift at final frame: 35.00°
+  sample_0001: 8 frames
+    Relative rot error: mean=5.00°, max=5.00°
+    Cumulative drift at final frame: 35.00°
+  sample_0002: 8 frames
+    Relative rot error: mean=5.00°, max=5.00°
+    Cumulative drift at final frame: 35.00°
+  sample_0003: 8 frames
+    Relative rot error: mean=5.00°, max=5.00°
+    Cumulative drift at final frame: 35.00°
+  sample_0004: 8 frames
+    Relative rot error: mean=5.00°, max=5.00°
+    Cumulative drift at final frame: 35.00°
+
+  Saved: runs/action_mismatch/aggregate/mismatch_all.csv
+
+  OVERALL STATISTICS:
+  Samples analyzed: 5
+
+  Per-frame relative rotation error:
+    Mean:   5.00°
+    Median: 5.00°
+    Std:    0.00°
+
+  Cumulative drift at final frame:
+    Mean:   35.00°
+    Median: 35.00°
+    10th %: 35.00°
+    90th %: 35.00°
+  Plot 1 saved: runs/action_mismatch/aggregate/rot_err_vs_time.png
+  Plot 2 saved: runs/action_mismatch/aggregate/rot_err_histogram.png
+  Plot 3 saved: runs/action_mismatch/aggregate/rel_rot_err_vs_time.png
+
+  ✅ Phase 1 complete!
+  You've quantified the accumulation of divergence.
+  Next: run step4_fabricate_and_evaluate.py for Phase 2.
+
+=========================================
+Step 3 Complete - PHASE 1 DONE!
+=========================================
+Exit code: 0
+End time: Sat Feb 14 22:21:19 EST 2026
+
+Results saved to:
+total 196K
+-rw-rw-r-- 1 akshatat akshatat 3.1K Feb 14 22:21 mismatch_all.csv
+-rw-rw-r-- 1 akshatat akshatat  54K Feb 14 22:21 rel_rot_err_vs_time.png
+-rw-rw-r-- 1 akshatat akshatat  41K Feb 14 22:21 rot_err_histogram.png
+-rw-rw-r-- 1 akshatat akshatat  78K Feb 14 22:21 rot_err_vs_time.png
+
+Drift statistics:
+sample_id,t,rot_err_deg,error_type
+sample_0000,1,4.999999999999991,relative
+sample_0000,2,4.999999999999991,relative
+sample_0000,3,4.9999999999998455,relative
+sample_0000,4,4.999999999999991,relative
+sample_0000,5,5.000000000000138,relative
+sample_0000,6,4.999999999999991,relative
+sample_0000,7,5.000000000000138,relative
+sample_0000,0,0.0,cumulative
+sample_0000,1,4.999999999999991,cumulative
+sample_0000,2,9.999999999999977,cumulative
+sample_0000,3,15.000000000000018,cumulative
+sample_0000,4,19.999999999999993,cumulative
+sample_0000,5,24.99999999999999,cumulative
+sample_0000,6,29.99999999999998,cumulative
+sample_0000,7,34.999999999999986,cumulative
+sample_0001,1,4.999999999999991,relative
+sample_0001,2,4.999999999999991,relative
+sample_0001,3,4.9999999999998455,relative
+sample_0001,4,4.999999999999991,relative
