@@ -106,10 +106,24 @@ class VGGTOracle:
                 extrinsic, intrinsic = self._pose_enc_to_extri_intri(
                     pose_enc, images_batch.shape[-2:]
                 )
-        
+
+        # VGGT returns (B, T, 3, 4) - need to add bottom row [0,0,0,1]
+        extrinsic_np = extrinsic.squeeze(0).cpu().numpy()  # (T, 3, 4)
+
         if return_numpy:
-            return extrinsic.squeeze(0).cpu().numpy()  # (T, 4, 4)
-        return extrinsic.squeeze(0)
+            # Convert (T, 3, 4) to (T, 4, 4) by adding bottom row
+            T = extrinsic_np.shape[0]
+            extrinsic_full = np.zeros((T, 4, 4))
+            extrinsic_full[:, :3, :] = extrinsic_np
+            extrinsic_full[:, 3, 3] = 1.0  # Homogeneous coordinate
+            return extrinsic_full
+
+        # Add bottom row for torch output too
+        T = extrinsic.shape[1]
+        bottom_row = torch.zeros((1, T, 1, 4), device=extrinsic.device)
+        bottom_row[:, :, :, 3] = 1.0
+        extrinsic_full = torch.cat([extrinsic, bottom_row], dim=2)
+        return extrinsic_full.squeeze(0)
     
     def estimate_poses_from_paths(
         self, 
