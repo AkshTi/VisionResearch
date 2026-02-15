@@ -84,7 +84,7 @@ class VGGTOracle:
         if isinstance(frames, np.ndarray) and frames.ndim == 4:
             # (T, H, W, 3) numpy array -> list of PIL
             pil_frames = [Image.fromarray(f) for f in frames]
-        elif isinstance(frames[0], np.ndarray):
+        elif len(frames) > 0 and isinstance(frames[0], np.ndarray):
             pil_frames = [Image.fromarray(f) for f in frames]
         else:
             pil_frames = frames  # Already PIL

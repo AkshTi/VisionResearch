@@ -122,7 +122,7 @@ def main():
         print(f"    Std:    {df_rel['rot_err_deg'].std():.2f}°")
     
     # Final-frame cumulative drift
-    final_frame_errors = df_cum.groupby("sample_id")["rot_err_deg"].last()
+    final_frame_errors = df_cum.groupby("sample_id")["rot_err_deg"].apply(lambda x: x.iloc[-1])
     print(f"\n  Cumulative drift at final frame:")
     print(f"    Mean:   {final_frame_errors.mean():.2f}°")
     print(f"    Median: {final_frame_errors.median():.2f}°")
@@ -184,7 +184,7 @@ def make_plots(df: pd.DataFrame, output_dir: Path):
     # ================================================================
     # Plot 2: Histogram of rotation error at final timestep
     # ================================================================
-    final_errors = df_cum.groupby("sample_id")["rot_err_deg"].last()
+    final_errors = df_cum.groupby("sample_id")["rot_err_deg"].apply(lambda x: x.iloc[-1])
     
     if len(final_errors) > 0:
         fig, ax = plt.subplots(figsize=(8, 5))

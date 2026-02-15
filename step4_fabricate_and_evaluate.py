@@ -59,7 +59,7 @@ def main():
     df_cum = df[df["error_type"] == "cumulative"]
     
     # Get final-frame errors for each sample
-    final_errors = df_cum.groupby("sample_id")["rot_err_deg"].last().sort_values()
+    final_errors = df_cum.groupby("sample_id")["rot_err_deg"].apply(lambda x: x.iloc[-1]).sort_values()
     
     print(f"  Drift statistics from Phase 1:")
     print(f"  10th percentile (low drift):  {final_errors.quantile(0.1):.2f}°")
