@@ -231,8 +231,8 @@ def main() -> None:
 
     preflight_or_die(output_dir)
 
-    # Command from DFoT README - exact working example for pretrained checkpoint
-    # The pretrained checkpoint already has all diffusion params baked in - don't override!
+    # Command from DFoT README + required continuous diffusion params
+    # @diffusion/continuous is incomplete, need to force-add missing keys with ++
     cmd = [
         "python", "main.py",
         "+name=action_mismatch_step1",
@@ -252,6 +252,11 @@ def main() -> None:
         f"dataset.num_eval_videos={N_SAMPLES}",
         f"algorithm.tasks.prediction.history_guidance.name={HISTORY_GUIDANCE_NAME}",
         f"+algorithm.tasks.prediction.history_guidance.guidance_scale={HISTORY_GUIDANCE_SCALE}",
+        # Required for continuous diffusion (missing from @diffusion/continuous config)
+        "++algorithm.diffusion.training_schedule.name=cosine",
+        "++algorithm.diffusion.training_schedule.shift=0.125",
+        "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
+        "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
     ]
 
     # Run DFoT
