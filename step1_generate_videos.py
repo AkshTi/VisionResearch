@@ -247,6 +247,8 @@ def main() -> None:
         "++algorithm.diffusion.training_schedule.shift=0.125",
         "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
         "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
+        # Allow checkpoint loading with config mismatch
+        "algorithm.checkpoint.strict=False",
         # Inference settings
         "experiment.tasks=[validation]",
         "experiment.validation.data.shuffle=False",
