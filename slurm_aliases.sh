@@ -92,6 +92,12 @@ alias s3logs='ls -lth results/slurm_*_step3_*.{out,err} 2>/dev/null | head -5 &&
 # Quick view of all step4 logs
 alias s4logs='ls -lth results/slurm_*_step4_*.{out,err} 2>/dev/null | head -5 && echo "" && echo "Latest step4 output:" && tail -50 results/slurm_*_step4_*.out 2>/dev/null | tail -50'
 
+# Quick view of all step5 logs
+alias s5logs='ls -lth results/slurm_*_step5_*.{out,err} 2>/dev/null | head -5 && echo "" && echo "Latest step5 output:" && tail -50 results/slurm_*_step5_*.out 2>/dev/null | tail -50'
+
+# Quick view of all step6 logs
+alias s6logs='ls -lth results/slurm_*_step6_*.{out,err} 2>/dev/null | head -5 && echo "" && echo "Latest step6 output:" && tail -50 results/slurm_*_step6_*.out 2>/dev/null | tail -50'
+
 # Check for errors in latest logs
 alias schkerr='_slurm_checkerr() {
     echo "Checking for ERROR patterns in recent logs...";
