@@ -166,7 +166,6 @@ def extract_frames_from_gif(gif_path: Path, k_history: int = 4):
 
 def run_dfot_with_corruption(
     dfot_repo: Path,
-    runner_path: Path,
     scale: float,
     drift_median: float,
     n_samples: int,
@@ -175,7 +174,7 @@ def run_dfot_with_corruption(
     n_frames = K_HISTORY + T_FUTURE
 
     cmd = [
-        "python", str(runner_path),
+        "python", "_phase2_runner.py",
         f"+name=phase2_scale{scale:.1f}",
         "dataset=realestate10k_mini",
         "algorithm=dfot_video_pose",
@@ -302,7 +301,7 @@ def main():
         print(f"{'='*60}")
 
         rc = run_dfot_with_corruption(
-            DFOT_REPO, runner_path, scale, drift_median, N_SAMPLES
+            DFOT_REPO, scale, drift_median, N_SAMPLES
         )
 
         if rc != 0:
