@@ -40,13 +40,17 @@ RUNNER_SCRIPT = textwrap.dedent('''\
 """
 Phase 2 runner: DFoT with corrupted pose conditioning.
 
-Patches run_local() so DFoT class imports happen at exactly the same
-point as step1 (inside run_local, after Hydra initialises) rather than
-at module load time, which avoids the transformers/torch import-order error.
+Uses runpy.run_module("main", alter_sys=True) to emulate `python -m main`
+exactly, so Hydra resolves configurations/ correctly. The monkey-patch is
+applied at class level before run_module executes, so sys.modules caching
+ensures DFoTVideoPose picks up the patched method.
 """
 import sys
 import os
+import runpy
 import numpy as np
+import torch
+from scipy.spatial.transform import Rotation
 
 CORRUPTION_SCALE = float(os.environ.get("PHASE2_SCALE", "0"))
 DRIFT_MEDIAN = float(os.environ.get("PHASE2_DRIFT", "35.13"))
@@ -55,76 +59,58 @@ SEED = int(os.environ.get("PHASE2_SEED", "42"))
 
 np.random.seed(SEED + int(CORRUPTION_SCALE * 1000))
 
+# --- Monkey-patch at class level ---
+from algorithms.dfot.dfot_video import DFoTVideo
+from algorithms.dfot.dfot_video_pose import DFoTVideoPose
 
-def _apply_patch():
-    """Import DFoT classes lazily and apply the monkey-patch."""
-    import torch
-    from scipy.spatial.transform import Rotation
-    from algorithms.dfot.dfot_video import DFoTVideo
-    from algorithms.dfot.dfot_video_pose import DFoTVideoPose
-
-    _original = DFoTVideo.on_after_batch_transfer
-
-    def _patched(self, batch, dataloader_idx):
-        """Apply rotation corruption to future-frame conditions."""
-        xs, conditions, masks, gt_videos = _original(self, batch, dataloader_idx)
-
-        if conditions is not None and CORRUPTION_SCALE > 0:
-            B, T, D = conditions.shape
-            n_future = T - K_HISTORY
-
-            if n_future > 0:
-                for b in range(B):
-                    for t in range(K_HISTORY, T):
-                        # conditions[b, t] is 16-dim: [4 intrinsics | 12 flattened extrinsics]
-                        # extrinsics layout (row-major 3x4):
-                        #   [R00 R01 R02 tx  R10 R11 R12 ty  R20 R21 R22 tz]
-                        ext_flat = conditions[b, t, 4:].clone()
-                        ext = ext_flat.reshape(3, 4)
-                        R = ext[:3, :3].cpu().numpy()
-
-                        # Linear perturbation: frame_idx/n_future * drift * scale
-                        frame_idx = t - K_HISTORY + 1
-                        per_frame_drift = DRIFT_MEDIAN / n_future
-                        perturbation_deg = per_frame_drift * frame_idx * CORRUPTION_SCALE
-
-                        # Random rotation axis, fixed magnitude
-                        axis = np.random.randn(3)
-                        axis /= (np.linalg.norm(axis) + 1e-8)
-                        angle_rad = np.radians(perturbation_deg)
-                        delta_R = Rotation.from_rotvec(axis * angle_rad).as_matrix()
-                        R_corrupted = delta_R @ R
-
-                        ext[:3, :3] = torch.from_numpy(R_corrupted).float().to(conditions.device)
-                        conditions[b, t, 4:] = ext.reshape(12)
-
-        return xs, conditions, masks, gt_videos
-
-    DFoTVideoPose.on_after_batch_transfer = _patched
-    print(f"[Phase2] Monkey-patch applied (scale={CORRUPTION_SCALE})")
+_original = DFoTVideo.on_after_batch_transfer
 
 
-# --- Patch run_local so the DFoT imports happen at the same time as step1 ---
-import main as _dfot_main
-_orig_run_local = _dfot_main.run_local
+def _patched(self, batch, dataloader_idx):
+    """Apply rotation corruption to future-frame conditions."""
+    xs, conditions, masks, gt_videos = _original(self, batch, dataloader_idx)
+
+    if conditions is not None and CORRUPTION_SCALE > 0:
+        B, T, D = conditions.shape
+        n_future = T - K_HISTORY
+
+        if n_future > 0:
+            for b in range(B):
+                for t in range(K_HISTORY, T):
+                    # conditions[b, t] is 16-dim: [4 intrinsics | 12 flattened extrinsics]
+                    # extrinsics layout (row-major 3x4):
+                    #   [R00 R01 R02 tx  R10 R11 R12 ty  R20 R21 R22 tz]
+                    ext_flat = conditions[b, t, 4:].clone()
+                    ext = ext_flat.reshape(3, 4)
+                    R = ext[:3, :3].cpu().numpy()
+
+                    # Linear perturbation: frame_idx/n_future * drift * scale
+                    frame_idx = t - K_HISTORY + 1
+                    per_frame_drift = DRIFT_MEDIAN / n_future
+                    perturbation_deg = per_frame_drift * frame_idx * CORRUPTION_SCALE
+
+                    axis = np.random.randn(3)
+                    axis /= (np.linalg.norm(axis) + 1e-8)
+                    angle_rad = np.radians(perturbation_deg)
+                    delta_R = Rotation.from_rotvec(axis * angle_rad).as_matrix()
+                    R_corrupted = delta_R @ R
+
+                    ext[:3, :3] = torch.from_numpy(R_corrupted).float().to(conditions.device)
+                    conditions[b, t, 4:] = ext.reshape(12)
+
+    return xs, conditions, masks, gt_videos
 
 
-def _patched_run_local(cfg):
-    _apply_patch()
-    return _orig_run_local(cfg)
+DFoTVideoPose.on_after_batch_transfer = _patched
+print(f"[Phase2] Patch applied (scale={CORRUPTION_SCALE})")
 
-
-_dfot_main.run_local = _patched_run_local
-
-# --- Run DFoT ---
+# --- Process @-shortcuts then run main exactly as `python -m main` would ---
 from utils.hydra_utils import unwrap_shortcuts
-from main import run
+sys.argv = unwrap_shortcuts(sys.argv, config_path="configurations", config_name="config")
 
-if __name__ == "__main__":
-    sys.argv = unwrap_shortcuts(
-        sys.argv, config_path="configurations", config_name="config"
-    )
-    run()
+# alter_sys=True makes runpy set sys.argv[0] to main.py\'s path,
+# which is what Hydra needs to resolve config_path="configurations"
+runpy.run_module("main", run_name="__main__", alter_sys=True)
 ''')
 
 
