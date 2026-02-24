@@ -50,7 +50,7 @@ import os
 import runpy
 import numpy as np
 
-# NumPy 2.0 removed np.sctypes; restore it so imgaug (pulled in by pyiqa/DFoT) doesn\'t crash.
+# NumPy 2.0 removed several aliases; restore them all before any DFoT import.
 if not hasattr(np, "sctypes"):
     np.sctypes = {
         "int":     [np.int8, np.int16, np.int32, np.int64],
@@ -59,6 +59,10 @@ if not hasattr(np, "sctypes"):
         "complex": [np.complex64, np.complex128],
         "others":  [bool, object, bytes, str, np.void],
     }
+if not hasattr(np, "float_"):   np.float_   = np.float64
+if not hasattr(np, "complex_"): np.complex_ = np.complex128
+if not hasattr(np, "int_"):     np.int_     = np.intp
+if not hasattr(np, "object_"):  np.object_  = object
 
 import torch
 from scipy.spatial.transform import Rotation
