@@ -8,10 +8,12 @@ For each corruption scale (from config.CORRUPTION_SCALES):
   3. Extracts generated frames from output GIFs
   4. Saves to runs/action_mismatch/phase2/sample_XXXX_scaleY.Y/gen_frames/
 
-The monkey-patch works at the `on_after_batch_transfer` level:
+The monkey-patch works at the on_after_batch_transfer level:
   - DFoT's dataset returns conditions as (B, T, 16) = [4 intrinsics | 12 flattened extrinsics]
   - We perturb the rotation part of future-frame extrinsics by the measured drift x scale
-  - Intrinsics and translation are left unchanged
+  - The corrupted raw conditions flow through DFoT's _process_conditions
+    (normalize_by_first → rays → positional encoding) naturally
+  - scale_within_bounds only affects translations (not rotations) and bound=null in config
 """
 
 import sys
@@ -41,10 +43,14 @@ RUNNER_SCRIPT = textwrap.dedent('''\
 """
 Phase 2 runner: DFoT with corrupted pose conditioning.
 
-Uses runpy.run_module("main", alter_sys=True) to emulate `python -m main`
-exactly, so Hydra resolves configurations/ correctly. The monkey-patch is
-applied at class level before run_module executes, so sys.modules caching
-ensures DFoTVideoPose picks up the patched method.
+Patches DFoTVideo.on_after_batch_transfer to perturb the rotation part of
+future-frame extrinsics in raw condition space (B, T, 16).  The corrupted
+conditions then flow through DFoT\'s _process_conditions pipeline:
+  CameraPose.from_vectors → normalize_by_first → rays → pos_encoding
+Rotation corruption survives this pipeline because:
+  - normalize_by_first computes R_t @ R_0^T  (corruption in R_t is preserved)
+  - scale_within_bounds only scales translations, never rotations
+  - bound=null in the default config, so it\'s not even called
 """
 import sys
 import os
@@ -75,84 +81,68 @@ SEED = int(os.environ.get("PHASE2_SEED", "42"))
 
 np.random.seed(SEED + int(CORRUPTION_SCALE * 1000))
 
-# --- Monkey-patch at class level ---
+# --- Monkey-patch on_after_batch_transfer (raw conditions space) ---
 from algorithms.dfot.dfot_video import DFoTVideo
-from algorithms.dfot.dfot_video_pose import DFoTVideoPose
 
 _original = DFoTVideo.on_after_batch_transfer
+_call_count = [0]
 
-
-_patch_call_count = 0
 
 def _patched(self, batch, dataloader_idx):
-    """Apply rotation corruption to future-frame conditions."""
-    global _patch_call_count
-    _patch_call_count += 1
     xs, conditions, masks, gt_videos = _original(self, batch, dataloader_idx)
 
-    print(f"[Phase2 DEBUG] _patched called (call #{_patch_call_count})")
-    print(f"[Phase2 DEBUG]   CORRUPTION_SCALE = {CORRUPTION_SCALE}")
-    print(f"[Phase2 DEBUG]   conditions is None? {conditions is None}")
-    if conditions is not None:
-        print(f"[Phase2 DEBUG]   conditions.shape = {conditions.shape}")
-        print(f"[Phase2 DEBUG]   conditions dtype = {conditions.dtype}")
-        print(f"[Phase2 DEBUG]   conditions[0,0,:5] = {conditions[0,0,:5].tolist()}")
+    if conditions is None or CORRUPTION_SCALE <= 0:
+        return xs, conditions, masks, gt_videos
 
-    if conditions is not None and CORRUPTION_SCALE > 0:
-        B, T, D = conditions.shape
-        n_future = T - K_HISTORY
-        print(f"[Phase2 DEBUG]   B={B}, T={T}, D={D}, n_future={n_future}")
+    _call_count[0] += 1
+    B, T, D = conditions.shape
+    n_future = T - K_HISTORY
+    if n_future <= 0:
+        return xs, conditions, masks, gt_videos
 
-        if n_future > 0 and D >= 12:
-            # Determine offset: if D==16, first 4 are intrinsics; if D==12, no intrinsics
-            intr_offset = D - 12
-            print(f"[Phase2 DEBUG]   intrinsic offset = {intr_offset} (D-12)")
-            for b in range(B):
-                for t in range(K_HISTORY, T):
-                    ext_flat = conditions[b, t, intr_offset:].clone()
-                    ext = ext_flat.reshape(3, 4)
-                    R = ext[:3, :3].cpu().numpy()
+    intr_offset = D - 12
 
-                    frame_idx = t - K_HISTORY + 1
-                    per_frame_drift = DRIFT_MEDIAN / n_future
-                    perturbation_deg = per_frame_drift * frame_idx * CORRUPTION_SCALE
+    if _call_count[0] <= 2:
+        print(f"[Phase2 DEBUG] _patched called (call #{_call_count[0]}): "
+              f"conditions.shape={conditions.shape}, D={D}, intr_offset={intr_offset}")
+        print(f"[Phase2 DEBUG]   conditions[0,0,:5] = {conditions[0, 0, :5].tolist()}")
 
-                    axis = np.random.randn(3)
-                    axis /= (np.linalg.norm(axis) + 1e-8)
-                    angle_rad = np.radians(perturbation_deg)
-                    delta_R = Rotation.from_rotvec(axis * angle_rad).as_matrix()
-                    R_corrupted = delta_R @ R
+    for b in range(B):
+        for t in range(K_HISTORY, T):
+            frame_idx = t - K_HISTORY + 1
+            perturbation_deg = (DRIFT_MEDIAN / n_future) * frame_idx * CORRUPTION_SCALE
 
-                    R_diff = np.degrees(np.arccos(np.clip(
-                        (np.trace(R_corrupted @ R.T) - 1) / 2, -1, 1)))
-                    if t == K_HISTORY:
-                        print(f"[Phase2 DEBUG]   b={b} t={t}: perturbation_deg={perturbation_deg:.2f}, actual_diff={R_diff:.2f}")
+            ext_flat = conditions[b, t, intr_offset:].clone()
+            ext = ext_flat.reshape(3, 4)
+            R = ext[:3, :3].cpu().numpy()
 
-                    ext[:3, :3] = torch.from_numpy(R_corrupted).float().to(conditions.device)
-                    conditions[b, t, intr_offset:] = ext.reshape(12)
-        elif n_future <= 0:
-            print(f"[Phase2 DEBUG]   SKIPPED: n_future={n_future} <= 0")
-        elif D < 12:
-            print(f"[Phase2 DEBUG]   SKIPPED: D={D} < 12, unexpected condition dim")
-    elif conditions is None:
-        print(f"[Phase2 DEBUG]   SKIPPED: conditions is None")
-    elif CORRUPTION_SCALE <= 0:
-        print(f"[Phase2 DEBUG]   SKIPPED: CORRUPTION_SCALE={CORRUPTION_SCALE} <= 0")
+            axis = np.random.randn(3)
+            axis /= np.linalg.norm(axis) + 1e-8
+            delta_R = Rotation.from_rotvec(
+                axis * np.radians(perturbation_deg)
+            ).as_matrix()
+            R_corrupted = (delta_R @ R).astype(np.float32)
+
+            if t == K_HISTORY and _call_count[0] <= 2:
+                actual_diff = np.degrees(np.arccos(np.clip(
+                    (np.trace(R_corrupted @ R.T) - 1) / 2, -1, 1)))
+                print(f"[Phase2 DEBUG]   b={b} t={t}: "
+                      f"perturbation_deg={perturbation_deg:.2f}, "
+                      f"actual_diff={actual_diff:.2f}")
+
+            ext[:3, :3] = torch.from_numpy(R_corrupted).to(conditions.device)
+            conditions[b, t, intr_offset:] = ext.reshape(12)
 
     return xs, conditions, masks, gt_videos
 
 
-DFoTVideoPose.on_after_batch_transfer = _patched
-print(f"[Phase2] Patch applied (scale={CORRUPTION_SCALE})")
+DFoTVideo.on_after_batch_transfer = _patched
+print(f"[Phase2] on_after_batch_transfer patch applied (scale={CORRUPTION_SCALE})")
 
 # --- Process @-shortcuts then run main.py directly ---
 from utils.hydra_utils import unwrap_shortcuts
 sys.argv = unwrap_shortcuts(sys.argv, config_path="configurations", config_name="config")
 
-# run_path (not run_module) sets __file__ = absolute path of main.py.
-# Hydra uses __file__ to resolve config_path="configurations" relative to
-# main.py\'s directory. run_module leaves __file__ ambiguous and causes:
-#   "Primary config module \'configurations\' not found"
 main_path = os.path.abspath("main.py")
 sys.argv[0] = main_path
 runpy.run_path(main_path, run_name="__main__")
@@ -262,12 +252,12 @@ def extract_frames_from_gif(gif_path: Path, k_history: int = 4):
     """
     Extract frames from a DFoT prediction GIF.
 
-    DFoT GIFs are [GT | Predicted] side-by-side (512x256), 12 frames total
-    (4 context + 8 future). Context frames are identical on both sides.
+    DFoT log_video does: torch.cat([prediction, gt], dim=-1)
+    so GIF layout is [Predicted | GT] — left half = predicted, right = GT.
 
     Returns:
-        predicted_future: list of PIL.Image (right half, future frames only)
-        gt_future: list of PIL.Image (left half, future frames only)
+        predicted_future: list of PIL.Image (left half, future frames only)
+        gt_future: list of PIL.Image (right half, future frames only)
     """
     gif = Image.open(gif_path)
     width = gif.size[0]
@@ -281,10 +271,8 @@ def extract_frames_from_gif(gif_path: Path, k_history: int = 4):
         frame = gif.convert("RGB")
 
         if i >= k_history:
-            # Right half = predicted
-            predicted_future.append(frame.crop((half_w, 0, width, frame.size[1])))
-            # Left half = GT
-            gt_future.append(frame.crop((0, 0, half_w, frame.size[1])))
+            predicted_future.append(frame.crop((0, 0, half_w, frame.size[1])))
+            gt_future.append(frame.crop((half_w, 0, width, frame.size[1])))
 
     return predicted_future, gt_future
 

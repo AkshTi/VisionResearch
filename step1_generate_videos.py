@@ -448,8 +448,8 @@ def main() -> None:
     staged = stage_into_samples(output_dir, discovered)
 
     # Extract predicted future frames from GIFs into gen_frames/
-    # DFoT GIFs are [GT | Predicted] side-by-side; right half = predicted.
-    # Frames 0..K_HISTORY-1 are context (identical both sides); K_HISTORY.. are future.
+    # DFoT log_video does: torch.cat([prediction, gt], dim=-1)
+    # so GIF layout is [Predicted | GT] — left half = predicted.
     print("\n[Frame Extraction] Extracting predicted frames from GIFs...")
     extract_count = 0
     for sample_dir in sorted(output_dir.glob("sample_*")):
@@ -470,8 +470,7 @@ def main() -> None:
                 frame = gif.convert("RGB")
                 if i >= K_HISTORY:  # future frames only
                     w = frame.size[0]
-                    # right half = predicted
-                    predicted = frame.crop((w // 2, 0, w, frame.size[1]))
+                    predicted = frame.crop((0, 0, w // 2, frame.size[1]))
                     predicted.save(frames_dir / f"frame_{frame_idx:04d}.png")
                     frame_idx += 1
 
