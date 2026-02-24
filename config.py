@@ -62,7 +62,7 @@ VGGT_DEVICE = "cuda"  # or "cpu" if no GPU
 N_PHASE2_CLIPS = 10
 
 # Corruption levels (scale factors applied to measured drift)
-CORRUPTION_SCALES = [0.5, 1.0, 2.0]
+CORRUPTION_SCALES = [10.0, 50.0, 100.0]#[0.5, 1.0, 2.0]
 
 # ============================================================
 # EVALUATION SETTINGS
