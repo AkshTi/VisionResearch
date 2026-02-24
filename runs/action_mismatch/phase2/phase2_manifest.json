@@ -88,7 +88,11 @@
     }
   ],
   "regeneration_complete": true,
-  "scales_generated": [],
+  "scales_generated": [
+    10.0,
+    50.0,
+    100.0
+  ],
   "evaluation_complete": true,
   "evaluation_csv": "runs/action_mismatch/phase2/phase2_evaluation.csv"
 }
