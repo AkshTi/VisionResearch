@@ -86,5 +86,7 @@
       "corruption_scale": 2.0,
       "corruption_final_deg": 0.5987249612808228
     }
-  ]
+  ],
+  "regeneration_complete": true,
+  "scales_generated": []
 }
