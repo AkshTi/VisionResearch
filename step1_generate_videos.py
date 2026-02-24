@@ -43,6 +43,7 @@ def _numpy_fix_env() -> dict:
     """
     fix_code = (
         "import numpy as np\n"
+        # np.sctypes removed in NumPy 2.0 (used by imgaug via pyiqa)
         "if not hasattr(np, 'sctypes'):\n"
         "    np.sctypes = {\n"
         "        'int':     [np.int8, np.int16, np.int32, np.int64],\n"
@@ -51,6 +52,13 @@ def _numpy_fix_env() -> dict:
         "        'complex': [np.complex64, np.complex128],\n"
         "        'others':  [bool, object, bytes, str, np.void],\n"
         "    }\n"
+        # scalar type aliases removed in NumPy 2.0 (used by torchmetrics FID)
+        "if not hasattr(np, 'float_'):   np.float_   = np.float64\n"
+        "if not hasattr(np, 'complex_'): np.complex_ = np.complex128\n"
+        "if not hasattr(np, 'int_'):     np.int_     = np.intp\n"
+        "if not hasattr(np, 'bool_'):    np.bool_    = np.bool_\n"
+        "if not hasattr(np, 'object_'):  np.object_  = object\n"
+        "if not hasattr(np, 'str_'):     np.str_     = np.str_\n"
     )
     tmpdir = tempfile.mkdtemp(prefix="np_fix_")
     (Path(tmpdir) / "sitecustomize.py").write_text(fix_code)
