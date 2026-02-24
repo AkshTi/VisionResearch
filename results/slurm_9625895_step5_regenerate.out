@@ -1,0 +1,158 @@
+=========================================
+Step 5: Regenerate with Corrupted Poses
+Action-Video Mismatch Experiment - Phase 2
+=========================================
+
+Job ID: 9625895
+Node: node3007
+Start time: Tue Feb 24 13:48:52 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.14
+
+Checking GPU availability...
+Tue Feb 24 13:48:55 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:CA:00.0 Off |                    0 |
+| N/A   30C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting corrupted pose regeneration...
+=========================================
+
+============================================================
+STEP 5: Regenerate videos with corrupted poses
+============================================================
+  Phase 1 median drift: 0.30 deg
+  Corruption scales: [10.0, 50.0, 100.0]
+  Runner: diffusion-forcing-transformer/_phase2_runner.py
+
+--- Extracting GT future frames from clean baseline ---
+  GT frames saved to runs/action_mismatch/phase2/gt_frames_sample_*/
+
+============================================================
+  CORRUPTION SCALE = 10.0  (~3.0 deg final)
+============================================================
+  Pre-run wandb dirs: 0
+
+  [RUN] DFoT with corruption scale=10.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~3.0 deg
+  [OK] scale=10.0 completed
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5/5 0:01:44 • 0:00:00 0.05it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-49-04/wandb/offline-run-20260224_134908-uq6z6w3s[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-24/13-49-04/wandb/offline-run-20260224_134908-uq6z6w3s/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-49-04
+    [GIF search] Hydra dir /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-49-04: 5 GIFs
+  Found 5 GIFs
+    sample_0000: saved 8 frames
+    sample_0001: saved 8 frames
+    sample_0002: saved 8 frames
+    sample_0003: saved 8 frames
+    sample_0004: saved 8 frames
+
+============================================================
+  CORRUPTION SCALE = 50.0  (~15.0 deg final)
+============================================================
+  Pre-run wandb dirs: 0
+
+  [RUN] DFoT with corruption scale=50.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~15.0 deg
+  [OK] scale=50.0 completed
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5/5 0:01:44 • 0:00:00 0.05it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-51-07/wandb/offline-run-20260224_135111-xtzubz2x[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-24/13-51-07/wandb/offline-run-20260224_135111-xtzubz2x/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-51-07
+    [GIF search] Hydra dir /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-51-07: 5 GIFs
+  Found 5 GIFs
+    sample_0000: saved 8 frames
+    sample_0001: saved 8 frames
+    sample_0002: saved 8 frames
+    sample_0003: saved 8 frames
+    sample_0004: saved 8 frames
+
+============================================================
+  CORRUPTION SCALE = 100.0  (~30.0 deg final)
+============================================================
+  Pre-run wandb dirs: 0
+
+  [RUN] DFoT with corruption scale=100.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~30.0 deg
+  [OK] scale=100.0 completed
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5/5 0:01:44 • 0:00:00 0.05it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-53-09/wandb/offline-run-20260224_135313-n2m2oxlh[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-24/13-53-09/wandb/offline-run-20260224_135313-n2m2oxlh/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-53-09
+    [GIF search] Hydra dir /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/13-53-09: 5 GIFs
+  Found 5 GIFs
+    sample_0000: saved 8 frames
+    sample_0001: saved 8 frames
+    sample_0002: saved 8 frames
+    sample_0003: saved 8 frames
+    sample_0004: saved 8 frames
+
+  Step 5 complete!
+  Scales generated: [10.0, 50.0, 100.0]
+  Next: run step6_evaluate_phase2.py
+
+=========================================
+Step 5 Complete
+=========================================
+Exit code: 0
+End time: Tue Feb 24 13:55:04 EST 2026
+
+Phase 2 generated frames:
+runs/action_mismatch/phase2/gt_frames_sample_0000/frame_0000.png
+runs/action_mismatch/phase2/gt_frames_sample_0001/frame_0000.png
+runs/action_mismatch/phase2/gt_frames_sample_0002/frame_0000.png
+runs/action_mismatch/phase2/gt_frames_sample_0003/frame_0000.png
+runs/action_mismatch/phase2/gt_frames_sample_0004/frame_0000.png
+runs/action_mismatch/phase2/sample_0000_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0001_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0002_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0003_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0004_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0000_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0001_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0002_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0003_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0004_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0000_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0001_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0002_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0003_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0004_scale100.0/gen_frames/frame_0000.png

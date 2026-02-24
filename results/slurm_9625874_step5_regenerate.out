@@ -1,0 +1,57 @@
+=========================================
+Step 5: Regenerate with Corrupted Poses
+Action-Video Mismatch Experiment - Phase 2
+=========================================
+
+Job ID: 9625874
+Node: node3007
+Start time: Tue Feb 24 13:48:16 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.14
+
+Checking GPU availability...
+Tue Feb 24 13:48:20 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:CA:00.0 Off |                    0 |
+| N/A   30C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting corrupted pose regeneration...
+=========================================
+
+============================================================
+STEP 5: Regenerate videos with corrupted poses
+============================================================
+  Phase 1 median drift: 0.30 deg
+  Corruption scales: [10.0, 50.0, 100.0]
+  Runner: diffusion-forcing-transformer/_phase2_runner.py
+
+--- Extracting GT future frames from clean baseline ---
+  GT frames saved to runs/action_mismatch/phase2/gt_frames_sample_*/
+
+============================================================
+  CORRUPTION SCALE = 10.0  (~3.0 deg final)
+============================================================
+  Pre-run wandb dirs: 0
+
+  [RUN] DFoT with corruption scale=10.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~3.0 deg
