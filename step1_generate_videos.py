@@ -447,6 +447,41 @@ def main() -> None:
     # Stage outputs
     staged = stage_into_samples(output_dir, discovered)
 
+    # Extract predicted future frames from GIFs into gen_frames/
+    # DFoT GIFs are [GT | Predicted] side-by-side; right half = predicted.
+    # Frames 0..K_HISTORY-1 are context (identical both sides); K_HISTORY.. are future.
+    print("\n[Frame Extraction] Extracting predicted frames from GIFs...")
+    extract_count = 0
+    for sample_dir in sorted(output_dir.glob("sample_*")):
+        gif_paths = sorted((sample_dir / "videos").glob("*.gif"))
+        if not gif_paths:
+            continue
+        gif_path = gif_paths[0]  # take first GIF for this sample
+
+        try:
+            from PIL import Image
+            gif = Image.open(gif_path)
+            frames_dir = sample_dir / "gen_frames"
+            frames_dir.mkdir(exist_ok=True)
+
+            frame_idx = 0
+            for i in range(gif.n_frames):
+                gif.seek(i)
+                frame = gif.convert("RGB")
+                if i >= K_HISTORY:  # future frames only
+                    w = frame.size[0]
+                    # right half = predicted
+                    predicted = frame.crop((w // 2, 0, w, frame.size[1]))
+                    predicted.save(frames_dir / f"frame_{frame_idx:04d}.png")
+                    frame_idx += 1
+
+            print(f"  {sample_dir.name}: extracted {frame_idx} frames → gen_frames/")
+            extract_count += 1
+        except Exception as e:
+            print(f"  {sample_dir.name}: frame extraction failed — {e}")
+
+    print(f"[Frame Extraction] Done ({extract_count}/{N_SAMPLES} samples)")
+
     manifest = {
         "n_samples": N_SAMPLES,
         "k_history": K_HISTORY,
