@@ -20,6 +20,7 @@ import json
 import shutil
 import subprocess
 import textwrap
+import time
 import numpy as np
 from pathlib import Path
 from PIL import Image
@@ -144,20 +145,47 @@ def create_runner(dfot_repo: Path) -> Path:
     return runner_path
 
 
-def find_run_gifs(run_dir: Path) -> list:
-    """Find prediction GIFs from a specific DFoT output run directory."""
-    if not run_dir.exists():
-        return []
-    return sorted(run_dir.rglob("prediction_vis/video_*.gif"))
+def find_run_gifs(run_dir: Path, dfot_repo: Path, start_time: float) -> list:
+    """Find prediction GIFs produced by a DFoT run that started at start_time.
+
+    DFoT logs GIFs via wandb (offline-run-*/files/media/**/*.gif) and
+    sometimes also writes them into the Hydra output dir.  We search both,
+    filtering wandb runs by modification time so we only pick up the run
+    belonging to *this* scale iteration.
+    """
+    gifs: list = []
+
+    # 1. Hydra output dir (works if DFoT also writes GIFs there directly)
+    if run_dir and run_dir.exists():
+        gifs += list(run_dir.rglob("*.gif"))
+
+    # 2. Wandb offline runs created/modified after this run started
+    wandb_root = dfot_repo / "wandb"
+    if wandb_root.exists():
+        for wandb_run in sorted(
+            [p for p in wandb_root.glob("offline-run-*") if p.is_dir()],
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        ):
+            if wandb_run.stat().st_mtime < start_time:
+                break  # sorted newest-first; everything after is older
+            media = wandb_run / "files" / "media"
+            if media.exists():
+                gifs += list(media.rglob("*.gif"))
+
+    return sorted(set(gifs))
 
 
 def parse_output_dir(stdout: str) -> Path:
     """Extract the Hydra output directory from DFoT's stdout.
-    
-    DFoT prints: 'Outputs will be saved to: /path/to/outputs/2026-02-24/12-13-32'
+
+    DFoT prints (with ANSI color codes):
+      '\x1b[36mOutputs will be saved to:\x1b[39m /path/to/outputs/...'
+    We strip all ANSI escape sequences before matching.
     """
     import re
-    match = re.search(r"Outputs will be saved to:\s*(.+)", stdout)
+    clean = re.sub(r"\x1b\[[0-9;]*m", "", stdout)
+    match = re.search(r"Outputs will be saved to:\s*(.+)", clean)
     if match:
         return Path(match.group(1).strip())
     return Path("")
@@ -201,7 +229,7 @@ def run_dfot_with_corruption(
     n_samples: int,
 ) -> tuple:
     """Run DFoT validation with the corrupted pose monkey-patch.
-    Returns (returncode, output_dir)."""
+    Returns (returncode, output_dir, start_time)."""
     n_frames = K_HISTORY + T_FUTURE
 
     cmd = [
@@ -246,6 +274,7 @@ def run_dfot_with_corruption(
     print(f"    cwd: {dfot_repo}")
     print(f"    Expected final corruption: ~{drift_median * scale:.1f} deg")
 
+    start_time = time.time()
     result = subprocess.run(
         cmd,
         cwd=str(dfot_repo),
@@ -259,14 +288,14 @@ def run_dfot_with_corruption(
         print(f"\n  [FAILED] scale={scale:.1f}")
         print("  stderr (tail):\n", result.stderr[-3000:])
         print("  stdout (tail):\n", result.stdout[-1500:])
-        return result.returncode, Path("")
+        return result.returncode, Path(""), start_time
 
     print(f"  [OK] scale={scale:.1f} completed")
     print("  stdout (tail):\n", result.stdout[-500:])
 
     output_dir = parse_output_dir(result.stdout)
     print(f"  Output dir: {output_dir}")
-    return result.returncode, output_dir
+    return result.returncode, output_dir, start_time
 
 
 # ============================================================
@@ -334,7 +363,7 @@ def main():
               f"(~{drift_median * scale:.1f} deg final)")
         print(f"{'='*60}")
 
-        rc, run_output_dir = run_dfot_with_corruption(
+        rc, run_output_dir, run_start_time = run_dfot_with_corruption(
             DFOT_REPO, scale, drift_median, N_SAMPLES
         )
 
@@ -342,8 +371,8 @@ def main():
             print(f"  Skipping frame extraction for scale={scale:.1f}")
             continue
 
-        # Find the generated GIFs from this specific run's output dir
-        gifs = find_run_gifs(run_output_dir)
+        # Find GIFs from this specific run (Hydra output dir + new wandb runs)
+        gifs = find_run_gifs(run_output_dir, DFOT_REPO, run_start_time)
         if not gifs:
             print(f"  WARNING: No GIFs found for scale={scale:.1f}")
             continue
