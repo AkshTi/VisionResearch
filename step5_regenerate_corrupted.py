@@ -115,13 +115,17 @@ def _patched(self, batch, dataloader_idx):
 DFoTVideoPose.on_after_batch_transfer = _patched
 print(f"[Phase2] Patch applied (scale={CORRUPTION_SCALE})")
 
-# --- Process @-shortcuts then run main exactly as `python -m main` would ---
+# --- Process @-shortcuts then run main.py directly ---
 from utils.hydra_utils import unwrap_shortcuts
 sys.argv = unwrap_shortcuts(sys.argv, config_path="configurations", config_name="config")
 
-# alter_sys=True makes runpy set sys.argv[0] to main.py\'s path,
-# which is what Hydra needs to resolve config_path="configurations"
-runpy.run_module("main", run_name="__main__", alter_sys=True)
+# run_path (not run_module) sets __file__ = absolute path of main.py.
+# Hydra uses __file__ to resolve config_path="configurations" relative to
+# main.py\'s directory. run_module leaves __file__ ambiguous and causes:
+#   "Primary config module \'configurations\' not found"
+main_path = os.path.abspath("main.py")
+sys.argv[0] = main_path
+runpy.run_path(main_path, run_name="__main__")
 ''')
 
 
