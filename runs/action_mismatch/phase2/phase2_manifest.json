@@ -1,0 +1,90 @@
+{
+  "drift_statistics": {
+    "p10": 0.09134403233102804,
+    "p50": 0.2997231820216205,
+    "p90": 2.1174198718863586
+  },
+  "corruption_scales": [
+    0.5,
+    1.0,
+    2.0
+  ],
+  "n_clips": 5,
+  "results": [
+    {
+      "sample_id": "sample_0000",
+      "corruption_scale": 0.5,
+      "corruption_final_deg": 0.14803750813007355
+    },
+    {
+      "sample_id": "sample_0000",
+      "corruption_scale": 1.0,
+      "corruption_final_deg": 0.29870712757110596
+    },
+    {
+      "sample_id": "sample_0000",
+      "corruption_scale": 2.0,
+      "corruption_final_deg": 0.5987249612808228
+    },
+    {
+      "sample_id": "sample_0001",
+      "corruption_scale": 0.5,
+      "corruption_final_deg": 0.14803750813007355
+    },
+    {
+      "sample_id": "sample_0001",
+      "corruption_scale": 1.0,
+      "corruption_final_deg": 0.3000143766403198
+    },
+    {
+      "sample_id": "sample_0001",
+      "corruption_scale": 2.0,
+      "corruption_final_deg": 0.5987249612808228
+    },
+    {
+      "sample_id": "sample_0002",
+      "corruption_scale": 0.5,
+      "corruption_final_deg": 0.15065784752368927
+    },
+    {
+      "sample_id": "sample_0002",
+      "corruption_scale": 1.0,
+      "corruption_final_deg": 0.30131596326828003
+    },
+    {
+      "sample_id": "sample_0002",
+      "corruption_scale": 2.0,
+      "corruption_final_deg": 0.599378228187561
+    },
+    {
+      "sample_id": "sample_0003",
+      "corruption_scale": 0.5,
+      "corruption_final_deg": 0.14803750813007355
+    },
+    {
+      "sample_id": "sample_0003",
+      "corruption_scale": 1.0,
+      "corruption_final_deg": 0.3000143766403198
+    },
+    {
+      "sample_id": "sample_0003",
+      "corruption_scale": 2.0,
+      "corruption_final_deg": 0.599378228187561
+    },
+    {
+      "sample_id": "sample_0004",
+      "corruption_scale": 0.5,
+      "corruption_final_deg": 0.14803750813007355
+    },
+    {
+      "sample_id": "sample_0004",
+      "corruption_scale": 1.0,
+      "corruption_final_deg": 0.29870712757110596
+    },
+    {
+      "sample_id": "sample_0004",
+      "corruption_scale": 2.0,
+      "corruption_final_deg": 0.5987249612808228
+    }
+  ]
+}
