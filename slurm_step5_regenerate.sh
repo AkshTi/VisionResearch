@@ -9,7 +9,7 @@
 #SBATCH --chdir=/orcd/home/002/akshatat/VisionResearch
 
 # Step 5: Regenerate videos with corrupted pose conditioning
-# Runs DFoT 3x (one per corruption scale: 0.5, 1.0, 2.0)
+# Runs DFoT 4x (clean baseline + 3 corruption scales)
 # Submit with: sbatch slurm_step5_regenerate.sh
 # Monitor with: tail -f results/slurm_<JOBID>_step5_regenerate.out
 

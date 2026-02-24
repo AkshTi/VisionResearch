@@ -2,10 +2,11 @@
 """
 Step 5: Regenerate videos with corrupted pose conditioning.
 
-For each corruption scale (from config.CORRUPTION_SCALES):
+For each corruption scale (0.0 = clean baseline, plus config.CORRUPTION_SCALES):
   1. Monkey-patches DFoT to apply rotation perturbation to future frame conditions
   2. Runs DFoT validation (same dataset, same clips, same model)
-  3. Extracts generated frames from output GIFs
+  3. Extracts generated frames from raw NPZ files (not GIFs — GIF encoding
+     loses prediction data, producing all-black left halves)
   4. Saves to runs/action_mismatch/phase2/sample_XXXX_scaleY.Y/gen_frames/
 
 The monkey-patch works at the on_after_batch_transfer level:
@@ -282,6 +283,7 @@ def run_dfot_with_corruption(
     scale: float,
     drift_median: float,
     n_samples: int,
+    raw_dir: str,
 ) -> tuple:
     """Run DFoT validation with the corrupted pose monkey-patch.
     Returns (returncode, output_dir)."""
@@ -317,6 +319,7 @@ def run_dfot_with_corruption(
         "++algorithm.diffusion.training_schedule.shift=0.125",
         "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
         "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
+        f"++algorithm.logging.raw_dir={raw_dir}",
     ]
 
     env = _numpy_fix_env()
@@ -360,6 +363,42 @@ def run_dfot_with_corruption(
 
 
 # ============================================================
+# NPZ-based frame extraction (replaces broken GIF extraction)
+# ============================================================
+
+def extract_frames_from_npz(raw_dir: Path, sample_idx: int, k_history: int = 4):
+    """
+    Extract gen and gt future frames from DFoT's raw NPZ output.
+
+    When algorithm.logging.raw_dir is set, DFoT saves data.npz with:
+        gt:  (T, C, H, W) uint8 [0-255]
+        gen: (T, C, H, W) uint8 [0-255]
+
+    Returns:
+        gen_future: list of PIL.Image (future prediction frames)
+        gt_future:  list of PIL.Image (future ground-truth frames)
+    """
+    npz_path = raw_dir / str(sample_idx) / "data.npz"
+    if not npz_path.exists():
+        print(f"    WARNING: {npz_path} not found")
+        return [], []
+
+    data = np.load(npz_path)
+    gen = data["gen"]  # (T, C, H, W)
+    gt = data["gt"]    # (T, C, H, W)
+
+    gen_future = []
+    gt_future = []
+    for t in range(k_history, gen.shape[0]):
+        gen_frame = np.transpose(gen[t], (1, 2, 0))  # (H, W, C)
+        gt_frame = np.transpose(gt[t], (1, 2, 0))
+        gen_future.append(Image.fromarray(gen_frame))
+        gt_future.append(Image.fromarray(gt_frame))
+
+    return gen_future, gt_future
+
+
+# ============================================================
 # Main
 # ============================================================
 
@@ -388,75 +427,70 @@ def main():
     print(f"  Runner: {runner_path}")
 
     # ----------------------------------------------------------------
-    # Extract GT future frames from the clean baseline (step1 GIFs)
-    # These are used by step6 for LPIPS evaluation.
+    # Run DFoT for scale=0.0 (clean baseline) + each corruption scale.
+    # Uses raw_dir NPZ files instead of GIFs — GIF encoding drops
+    # prediction data (left half comes out all-black).
     # ----------------------------------------------------------------
-    print("\n--- Extracting GT future frames from clean baseline ---")
-    clean_gen_dir = RUNS_DIR / "generated"
-
-    for i in range(N_SAMPLES):
-        sample_dir = clean_gen_dir / f"sample_{i:04d}"
-        gif_dir = sample_dir / "videos"
-        if not gif_dir.exists():
-            continue
-
-        gifs = sorted(gif_dir.glob("*.gif"))
-        if not gifs:
-            continue
-
-        _, gt_frames = extract_frames_from_gif(gifs[0], k_history=K_HISTORY)
-
-        gt_out = phase2_dir / f"gt_frames_sample_{i:04d}"
-        gt_out.mkdir(parents=True, exist_ok=True)
-        for j, frame in enumerate(gt_frames):
-            frame.save(gt_out / f"frame_{j:04d}.png")
-
-    print(f"  GT frames saved to {phase2_dir}/gt_frames_sample_*/")
-
-    # ----------------------------------------------------------------
-    # Run DFoT for each corruption scale
-    # ----------------------------------------------------------------
+    all_scales = [0.0] + list(CORRUPTION_SCALES)
     scales_ok = []
 
-    for scale in CORRUPTION_SCALES:
+    for scale in all_scales:
         print(f"\n{'='*60}")
-        print(f"  CORRUPTION SCALE = {scale:.1f}  "
-              f"(~{drift_median * scale:.1f} deg final)")
+        if scale == 0.0:
+            print(f"  CLEAN BASELINE (scale=0.0)")
+        else:
+            print(f"  CORRUPTION SCALE = {scale:.1f}  "
+                  f"(~{drift_median * scale:.1f} deg final)")
         print(f"{'='*60}")
 
-        # Snapshot wandb dirs before the run so we can detect new ones after
-        pre_run_wandb = snapshot_wandb_dirs(DFOT_REPO)
-        print(f"  Pre-run wandb dirs: {len(pre_run_wandb)}")
+        raw_dir = str(DFOT_REPO.resolve() / f"_raw_scale{scale:.1f}")
+        if Path(raw_dir).exists():
+            shutil.rmtree(raw_dir)
 
         rc, run_output_dir = run_dfot_with_corruption(
-            DFOT_REPO, scale, drift_median, N_SAMPLES
+            DFOT_REPO, scale, drift_median, N_SAMPLES, raw_dir
         )
 
         if rc != 0:
             print(f"  Skipping frame extraction for scale={scale:.1f}")
             continue
 
-        # Find GIFs from this specific run only (set-difference approach)
-        gifs = find_run_gifs(run_output_dir, DFOT_REPO, pre_run_wandb)
-        if not gifs:
-            print(f"  WARNING: No GIFs found for scale={scale:.1f}")
+        raw_path = Path(raw_dir)
+        npz_count = len(list(raw_path.rglob("data.npz")))
+        print(f"  Found {npz_count} NPZ files in {raw_path}")
+
+        if npz_count == 0:
+            print(f"  WARNING: No NPZ files — raw_dir may not be supported")
             continue
 
-        print(f"  Found {len(gifs)} GIFs")
-
-        for i, gif_path in enumerate(gifs[:N_SAMPLES]):
-            predicted_frames, _ = extract_frames_from_gif(
-                gif_path, k_history=K_HISTORY
+        for i in range(N_SAMPLES):
+            gen_frames, gt_frames = extract_frames_from_npz(
+                raw_path, i, k_history=K_HISTORY
             )
 
+            if not gen_frames:
+                print(f"    sample_{i:04d}: no frames extracted")
+                continue
+
+            # Save gen (prediction) frames
             out_dir = phase2_dir / f"sample_{i:04d}_scale{scale:.1f}" / "gen_frames"
             out_dir.mkdir(parents=True, exist_ok=True)
-
-            for j, frame in enumerate(predicted_frames):
+            for j, frame in enumerate(gen_frames):
                 frame.save(out_dir / f"frame_{j:04d}.png")
 
-            print(f"    sample_{i:04d}: saved {len(predicted_frames)} frames")
+            # Save GT frames (only needed once, from the clean baseline)
+            if scale == 0.0:
+                gt_out = phase2_dir / f"gt_frames_sample_{i:04d}"
+                gt_out.mkdir(parents=True, exist_ok=True)
+                for j, frame in enumerate(gt_frames):
+                    frame.save(gt_out / f"frame_{j:04d}.png")
 
+            frame0 = np.array(gen_frames[0])
+            print(f"    sample_{i:04d}: saved {len(gen_frames)} frames "
+                  f"(mean={frame0.mean():.1f}, std={frame0.std():.1f})")
+
+        # Cleanup raw_dir to save disk space
+        shutil.rmtree(raw_path, ignore_errors=True)
         scales_ok.append(scale)
 
     # ----------------------------------------------------------------

@@ -116,10 +116,8 @@ def main():
             sample_id = f"sample_{i:04d}"
 
             # --- Locate generated frames ---
-            if scale == 0.0:
-                gen_dir = generated_dir / sample_id / "gen_frames"
-            else:
-                gen_dir = phase2_dir / f"{sample_id}_scale{scale:.1f}" / "gen_frames"
+            # All scales (including 0.0 = clean baseline) are now in phase2/
+            gen_dir = phase2_dir / f"{sample_id}_scale{scale:.1f}" / "gen_frames"
 
             if not gen_dir.exists():
                 print(f"  {sample_id} scale={scale:.1f}: no gen_frames — skipping")
@@ -162,11 +160,7 @@ def main():
                         poses_gt[:T_min], poses_est[:T_min]
                     )
 
-                    # Save estimated poses
-                    if scale > 0:
-                        out_dir = phase2_dir / f"{sample_id}_scale{scale:.1f}"
-                    else:
-                        out_dir = generated_dir / sample_id
+                    out_dir = phase2_dir / f"{sample_id}_scale{scale:.1f}"
                     np.save(out_dir / "poses_est_phase2.npy", poses_est)
 
                 except Exception as e:
