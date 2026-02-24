@@ -9,10 +9,12 @@ If DFoT fails, prints the *real* error and exits non-zero by default.
 """
 
 import sys
+import os
 import json
 import subprocess
 import shutil
 import re
+import tempfile
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 
@@ -31,7 +33,35 @@ from config import (
 # Utilities
 # ----------------------------
 
-def _run(cmd: List[str], cwd: Path, timeout: int = 3600) -> subprocess.CompletedProcess:
+def _numpy_fix_env() -> dict:
+    """
+    Return an env dict that injects a sitecustomize.py restoring np.sctypes.
+
+    NumPy 2.0 removed np.sctypes, which breaks imgaug (pulled in by pyiqa/DFoT).
+    sitecustomize.py is executed automatically by Python at startup before any
+    other import, so the patch is in place before DFoT's imports run.
+    """
+    fix_code = (
+        "import numpy as np\n"
+        "if not hasattr(np, 'sctypes'):\n"
+        "    np.sctypes = {\n"
+        "        'int':     [np.int8, np.int16, np.int32, np.int64],\n"
+        "        'uint':    [np.uint8, np.uint16, np.uint32, np.uint64],\n"
+        "        'float':   [np.float16, np.float32, np.float64],\n"
+        "        'complex': [np.complex64, np.complex128],\n"
+        "        'others':  [bool, object, bytes, str, np.void],\n"
+        "    }\n"
+    )
+    tmpdir = tempfile.mkdtemp(prefix="np_fix_")
+    (Path(tmpdir) / "sitecustomize.py").write_text(fix_code)
+    env = os.environ.copy()
+    existing = env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = tmpdir + (":" + existing if existing else "")
+    return env
+
+
+def _run(cmd: List[str], cwd: Path, timeout: int = 3600,
+         env: Optional[dict] = None) -> subprocess.CompletedProcess:
     """Run a command and return CompletedProcess. Does NOT swallow errors."""
     print("\n[RUN]")
     print(f"  cwd: {cwd}")
@@ -41,11 +71,12 @@ def _run(cmd: List[str], cwd: Path, timeout: int = 3600) -> subprocess.Completed
         cwd=str(cwd),
         capture_output=True,
         text=True,
-        timeout=timeout
+        timeout=timeout,
+        env=env,
     )
 
 
-def preflight_or_die(output_dir: Path) -> None:
+def preflight_or_die(output_dir: Path, env: Optional[dict] = None) -> None:
     """Validate repo, python, likely deps, and directory structure."""
     print("\n[Preflight]")
 
@@ -61,7 +92,8 @@ def preflight_or_die(output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Check that python can import DFoT's main module when run from repo
-    test = _run(["python", "-c", "import main; print('ok')"], cwd=DFOT_REPO, timeout=120)
+    test = _run(["python", "-c", "import main; print('ok')"], cwd=DFOT_REPO,
+                timeout=120, env=env)
     if test.returncode != 0:
         print("\n[Preflight FAIL] Cannot import DFoT main module.")
         print("stdout:\n", test.stdout[-2000:])
@@ -229,7 +261,9 @@ def main() -> None:
     output_dir = RUNS_DIR / "generated"
     n_frames = K_HISTORY + T_FUTURE
 
-    preflight_or_die(output_dir)
+    dfot_env = _numpy_fix_env()
+
+    preflight_or_die(output_dir, dfot_env)
 
     # Checkpoint was trained with realestate10k_video_generation.yaml overrides
     # Must match EXACT architecture: channels [128,256,576,1152], 20 mid blocks, 9 heads
@@ -270,7 +304,7 @@ def main() -> None:
     ]
 
     # Run DFoT
-    result = _run(cmd, cwd=DFOT_REPO, timeout=3600)
+    result = _run(cmd, cwd=DFOT_REPO, timeout=3600, env=dfot_env)
 
     if result.returncode != 0:
         print("\n[DFoT FAILED]")
