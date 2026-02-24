@@ -144,13 +144,23 @@ def create_runner(dfot_repo: Path) -> Path:
     return runner_path
 
 
-def find_latest_run_gifs(dfot_repo: Path) -> list:
-    """Find prediction GIFs from the most recent DFoT output run."""
-    latest = dfot_repo / "outputs" / "latest-run"
-    if not latest.exists():
+def find_run_gifs(run_dir: Path) -> list:
+    """Find prediction GIFs from a specific DFoT output run directory."""
+    if not run_dir.exists():
         return []
-    run_dir = latest.resolve()
     return sorted(run_dir.rglob("prediction_vis/video_*.gif"))
+
+
+def parse_output_dir(stdout: str) -> Path:
+    """Extract the Hydra output directory from DFoT's stdout.
+    
+    DFoT prints: 'Outputs will be saved to: /path/to/outputs/2026-02-24/12-13-32'
+    """
+    import re
+    match = re.search(r"Outputs will be saved to:\s*(.+)", stdout)
+    if match:
+        return Path(match.group(1).strip())
+    return Path("")
 
 
 def extract_frames_from_gif(gif_path: Path, k_history: int = 4):
@@ -189,8 +199,9 @@ def run_dfot_with_corruption(
     scale: float,
     drift_median: float,
     n_samples: int,
-) -> int:
-    """Run DFoT validation with the corrupted pose monkey-patch."""
+) -> tuple:
+    """Run DFoT validation with the corrupted pose monkey-patch.
+    Returns (returncode, output_dir)."""
     n_frames = K_HISTORY + T_FUTURE
 
     cmd = [
@@ -248,11 +259,14 @@ def run_dfot_with_corruption(
         print(f"\n  [FAILED] scale={scale:.1f}")
         print("  stderr (tail):\n", result.stderr[-3000:])
         print("  stdout (tail):\n", result.stdout[-1500:])
-    else:
-        print(f"  [OK] scale={scale:.1f} completed")
-        print("  stdout (tail):\n", result.stdout[-500:])
+        return result.returncode, Path("")
 
-    return result.returncode
+    print(f"  [OK] scale={scale:.1f} completed")
+    print("  stdout (tail):\n", result.stdout[-500:])
+
+    output_dir = parse_output_dir(result.stdout)
+    print(f"  Output dir: {output_dir}")
+    return result.returncode, output_dir
 
 
 # ============================================================
@@ -320,7 +334,7 @@ def main():
               f"(~{drift_median * scale:.1f} deg final)")
         print(f"{'='*60}")
 
-        rc = run_dfot_with_corruption(
+        rc, run_output_dir = run_dfot_with_corruption(
             DFOT_REPO, scale, drift_median, N_SAMPLES
         )
 
@@ -328,8 +342,8 @@ def main():
             print(f"  Skipping frame extraction for scale={scale:.1f}")
             continue
 
-        # Find the generated GIFs from the latest run
-        gifs = find_latest_run_gifs(DFOT_REPO)
+        # Find the generated GIFs from this specific run's output dir
+        gifs = find_run_gifs(run_output_dir)
         if not gifs:
             print(f"  WARNING: No GIFs found for scale={scale:.1f}")
             continue
