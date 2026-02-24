@@ -19,6 +19,7 @@ import os
 import json
 import shutil
 import subprocess
+import tempfile
 import textwrap
 import numpy as np
 from pathlib import Path
@@ -162,6 +163,40 @@ runpy.run_path(main_path, run_name="__main__")
 # Helpers
 # ============================================================
 
+def _numpy_fix_env() -> dict:
+    """Return an env dict with a sitecustomize.py that patches NumPy 2.0 aliases.
+
+    PyTorch Lightning spawns one worker process per GPU rank.  Each spawned
+    process gets a fresh Python interpreter, so inline patches in the runner
+    script are invisible to ranks > 0.  sitecustomize.py is auto-executed by
+    *every* Python process at startup, making it the only reliable injection
+    point for multi-GPU jobs.
+    """
+    fix_code = textwrap.dedent("""\
+        import numpy as np
+        if not hasattr(np, 'sctypes'):
+            np.sctypes = {
+                'int':     [np.int8, np.int16, np.int32, np.int64],
+                'uint':    [np.uint8, np.uint16, np.uint32, np.uint64],
+                'float':   [np.float16, np.float32, np.float64],
+                'complex': [np.complex64, np.complex128],
+                'others':  [bool, object, bytes, str, np.void],
+            }
+        if not hasattr(np, 'float_'):   np.float_   = np.float64
+        if not hasattr(np, 'complex_'): np.complex_ = np.complex128
+        if not hasattr(np, 'int_'):     np.int_     = np.intp
+        if not hasattr(np, 'bool_'):    np.bool_    = np.bool_
+        if not hasattr(np, 'object_'):  np.object_  = object
+        if not hasattr(np, 'str_'):     np.str_     = np.str_
+    """)
+    tmpdir = tempfile.mkdtemp(prefix="np_fix_")
+    (Path(tmpdir) / "sitecustomize.py").write_text(fix_code)
+    env = os.environ.copy()
+    existing = env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = tmpdir + (":" + existing if existing else "")
+    return env
+
+
 def create_runner(dfot_repo: Path) -> Path:
     """Write the monkey-patch runner script into the DFoT repo."""
     runner_path = dfot_repo / "_phase2_runner.py"
@@ -296,7 +331,7 @@ def run_dfot_with_corruption(
         "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
     ]
 
-    env = os.environ.copy()
+    env = _numpy_fix_env()
     env["PHASE2_SCALE"] = str(scale)
     env["PHASE2_DRIFT"] = str(drift_median)
     env["PHASE2_K_HISTORY"] = str(K_HISTORY)
