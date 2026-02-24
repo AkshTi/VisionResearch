@@ -81,25 +81,37 @@ from algorithms.dfot.dfot_video_pose import DFoTVideoPose
 _original = DFoTVideo.on_after_batch_transfer
 
 
+_patch_call_count = 0
+
 def _patched(self, batch, dataloader_idx):
     """Apply rotation corruption to future-frame conditions."""
+    global _patch_call_count
+    _patch_call_count += 1
     xs, conditions, masks, gt_videos = _original(self, batch, dataloader_idx)
+
+    print(f"[Phase2 DEBUG] _patched called (call #{_patch_call_count})")
+    print(f"[Phase2 DEBUG]   CORRUPTION_SCALE = {CORRUPTION_SCALE}")
+    print(f"[Phase2 DEBUG]   conditions is None? {conditions is None}")
+    if conditions is not None:
+        print(f"[Phase2 DEBUG]   conditions.shape = {conditions.shape}")
+        print(f"[Phase2 DEBUG]   conditions dtype = {conditions.dtype}")
+        print(f"[Phase2 DEBUG]   conditions[0,0,:5] = {conditions[0,0,:5].tolist()}")
 
     if conditions is not None and CORRUPTION_SCALE > 0:
         B, T, D = conditions.shape
         n_future = T - K_HISTORY
+        print(f"[Phase2 DEBUG]   B={B}, T={T}, D={D}, n_future={n_future}")
 
-        if n_future > 0:
+        if n_future > 0 and D >= 12:
+            # Determine offset: if D==16, first 4 are intrinsics; if D==12, no intrinsics
+            intr_offset = D - 12
+            print(f"[Phase2 DEBUG]   intrinsic offset = {intr_offset} (D-12)")
             for b in range(B):
                 for t in range(K_HISTORY, T):
-                    # conditions[b, t] is 16-dim: [4 intrinsics | 12 flattened extrinsics]
-                    # extrinsics layout (row-major 3x4):
-                    #   [R00 R01 R02 tx  R10 R11 R12 ty  R20 R21 R22 tz]
-                    ext_flat = conditions[b, t, 4:].clone()
+                    ext_flat = conditions[b, t, intr_offset:].clone()
                     ext = ext_flat.reshape(3, 4)
                     R = ext[:3, :3].cpu().numpy()
 
-                    # Linear perturbation: frame_idx/n_future * drift * scale
                     frame_idx = t - K_HISTORY + 1
                     per_frame_drift = DRIFT_MEDIAN / n_future
                     perturbation_deg = per_frame_drift * frame_idx * CORRUPTION_SCALE
@@ -110,8 +122,21 @@ def _patched(self, batch, dataloader_idx):
                     delta_R = Rotation.from_rotvec(axis * angle_rad).as_matrix()
                     R_corrupted = delta_R @ R
 
+                    R_diff = np.degrees(np.arccos(np.clip(
+                        (np.trace(R_corrupted @ R.T) - 1) / 2, -1, 1)))
+                    if t == K_HISTORY:
+                        print(f"[Phase2 DEBUG]   b={b} t={t}: perturbation_deg={perturbation_deg:.2f}, actual_diff={R_diff:.2f}")
+
                     ext[:3, :3] = torch.from_numpy(R_corrupted).float().to(conditions.device)
-                    conditions[b, t, 4:] = ext.reshape(12)
+                    conditions[b, t, intr_offset:] = ext.reshape(12)
+        elif n_future <= 0:
+            print(f"[Phase2 DEBUG]   SKIPPED: n_future={n_future} <= 0")
+        elif D < 12:
+            print(f"[Phase2 DEBUG]   SKIPPED: D={D} < 12, unexpected condition dim")
+    elif conditions is None:
+        print(f"[Phase2 DEBUG]   SKIPPED: conditions is None")
+    elif CORRUPTION_SCALE <= 0:
+        print(f"[Phase2 DEBUG]   SKIPPED: CORRUPTION_SCALE={CORRUPTION_SCALE} <= 0")
 
     return xs, conditions, masks, gt_videos
 
@@ -292,11 +317,18 @@ def run_dfot_with_corruption(
 
     if result.returncode != 0:
         print(f"\n  [FAILED] scale={scale:.1f}")
+        for line in result.stdout.splitlines():
+            if "[Phase2" in line:
+                print(f"  {line}")
         print("  stderr (tail):\n", result.stderr[-3000:])
         print("  stdout (tail):\n", result.stdout[-1500:])
         return result.returncode, Path("")
 
     print(f"  [OK] scale={scale:.1f} completed")
+    # Print all Phase2 DEBUG lines from stdout
+    for line in result.stdout.splitlines():
+        if "[Phase2" in line:
+            print(f"  {line}")
     print("  stdout (tail):\n", result.stdout[-500:])
 
     output_dir = parse_output_dir(result.stdout)
