@@ -29,6 +29,99 @@ from config import (
 )
 
 
+# ============================================================
+# Step 1 runner: embedded script written into DFoT repo
+# ============================================================
+
+STEP1_RUNNER_SCRIPT = '''\
+"""
+Step 1 runner: runs DFoT validation and saves GT future poses per sample.
+
+Applies two patches before DFoT runs:
+  1. NumPy 2.0 compatibility (np.sctypes, np.float_, etc.)
+  2. on_after_batch_transfer intercept to save conditioning poses to disk
+
+Pose format: the DFoT condition tensor is (B, T, 16) where each 16-dim
+vector = [4 intrinsics | 12-dim row-major 3x4 extrinsic [R|t]].
+We reconstruct 4x4 SE(3) matrices and save as poses_gt_future.npy.
+"""
+import sys
+import os
+import runpy
+import numpy as np
+from pathlib import Path
+
+# --- NumPy 2.0 compatibility ---
+if not hasattr(np, "sctypes"):
+    np.sctypes = {
+        "int":     [np.int8, np.int16, np.int32, np.int64],
+        "uint":    [np.uint8, np.uint16, np.uint32, np.uint64],
+        "float":   [np.float16, np.float32, np.float64],
+        "complex": [np.complex64, np.complex128],
+        "others":  [bool, object, bytes, str, np.void],
+    }
+if not hasattr(np, "float_"):   np.float_   = np.float64
+if not hasattr(np, "complex_"): np.complex_ = np.complex128
+if not hasattr(np, "int_"):     np.int_     = np.intp
+if not hasattr(np, "object_"):  np.object_  = object
+
+import torch
+
+K_HISTORY  = int(os.environ.get("STEP1_K_HISTORY",  "4"))
+OUTPUT_DIR = Path(os.environ.get("STEP1_OUTPUT_DIR", "."))
+
+# --- Patch: save GT future poses during validation ---
+from algorithms.dfot.dfot_video import DFoTVideo
+from algorithms.dfot.dfot_video_pose import DFoTVideoPose
+
+_original = DFoTVideo.on_after_batch_transfer
+_sample_counter = [0]
+
+
+def _pose_saver(self, batch, dataloader_idx):
+    xs, conditions, masks, gt_videos = _original(self, batch, dataloader_idx)
+
+    if conditions is not None:
+        B, T, D = conditions.shape
+        n_future = T - K_HISTORY
+        if n_future > 0:
+            for b in range(B):
+                # conditions[b, t] = [4 intrinsics | 12-dim row-major [R|t]]
+                future_conds = conditions[b, K_HISTORY:, 4:].cpu().numpy()  # (n_future, 12)
+                poses_gt = np.zeros((n_future, 4, 4), dtype=np.float32)
+                for t in range(n_future):
+                    poses_gt[t, :3, :] = future_conds[t].reshape(3, 4)
+                    poses_gt[t, 3, 3] = 1.0
+
+                out_dir = OUTPUT_DIR / f"sample_{_sample_counter[0]:04d}"
+                out_dir.mkdir(parents=True, exist_ok=True)
+                np.save(out_dir / "poses_gt_future.npy", poses_gt)
+                print(f"[Step1Runner] GT poses saved: sample_{_sample_counter[0]:04d} "
+                      f"({n_future} future frames)")
+                _sample_counter[0] += 1
+
+    return xs, conditions, masks, gt_videos
+
+
+DFoTVideoPose.on_after_batch_transfer = _pose_saver
+print(f"[Step1Runner] Pose-saving patch applied (K_HISTORY={K_HISTORY})")
+
+# --- Run main.py via run_path so Hydra resolves configurations/ correctly ---
+from utils.hydra_utils import unwrap_shortcuts
+sys.argv = unwrap_shortcuts(sys.argv, config_path="configurations", config_name="config")
+main_path = os.path.abspath("main.py")
+sys.argv[0] = main_path
+runpy.run_path(main_path, run_name="__main__")
+'''
+
+
+def create_step1_runner(dfot_repo: Path) -> Path:
+    """Write the step 1 pose-saving runner into the DFoT repo."""
+    runner_path = dfot_repo / "_step1_runner.py"
+    runner_path.write_text(STEP1_RUNNER_SCRIPT)
+    return runner_path
+
+
 # ----------------------------
 # Utilities
 # ----------------------------
@@ -273,10 +366,18 @@ def main() -> None:
 
     preflight_or_die(output_dir, dfot_env)
 
+    # Write the pose-saving runner into the DFoT repo
+    runner_path = create_step1_runner(DFOT_REPO)
+    print(f"  Runner: {runner_path}")
+
+    # Pass output dir and K_HISTORY to the runner via env
+    dfot_env["STEP1_OUTPUT_DIR"] = str(output_dir.resolve())
+    dfot_env["STEP1_K_HISTORY"] = str(K_HISTORY)
+
     # Checkpoint was trained with realestate10k_video_generation.yaml overrides
     # Must match EXACT architecture: channels [128,256,576,1152], 20 mid blocks, 9 heads
     cmd = [
-        "python", "-m", "main",
+        "python", "_step1_runner.py",
         "+name=action_mismatch_step1",
         "dataset=realestate10k_mini",
         "algorithm=dfot_video_pose",
@@ -311,10 +412,12 @@ def main() -> None:
         "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
     ]
 
-    # Run DFoT
+    # Run DFoT via runner
     result = _run(cmd, cwd=DFOT_REPO, timeout=3600, env=dfot_env)
 
     if result.returncode != 0:
+        if runner_path.exists():
+            runner_path.unlink()
         print("\n[DFoT FAILED]")
         print("stdout (tail):\n", result.stdout[-4000:])
         print("stderr (tail):\n", result.stderr[-4000:])
@@ -325,6 +428,16 @@ def main() -> None:
 
     print("\n[DFoT OK]")
     print("stdout (tail):\n", result.stdout[-1500:])
+
+    # Clean up runner
+    if runner_path.exists():
+        runner_path.unlink()
+
+    # Verify GT poses were saved
+    pose_files = sorted(output_dir.glob("sample_*/poses_gt_future.npy"))
+    print(f"\n[GT Poses] Saved {len(pose_files)} poses_gt_future.npy files")
+    if len(pose_files) == 0:
+        print("  WARNING: No GT poses saved — check runner output above for errors.")
 
     # Discover outputs
     discovered = collect_media_from_outputs(DFOT_REPO, N_SAMPLES)
