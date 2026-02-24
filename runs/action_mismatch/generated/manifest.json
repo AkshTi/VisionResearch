@@ -7,31 +7,30 @@
   "discovered": {
     "hydra_runs": [
       "diffusion-forcing-transformer/outputs/latest-run",
+      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-53-36",
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-41-52",
-      "diffusion-forcing-transformer/outputs/2026-02-19/14-17-41"
+      "diffusion-forcing-transformer/outputs/2026-02-24/10-41-52"
     ],
     "wandb_runs": [],
     "videos": [],
     "gifs": [
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-53-36/wandb/offline-run-20260224_105348-k97eo7gu/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-53-36/wandb/offline-run-20260224_105348-k97eo7gu/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-53-36/wandb/offline-run-20260224_105348-k97eo7gu/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-53-36/wandb/offline-run-20260224_105348-k97eo7gu/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-53-36/wandb/offline-run-20260224_105348-k97eo7gu/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif",
       "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_5_5_d88444ef016dbbda4e8d.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_105958-avl8hlak/files/media/videos/prediction_vis/video_5_5_d88444ef016dbbda4e8d.gif"
+      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif"
     ],
     "frames_dirs": [],
     "poses": []
