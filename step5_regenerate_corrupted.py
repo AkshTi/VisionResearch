@@ -20,7 +20,6 @@ import json
 import shutil
 import subprocess
 import textwrap
-import time
 import numpy as np
 from pathlib import Path
 from PIL import Image
@@ -145,33 +144,41 @@ def create_runner(dfot_repo: Path) -> Path:
     return runner_path
 
 
-def find_run_gifs(run_dir: Path, dfot_repo: Path, start_time: float) -> list:
-    """Find prediction GIFs produced by a DFoT run that started at start_time.
+def snapshot_wandb_dirs(dfot_repo: Path) -> set:
+    """Return the set of existing wandb offline-run-* dirs right now."""
+    wandb_root = dfot_repo / "wandb"
+    if not wandb_root.exists():
+        return set()
+    return set(wandb_root.glob("offline-run-*"))
 
-    DFoT logs GIFs via wandb (offline-run-*/files/media/**/*.gif) and
-    sometimes also writes them into the Hydra output dir.  We search both,
-    filtering wandb runs by modification time so we only pick up the run
-    belonging to *this* scale iteration.
+
+def find_run_gifs(run_dir: Path, dfot_repo: Path, pre_run_wandb: set) -> list:
+    """Find prediction GIFs produced by a single DFoT run.
+
+    Uses a set-difference approach: we snapshot wandb dirs BEFORE the run
+    starts, then after it finishes we take only the *new* ones.  This is
+    immune to file-sync tools resetting mtime on old dirs.
     """
     gifs: list = []
 
-    # 1. Hydra output dir (works if DFoT also writes GIFs there directly)
+    # 1. Hydra output dir (DFoT sometimes writes GIFs there too)
     if run_dir and run_dir.exists():
-        gifs += list(run_dir.rglob("*.gif"))
+        found = list(run_dir.rglob("*.gif"))
+        print(f"    [GIF search] Hydra dir {run_dir}: {len(found)} GIFs")
+        gifs += found
 
-    # 2. Wandb offline runs created/modified after this run started
+    # 2. New wandb offline runs (dirs that didn't exist before this run)
     wandb_root = dfot_repo / "wandb"
     if wandb_root.exists():
-        for wandb_run in sorted(
-            [p for p in wandb_root.glob("offline-run-*") if p.is_dir()],
-            key=lambda p: p.stat().st_mtime,
-            reverse=True,
-        ):
-            if wandb_run.stat().st_mtime < start_time:
-                break  # sorted newest-first; everything after is older
+        current = set(wandb_root.glob("offline-run-*"))
+        new_runs = current - pre_run_wandb
+        print(f"    [GIF search] New wandb runs: {[p.name for p in new_runs]}")
+        for wandb_run in sorted(new_runs):
             media = wandb_run / "files" / "media"
             if media.exists():
-                gifs += list(media.rglob("*.gif"))
+                found = list(media.rglob("*.gif"))
+                print(f"    [GIF search]   {wandb_run.name}/files/media: {len(found)} GIFs")
+                gifs += found
 
     return sorted(set(gifs))
 
@@ -229,7 +236,7 @@ def run_dfot_with_corruption(
     n_samples: int,
 ) -> tuple:
     """Run DFoT validation with the corrupted pose monkey-patch.
-    Returns (returncode, output_dir, start_time)."""
+    Returns (returncode, output_dir)."""
     n_frames = K_HISTORY + T_FUTURE
 
     cmd = [
@@ -274,7 +281,6 @@ def run_dfot_with_corruption(
     print(f"    cwd: {dfot_repo}")
     print(f"    Expected final corruption: ~{drift_median * scale:.1f} deg")
 
-    start_time = time.time()
     result = subprocess.run(
         cmd,
         cwd=str(dfot_repo),
@@ -288,14 +294,14 @@ def run_dfot_with_corruption(
         print(f"\n  [FAILED] scale={scale:.1f}")
         print("  stderr (tail):\n", result.stderr[-3000:])
         print("  stdout (tail):\n", result.stdout[-1500:])
-        return result.returncode, Path(""), start_time
+        return result.returncode, Path("")
 
     print(f"  [OK] scale={scale:.1f} completed")
     print("  stdout (tail):\n", result.stdout[-500:])
 
     output_dir = parse_output_dir(result.stdout)
     print(f"  Output dir: {output_dir}")
-    return result.returncode, output_dir, start_time
+    return result.returncode, output_dir
 
 
 # ============================================================
@@ -363,7 +369,11 @@ def main():
               f"(~{drift_median * scale:.1f} deg final)")
         print(f"{'='*60}")
 
-        rc, run_output_dir, run_start_time = run_dfot_with_corruption(
+        # Snapshot wandb dirs before the run so we can detect new ones after
+        pre_run_wandb = snapshot_wandb_dirs(DFOT_REPO)
+        print(f"  Pre-run wandb dirs: {len(pre_run_wandb)}")
+
+        rc, run_output_dir = run_dfot_with_corruption(
             DFOT_REPO, scale, drift_median, N_SAMPLES
         )
 
@@ -371,8 +381,8 @@ def main():
             print(f"  Skipping frame extraction for scale={scale:.1f}")
             continue
 
-        # Find GIFs from this specific run (Hydra output dir + new wandb runs)
-        gifs = find_run_gifs(run_output_dir, DFOT_REPO, run_start_time)
+        # Find GIFs from this specific run only (set-difference approach)
+        gifs = find_run_gifs(run_output_dir, DFOT_REPO, pre_run_wandb)
         if not gifs:
             print(f"  WARNING: No GIFs found for scale={scale:.1f}")
             continue
