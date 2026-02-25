@@ -1,0 +1,1098 @@
+=========================================
+Action-Video Mismatch Experiment
+FULL PIPELINE (Steps 1-6)
+=========================================
+
+Job ID: 9647517
+Node: node3207
+Start time: Wed Feb 25 01:04:05 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.14
+
+GPU availability:
+Wed Feb 25 01:04:09 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:4A:00.0 Off |                    0 |
+| N/A   33C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+
+=========================================
+STEP 1: Generating videos with DFoT...
+=========================================
+Start: Wed Feb 25 01:04:09 EST 2026
+
+
+=========================================
+STEP 2: Estimating poses with VGGT...
+=========================================
+Start: Wed Feb 25 01:04:09 EST 2026
+
+============================================================
+STEP 2: Estimate poses from generated videos (VGGT oracle)
+============================================================
+  Found 50 samples
+Loading VGGT model...
+VGGT loaded successfully.
+  Using VGGT oracle (recommended)
+  Processing sample_0000 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0000/poses_est_from_gen.npy
+  Processing sample_0001 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0001/poses_est_from_gen.npy
+  Processing sample_0002 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0002/poses_est_from_gen.npy
+  Processing sample_0003 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0003/poses_est_from_gen.npy
+  Processing sample_0004 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0004/poses_est_from_gen.npy
+  Processing sample_0005 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0005/poses_est_from_gen.npy
+  Processing sample_0006 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0006/poses_est_from_gen.npy
+  Processing sample_0007 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0007/poses_est_from_gen.npy
+  Skipping sample_0008: no gen_frames directory
+  Skipping sample_0009: no gen_frames directory
+  Skipping sample_0010: no gen_frames directory
+  Skipping sample_0011: no gen_frames directory
+  Skipping sample_0012: no gen_frames directory
+  Skipping sample_0013: no gen_frames directory
+  Skipping sample_0014: no gen_frames directory
+  Skipping sample_0015: no gen_frames directory
+  Skipping sample_0016: no gen_frames directory
+  Skipping sample_0017: no gen_frames directory
+  Skipping sample_0018: no gen_frames directory
+  Skipping sample_0019: no gen_frames directory
+  Skipping sample_0020: no gen_frames directory
+  Skipping sample_0021: no gen_frames directory
+  Skipping sample_0022: no gen_frames directory
+  Skipping sample_0023: no gen_frames directory
+  Skipping sample_0024: no gen_frames directory
+  Skipping sample_0025: no gen_frames directory
+  Skipping sample_0026: no gen_frames directory
+  Skipping sample_0027: no gen_frames directory
+  Skipping sample_0028: no gen_frames directory
+  Skipping sample_0029: no gen_frames directory
+  Skipping sample_0030: no gen_frames directory
+  Skipping sample_0031: no gen_frames directory
+  Skipping sample_0032: no gen_frames directory
+  Skipping sample_0033: no gen_frames directory
+  Skipping sample_0034: no gen_frames directory
+  Skipping sample_0035: no gen_frames directory
+  Skipping sample_0036: no gen_frames directory
+  Skipping sample_0037: no gen_frames directory
+  Skipping sample_0038: no gen_frames directory
+  Skipping sample_0039: no gen_frames directory
+  Skipping sample_0040: no gen_frames directory
+  Skipping sample_0041: no gen_frames directory
+  Skipping sample_0042: no gen_frames directory
+  Skipping sample_0043: no gen_frames directory
+  Skipping sample_0044: no gen_frames directory
+  Skipping sample_0045: no gen_frames directory
+  Skipping sample_0046: no gen_frames directory
+  Skipping sample_0047: no gen_frames directory
+  Skipping sample_0048: no gen_frames directory
+  Skipping sample_0049: no gen_frames directory
+
+  Done! Estimated poses saved for all samples.
+  Next: run step3_compute_mismatch.py
+✓ Step 2 complete: Wed Feb 25 01:04:30 EST 2026
+
+=========================================
+STEP 3: Computing pose mismatch...
+=========================================
+Start: Wed Feb 25 01:04:30 EST 2026
+
+============================================================
+STEP 3: Compute pose mismatch
+============================================================
+  sample_0000: 7 frames
+    Relative rot error: mean=0.28°, max=0.54°
+    Cumulative drift at final frame: 0.44°
+  sample_0001: 7 frames
+    Relative rot error: mean=0.13°, max=0.39°
+    Cumulative drift at final frame: 0.00°
+  sample_0002: 7 frames
+    Relative rot error: mean=0.30°, max=0.98°
+    Cumulative drift at final frame: 0.81°
+  sample_0003: 7 frames
+    Relative rot error: mean=0.11°, max=0.15°
+    Cumulative drift at final frame: 0.40°
+  sample_0004: 7 frames
+    Relative rot error: mean=0.37°, max=0.62°
+    Cumulative drift at final frame: 1.19°
+  sample_0005: 7 frames
+    Relative rot error: mean=0.25°, max=0.37°
+    Cumulative drift at final frame: 1.39°
+  sample_0006: 7 frames
+    Relative rot error: mean=0.13°, max=0.26°
+    Cumulative drift at final frame: 0.00°
+  sample_0007: 7 frames
+    Relative rot error: mean=0.37°, max=0.68°
+    Cumulative drift at final frame: 1.42°
+  Skipping sample_0008: no estimated poses (run step2 first)
+  Skipping sample_0009: no estimated poses (run step2 first)
+  Skipping sample_0010: no estimated poses (run step2 first)
+  Skipping sample_0011: no estimated poses (run step2 first)
+  Skipping sample_0012: no estimated poses (run step2 first)
+  Skipping sample_0013: no estimated poses (run step2 first)
+  Skipping sample_0014: no estimated poses (run step2 first)
+  Skipping sample_0015: no estimated poses (run step2 first)
+  Skipping sample_0016: no estimated poses (run step2 first)
+  Skipping sample_0017: no estimated poses (run step2 first)
+  Skipping sample_0018: no estimated poses (run step2 first)
+  Skipping sample_0019: no estimated poses (run step2 first)
+  Skipping sample_0020: no estimated poses (run step2 first)
+  Skipping sample_0021: no estimated poses (run step2 first)
+  Skipping sample_0022: no estimated poses (run step2 first)
+  Skipping sample_0023: no estimated poses (run step2 first)
+  Skipping sample_0024: no estimated poses (run step2 first)
+  Skipping sample_0025: no estimated poses (run step2 first)
+  Skipping sample_0026: no estimated poses (run step2 first)
+  Skipping sample_0027: no estimated poses (run step2 first)
+  Skipping sample_0028: no estimated poses (run step2 first)
+  Skipping sample_0029: no estimated poses (run step2 first)
+  Skipping sample_0030: no estimated poses (run step2 first)
+  Skipping sample_0031: no estimated poses (run step2 first)
+  Skipping sample_0032: no estimated poses (run step2 first)
+  Skipping sample_0033: no estimated poses (run step2 first)
+  Skipping sample_0034: no estimated poses (run step2 first)
+  Skipping sample_0035: no estimated poses (run step2 first)
+  Skipping sample_0036: no estimated poses (run step2 first)
+  Skipping sample_0037: no estimated poses (run step2 first)
+  Skipping sample_0038: no estimated poses (run step2 first)
+  Skipping sample_0039: no estimated poses (run step2 first)
+  Skipping sample_0040: no estimated poses (run step2 first)
+  Skipping sample_0041: no estimated poses (run step2 first)
+  Skipping sample_0042: no estimated poses (run step2 first)
+  Skipping sample_0043: no estimated poses (run step2 first)
+  Skipping sample_0044: no estimated poses (run step2 first)
+  Skipping sample_0045: no estimated poses (run step2 first)
+  Skipping sample_0046: no estimated poses (run step2 first)
+  Skipping sample_0047: no estimated poses (run step2 first)
+  Skipping sample_0048: no estimated poses (run step2 first)
+  Skipping sample_0049: no estimated poses (run step2 first)
+
+  Saved: runs/action_mismatch/aggregate/mismatch_all.csv
+
+  OVERALL STATISTICS:
+  Samples analyzed: 8
+
+  Per-frame relative rotation error:
+    Mean:   0.24°
+    Median: 0.20°
+    Std:    0.21°
+
+  Cumulative drift at final frame:
+    Mean:   0.71°
+    Median: 0.63°
+    10th %: 0.00°
+    90th %: 1.40°
+  Plot 1 saved: runs/action_mismatch/aggregate/rot_err_vs_time.png
+  Plot 2 saved: runs/action_mismatch/aggregate/rot_err_histogram.png
+  Plot 3 saved: runs/action_mismatch/aggregate/rel_rot_err_vs_time.png
+
+  ✅ Phase 1 complete!
+  You've quantified the accumulation of divergence.
+  Next: run step4_fabricate_and_evaluate.py for Phase 2.
+✓ Step 3 complete (Phase 1 DONE): Wed Feb 25 01:04:32 EST 2026
+
+=========================================
+STEP 4: Fabricating corrupted histories...
+=========================================
+Start: Wed Feb 25 01:04:32 EST 2026
+
+============================================================
+STEP 4: Fabricate mismatched history + measure impact
+============================================================
+
+--- Step 4.1: Building drift library from Phase 1 ---
+  Drift statistics from Phase 1:
+  10th percentile (low drift):  0.00°
+  50th percentile (median):     0.63°
+  90th percentile (high drift): 1.40°
+  Low-drift sample:  sample_0001 (final err: 0.00°)
+  High-drift sample: sample_0007 (final err: 1.42°)
+
+--- Step 4.2: Creating corrupted pose histories ---
+  sample_0000 scale=10.0: final corruption = 6.27°
+  sample_0000 scale=50.0: final corruption = 31.35°
+  sample_0000 scale=100.0: final corruption = 62.71°
+  sample_0001 scale=10.0: final corruption = 6.27°
+  sample_0001 scale=50.0: final corruption = 31.35°
+  sample_0001 scale=100.0: final corruption = 62.71°
+  sample_0002 scale=10.0: final corruption = 6.27°
+  sample_0002 scale=50.0: final corruption = 31.35°
+  sample_0002 scale=100.0: final corruption = 62.71°
+  sample_0003 scale=10.0: final corruption = 6.27°
+  sample_0003 scale=50.0: final corruption = 31.35°
+  sample_0003 scale=100.0: final corruption = 62.71°
+  sample_0004 scale=10.0: final corruption = 6.27°
+  sample_0004 scale=50.0: final corruption = 31.35°
+  sample_0004 scale=100.0: final corruption = 62.71°
+  sample_0005 scale=10.0: final corruption = 6.27°
+  sample_0005 scale=50.0: final corruption = 31.35°
+  sample_0005 scale=100.0: final corruption = 62.71°
+  sample_0006 scale=10.0: final corruption = 6.27°
+  sample_0006 scale=50.0: final corruption = 31.35°
+  sample_0006 scale=100.0: final corruption = 62.71°
+  sample_0007 scale=10.0: final corruption = 6.27°
+  sample_0007 scale=50.0: final corruption = 31.35°
+  sample_0007 scale=100.0: final corruption = 62.71°
+  sample_0008 scale=10.0: final corruption = 6.27°
+  sample_0008 scale=50.0: final corruption = 31.35°
+  sample_0008 scale=100.0: final corruption = 62.71°
+  sample_0009 scale=10.0: final corruption = 6.27°
+  sample_0009 scale=50.0: final corruption = 31.35°
+  sample_0009 scale=100.0: final corruption = 62.71°
+
+--- Step 4.3: Regenerating with corrupted history ---
+  
+  To regenerate videos with corrupted poses, you have two options:
+  
+  OPTION A (Recommended): Modify RE10k data files
+    1. Copy the RE10k clip data to a new directory
+    2. Replace the pose values with corrupted ones
+    3. Run DFoT on this modified dataset
+    This keeps DFoT's code unchanged.
+  
+  OPTION B: Direct model API (requires more DFoT internals)
+    1. Load the DFoT model programmatically
+    2. Call its generation function with custom pose tensors
+    3. Requires understanding DFoT's internal sample() API
+  
+  Helper script: runs/action_mismatch/phase2/regenerate_with_corruption.sh
+
+--- Step 4.4: Evaluation template ---
+
+  Saved: runs/action_mismatch/phase2/phase2_results.csv
+  Plot saved: runs/action_mismatch/phase2/corruption_magnitudes.png
+
+  ✅ Phase 2 corruption setup complete!
+  Corrupted poses saved to runs/action_mismatch/phase2/
+  
+  TO COMPLETE PHASE 2:
+  1. Regenerate videos with corrupted poses (see options above)
+  2. Run step2 (pose estimation) on the new videos
+  3. Compare clean vs corrupted pose accuracy & perceptual quality
+✓ Step 4 complete (Phase 2 setup DONE): Wed Feb 25 01:04:33 EST 2026
+
+=========================================
+STEP 5: Regenerating with corrupted poses...
+=========================================
+Start: Wed Feb 25 01:04:33 EST 2026
+
+============================================================
+STEP 5: Regenerate videos with corrupted poses
+============================================================
+  Phase 1 median drift: 0.63 deg
+  Corruption scales: [10.0, 50.0, 100.0]
+  Runner: diffusion-forcing-transformer/_phase2_runner.py
+
+============================================================
+  CLEAN BASELINE (scale=0.0)
+============================================================
+
+  [RUN] DFoT with corruption scale=0.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~0.0 deg
+  [OK] scale=0.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=0.0)
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50/50 0:08:41 • 0:00:00 0.10it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-04-42/wandb/offline-run-20260225_010446-hq60h3tc[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/01-04-42/wandb/offline-run-20260225_010446-hq60h3tc/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-04-42
+  Found 8 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0
+    sample_0000: saved 7 frames (mean=172.2, std=65.2)
+    sample_0001: saved 7 frames (mean=99.7, std=72.4)
+    sample_0002: saved 7 frames (mean=125.6, std=72.2)
+    sample_0003: saved 7 frames (mean=123.5, std=68.9)
+    sample_0004: saved 7 frames (mean=155.3, std=79.4)
+    sample_0005: saved 7 frames (mean=129.4, std=63.6)
+    sample_0006: saved 7 frames (mean=171.4, std=75.3)
+    sample_0007: saved 7 frames (mean=100.6, std=78.0)
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/8/data.npz not found
+    sample_0008: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/9/data.npz not found
+    sample_0009: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/10/data.npz not found
+    sample_0010: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/11/data.npz not found
+    sample_0011: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/12/data.npz not found
+    sample_0012: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/13/data.npz not found
+    sample_0013: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/14/data.npz not found
+    sample_0014: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/15/data.npz not found
+    sample_0015: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/16/data.npz not found
+    sample_0016: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/17/data.npz not found
+    sample_0017: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/18/data.npz not found
+    sample_0018: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/19/data.npz not found
+    sample_0019: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/20/data.npz not found
+    sample_0020: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/21/data.npz not found
+    sample_0021: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/22/data.npz not found
+    sample_0022: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/23/data.npz not found
+    sample_0023: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/24/data.npz not found
+    sample_0024: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/25/data.npz not found
+    sample_0025: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/26/data.npz not found
+    sample_0026: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/27/data.npz not found
+    sample_0027: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/28/data.npz not found
+    sample_0028: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/29/data.npz not found
+    sample_0029: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/30/data.npz not found
+    sample_0030: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/31/data.npz not found
+    sample_0031: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/32/data.npz not found
+    sample_0032: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/33/data.npz not found
+    sample_0033: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/34/data.npz not found
+    sample_0034: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/35/data.npz not found
+    sample_0035: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/36/data.npz not found
+    sample_0036: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/37/data.npz not found
+    sample_0037: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/38/data.npz not found
+    sample_0038: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/39/data.npz not found
+    sample_0039: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/40/data.npz not found
+    sample_0040: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/41/data.npz not found
+    sample_0041: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/42/data.npz not found
+    sample_0042: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/43/data.npz not found
+    sample_0043: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/44/data.npz not found
+    sample_0044: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/45/data.npz not found
+    sample_0045: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/46/data.npz not found
+    sample_0046: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/47/data.npz not found
+    sample_0047: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/48/data.npz not found
+    sample_0048: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0/49/data.npz not found
+    sample_0049: no frames extracted
+
+============================================================
+  CORRUPTION SCALE = 10.0  (~6.3 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=10.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~6.3 deg
+  [OK] scale=10.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=10.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=0.90, actual_diff=0.90
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4796268045902252, 0.852669894695282, 0.5, 0.5, 0.9916183948516846]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=0.90, actual_diff=0.90
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50/50 0:08:41 • 0:00:00 0.10it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-13-47/wandb/offline-run-20260225_011352-dv0sajd8[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/01-13-47/wandb/offline-run-20260225_011352-dv0sajd8/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-13-47
+  Found 8 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0
+    sample_0000: saved 7 frames (mean=173.4, std=66.3)
+    sample_0001: saved 7 frames (mean=95.1, std=75.1)
+    sample_0002: saved 7 frames (mean=125.7, std=72.8)
+    sample_0003: saved 7 frames (mean=124.5, std=71.7)
+    sample_0004: saved 7 frames (mean=156.9, std=79.1)
+    sample_0005: saved 7 frames (mean=116.9, std=71.6)
+    sample_0006: saved 7 frames (mean=166.2, std=83.7)
+    sample_0007: saved 7 frames (mean=94.9, std=80.4)
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/8/data.npz not found
+    sample_0008: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/9/data.npz not found
+    sample_0009: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/10/data.npz not found
+    sample_0010: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/11/data.npz not found
+    sample_0011: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/12/data.npz not found
+    sample_0012: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/13/data.npz not found
+    sample_0013: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/14/data.npz not found
+    sample_0014: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/15/data.npz not found
+    sample_0015: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/16/data.npz not found
+    sample_0016: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/17/data.npz not found
+    sample_0017: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/18/data.npz not found
+    sample_0018: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/19/data.npz not found
+    sample_0019: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/20/data.npz not found
+    sample_0020: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/21/data.npz not found
+    sample_0021: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/22/data.npz not found
+    sample_0022: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/23/data.npz not found
+    sample_0023: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/24/data.npz not found
+    sample_0024: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/25/data.npz not found
+    sample_0025: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/26/data.npz not found
+    sample_0026: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/27/data.npz not found
+    sample_0027: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/28/data.npz not found
+    sample_0028: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/29/data.npz not found
+    sample_0029: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/30/data.npz not found
+    sample_0030: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/31/data.npz not found
+    sample_0031: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/32/data.npz not found
+    sample_0032: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/33/data.npz not found
+    sample_0033: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/34/data.npz not found
+    sample_0034: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/35/data.npz not found
+    sample_0035: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/36/data.npz not found
+    sample_0036: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/37/data.npz not found
+    sample_0037: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/38/data.npz not found
+    sample_0038: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/39/data.npz not found
+    sample_0039: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/40/data.npz not found
+    sample_0040: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/41/data.npz not found
+    sample_0041: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/42/data.npz not found
+    sample_0042: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/43/data.npz not found
+    sample_0043: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/44/data.npz not found
+    sample_0044: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/45/data.npz not found
+    sample_0045: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/46/data.npz not found
+    sample_0046: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/47/data.npz not found
+    sample_0047: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/48/data.npz not found
+    sample_0048: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0/49/data.npz not found
+    sample_0049: no frames extracted
+
+============================================================
+  CORRUPTION SCALE = 50.0  (~31.4 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=50.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~31.4 deg
+  [OK] scale=50.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=50.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=4.48, actual_diff=4.48
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4796268045902252, 0.852669894695282, 0.5, 0.5, 0.9916183948516846]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=4.48, actual_diff=4.48
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50/50 0:08:41 • 0:00:00 0.10it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-22-50/wandb/offline-run-20260225_012255-gq8mb73m[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/01-22-50/wandb/offline-run-20260225_012255-gq8mb73m/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-22-50
+  Found 8 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0
+    sample_0000: saved 7 frames (mean=150.2, std=74.8)
+    sample_0001: saved 7 frames (mean=85.5, std=72.3)
+    sample_0002: saved 7 frames (mean=119.6, std=76.1)
+    sample_0003: saved 7 frames (mean=127.7, std=74.6)
+    sample_0004: saved 7 frames (mean=162.4, std=83.8)
+    sample_0005: saved 7 frames (mean=119.1, std=72.8)
+    sample_0006: saved 7 frames (mean=164.2, std=83.1)
+    sample_0007: saved 7 frames (mean=92.0, std=79.7)
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/8/data.npz not found
+    sample_0008: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/9/data.npz not found
+    sample_0009: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/10/data.npz not found
+    sample_0010: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/11/data.npz not found
+    sample_0011: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/12/data.npz not found
+    sample_0012: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/13/data.npz not found
+    sample_0013: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/14/data.npz not found
+    sample_0014: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/15/data.npz not found
+    sample_0015: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/16/data.npz not found
+    sample_0016: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/17/data.npz not found
+    sample_0017: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/18/data.npz not found
+    sample_0018: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/19/data.npz not found
+    sample_0019: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/20/data.npz not found
+    sample_0020: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/21/data.npz not found
+    sample_0021: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/22/data.npz not found
+    sample_0022: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/23/data.npz not found
+    sample_0023: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/24/data.npz not found
+    sample_0024: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/25/data.npz not found
+    sample_0025: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/26/data.npz not found
+    sample_0026: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/27/data.npz not found
+    sample_0027: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/28/data.npz not found
+    sample_0028: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/29/data.npz not found
+    sample_0029: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/30/data.npz not found
+    sample_0030: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/31/data.npz not found
+    sample_0031: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/32/data.npz not found
+    sample_0032: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/33/data.npz not found
+    sample_0033: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/34/data.npz not found
+    sample_0034: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/35/data.npz not found
+    sample_0035: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/36/data.npz not found
+    sample_0036: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/37/data.npz not found
+    sample_0037: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/38/data.npz not found
+    sample_0038: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/39/data.npz not found
+    sample_0039: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/40/data.npz not found
+    sample_0040: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/41/data.npz not found
+    sample_0041: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/42/data.npz not found
+    sample_0042: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/43/data.npz not found
+    sample_0043: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/44/data.npz not found
+    sample_0044: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/45/data.npz not found
+    sample_0045: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/46/data.npz not found
+    sample_0046: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/47/data.npz not found
+    sample_0047: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/48/data.npz not found
+    sample_0048: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0/49/data.npz not found
+    sample_0049: no frames extracted
+
+============================================================
+  CORRUPTION SCALE = 100.0  (~62.7 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=100.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~62.7 deg
+  [OK] scale=100.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=100.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=8.96, actual_diff=8.96
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4796268045902252, 0.852669894695282, 0.5, 0.5, 0.9916183948516846]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=8.96, actual_diff=8.96
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50/50 0:08:41 • 0:00:00 0.10it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-31-54/wandb/offline-run-20260225_013158-85gsakef[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/01-31-54/wandb/offline-run-20260225_013158-85gsakef/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/01-31-54
+  Found 8 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0
+    sample_0000: saved 7 frames (mean=152.5, std=70.9)
+    sample_0001: saved 7 frames (mean=92.9, std=81.8)
+    sample_0002: saved 7 frames (mean=128.2, std=68.1)
+    sample_0003: saved 7 frames (mean=133.7, std=71.9)
+    sample_0004: saved 7 frames (mean=178.3, std=70.3)
+    sample_0005: saved 7 frames (mean=148.8, std=63.8)
+    sample_0006: saved 7 frames (mean=185.2, std=63.0)
+    sample_0007: saved 7 frames (mean=106.8, std=84.1)
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/8/data.npz not found
+    sample_0008: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/9/data.npz not found
+    sample_0009: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/10/data.npz not found
+    sample_0010: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/11/data.npz not found
+    sample_0011: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/12/data.npz not found
+    sample_0012: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/13/data.npz not found
+    sample_0013: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/14/data.npz not found
+    sample_0014: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/15/data.npz not found
+    sample_0015: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/16/data.npz not found
+    sample_0016: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/17/data.npz not found
+    sample_0017: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/18/data.npz not found
+    sample_0018: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/19/data.npz not found
+    sample_0019: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/20/data.npz not found
+    sample_0020: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/21/data.npz not found
+    sample_0021: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/22/data.npz not found
+    sample_0022: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/23/data.npz not found
+    sample_0023: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/24/data.npz not found
+    sample_0024: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/25/data.npz not found
+    sample_0025: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/26/data.npz not found
+    sample_0026: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/27/data.npz not found
+    sample_0027: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/28/data.npz not found
+    sample_0028: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/29/data.npz not found
+    sample_0029: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/30/data.npz not found
+    sample_0030: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/31/data.npz not found
+    sample_0031: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/32/data.npz not found
+    sample_0032: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/33/data.npz not found
+    sample_0033: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/34/data.npz not found
+    sample_0034: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/35/data.npz not found
+    sample_0035: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/36/data.npz not found
+    sample_0036: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/37/data.npz not found
+    sample_0037: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/38/data.npz not found
+    sample_0038: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/39/data.npz not found
+    sample_0039: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/40/data.npz not found
+    sample_0040: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/41/data.npz not found
+    sample_0041: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/42/data.npz not found
+    sample_0042: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/43/data.npz not found
+    sample_0043: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/44/data.npz not found
+    sample_0044: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/45/data.npz not found
+    sample_0045: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/46/data.npz not found
+    sample_0046: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/47/data.npz not found
+    sample_0047: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/48/data.npz not found
+    sample_0048: no frames extracted
+    WARNING: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0/49/data.npz not found
+    sample_0049: no frames extracted
+
+  Step 5 complete!
+  Scales generated: [0.0, 10.0, 50.0, 100.0]
+  Next: run step6_evaluate_phase2.py
+✓ Step 5 complete: Wed Feb 25 01:40:49 EST 2026
+
+=========================================
+STEP 6: Evaluating Phase 2 (LPIPS + pose error)...
+=========================================
+Start: Wed Feb 25 01:40:49 EST 2026
+
+============================================================
+STEP 6: Evaluate Phase 2 — Impact of Pose Corruption
+============================================================
+Loading VGGT model...
+VGGT loaded successfully.
+  Pose oracle: VGGT
+
+--- Scale = 0.0 (clean baseline) ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=0.0:  LPIPS=0.3856  pose_err=0.82 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=0.0:  LPIPS=0.3392  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=0.0:  LPIPS=0.3270  pose_err=1.19 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=0.0:  LPIPS=0.2914  pose_err=0.62 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=0.0:  LPIPS=0.3755  pose_err=1.43 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=0.0:  LPIPS=0.4181  pose_err=0.79 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=0.0:  LPIPS=0.2222  pose_err=0.43 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=0.0:  LPIPS=0.3282  pose_err=1.87 deg
+  sample_0008 scale=0.0: no gen_frames — skipping
+  sample_0009 scale=0.0: no gen_frames — skipping
+  sample_0010 scale=0.0: no gen_frames — skipping
+  sample_0011 scale=0.0: no gen_frames — skipping
+  sample_0012 scale=0.0: no gen_frames — skipping
+  sample_0013 scale=0.0: no gen_frames — skipping
+  sample_0014 scale=0.0: no gen_frames — skipping
+  sample_0015 scale=0.0: no gen_frames — skipping
+  sample_0016 scale=0.0: no gen_frames — skipping
+  sample_0017 scale=0.0: no gen_frames — skipping
+  sample_0018 scale=0.0: no gen_frames — skipping
+  sample_0019 scale=0.0: no gen_frames — skipping
+  sample_0020 scale=0.0: no gen_frames — skipping
+  sample_0021 scale=0.0: no gen_frames — skipping
+  sample_0022 scale=0.0: no gen_frames — skipping
+  sample_0023 scale=0.0: no gen_frames — skipping
+  sample_0024 scale=0.0: no gen_frames — skipping
+  sample_0025 scale=0.0: no gen_frames — skipping
+  sample_0026 scale=0.0: no gen_frames — skipping
+  sample_0027 scale=0.0: no gen_frames — skipping
+  sample_0028 scale=0.0: no gen_frames — skipping
+  sample_0029 scale=0.0: no gen_frames — skipping
+  sample_0030 scale=0.0: no gen_frames — skipping
+  sample_0031 scale=0.0: no gen_frames — skipping
+  sample_0032 scale=0.0: no gen_frames — skipping
+  sample_0033 scale=0.0: no gen_frames — skipping
+  sample_0034 scale=0.0: no gen_frames — skipping
+  sample_0035 scale=0.0: no gen_frames — skipping
+  sample_0036 scale=0.0: no gen_frames — skipping
+  sample_0037 scale=0.0: no gen_frames — skipping
+  sample_0038 scale=0.0: no gen_frames — skipping
+  sample_0039 scale=0.0: no gen_frames — skipping
+  sample_0040 scale=0.0: no gen_frames — skipping
+  sample_0041 scale=0.0: no gen_frames — skipping
+  sample_0042 scale=0.0: no gen_frames — skipping
+  sample_0043 scale=0.0: no gen_frames — skipping
+  sample_0044 scale=0.0: no gen_frames — skipping
+  sample_0045 scale=0.0: no gen_frames — skipping
+  sample_0046 scale=0.0: no gen_frames — skipping
+  sample_0047 scale=0.0: no gen_frames — skipping
+  sample_0048 scale=0.0: no gen_frames — skipping
+  sample_0049 scale=0.0: no gen_frames — skipping
+
+--- Scale = 10.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=10.0:  LPIPS=0.4483  pose_err=6.35 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=10.0:  LPIPS=0.4477  pose_err=4.07 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=10.0:  LPIPS=0.3915  pose_err=6.21 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=10.0:  LPIPS=0.3833  pose_err=5.13 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=10.0:  LPIPS=0.4396  pose_err=6.16 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=10.0:  LPIPS=0.4976  pose_err=5.73 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=10.0:  LPIPS=0.3805  pose_err=5.71 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=10.0:  LPIPS=0.3589  pose_err=6.91 deg
+  sample_0008 scale=10.0: no gen_frames — skipping
+  sample_0009 scale=10.0: no gen_frames — skipping
+  sample_0010 scale=10.0: no gen_frames — skipping
+  sample_0011 scale=10.0: no gen_frames — skipping
+  sample_0012 scale=10.0: no gen_frames — skipping
+  sample_0013 scale=10.0: no gen_frames — skipping
+  sample_0014 scale=10.0: no gen_frames — skipping
+  sample_0015 scale=10.0: no gen_frames — skipping
+  sample_0016 scale=10.0: no gen_frames — skipping
+  sample_0017 scale=10.0: no gen_frames — skipping
+  sample_0018 scale=10.0: no gen_frames — skipping
+  sample_0019 scale=10.0: no gen_frames — skipping
+  sample_0020 scale=10.0: no gen_frames — skipping
+  sample_0021 scale=10.0: no gen_frames — skipping
+  sample_0022 scale=10.0: no gen_frames — skipping
+  sample_0023 scale=10.0: no gen_frames — skipping
+  sample_0024 scale=10.0: no gen_frames — skipping
+  sample_0025 scale=10.0: no gen_frames — skipping
+  sample_0026 scale=10.0: no gen_frames — skipping
+  sample_0027 scale=10.0: no gen_frames — skipping
+  sample_0028 scale=10.0: no gen_frames — skipping
+  sample_0029 scale=10.0: no gen_frames — skipping
+  sample_0030 scale=10.0: no gen_frames — skipping
+  sample_0031 scale=10.0: no gen_frames — skipping
+  sample_0032 scale=10.0: no gen_frames — skipping
+  sample_0033 scale=10.0: no gen_frames — skipping
+  sample_0034 scale=10.0: no gen_frames — skipping
+  sample_0035 scale=10.0: no gen_frames — skipping
+  sample_0036 scale=10.0: no gen_frames — skipping
+  sample_0037 scale=10.0: no gen_frames — skipping
+  sample_0038 scale=10.0: no gen_frames — skipping
+  sample_0039 scale=10.0: no gen_frames — skipping
+  sample_0040 scale=10.0: no gen_frames — skipping
+  sample_0041 scale=10.0: no gen_frames — skipping
+  sample_0042 scale=10.0: no gen_frames — skipping
+  sample_0043 scale=10.0: no gen_frames — skipping
+  sample_0044 scale=10.0: no gen_frames — skipping
+  sample_0045 scale=10.0: no gen_frames — skipping
+  sample_0046 scale=10.0: no gen_frames — skipping
+  sample_0047 scale=10.0: no gen_frames — skipping
+  sample_0048 scale=10.0: no gen_frames — skipping
+  sample_0049 scale=10.0: no gen_frames — skipping
+
+--- Scale = 50.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=50.0:  LPIPS=0.6430  pose_err=31.81 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=50.0:  LPIPS=0.6868  pose_err=35.10 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=50.0:  LPIPS=0.6342  pose_err=18.62 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=50.0:  LPIPS=0.6270  pose_err=36.14 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=50.0:  LPIPS=0.5571  pose_err=29.06 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=50.0:  LPIPS=0.6343  pose_err=21.13 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=50.0:  LPIPS=0.6931  pose_err=35.36 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=50.0:  LPIPS=0.5493  pose_err=24.82 deg
+  sample_0008 scale=50.0: no gen_frames — skipping
+  sample_0009 scale=50.0: no gen_frames — skipping
+  sample_0010 scale=50.0: no gen_frames — skipping
+  sample_0011 scale=50.0: no gen_frames — skipping
+  sample_0012 scale=50.0: no gen_frames — skipping
+  sample_0013 scale=50.0: no gen_frames — skipping
+  sample_0014 scale=50.0: no gen_frames — skipping
+  sample_0015 scale=50.0: no gen_frames — skipping
+  sample_0016 scale=50.0: no gen_frames — skipping
+  sample_0017 scale=50.0: no gen_frames — skipping
+  sample_0018 scale=50.0: no gen_frames — skipping
+  sample_0019 scale=50.0: no gen_frames — skipping
+  sample_0020 scale=50.0: no gen_frames — skipping
+  sample_0021 scale=50.0: no gen_frames — skipping
+  sample_0022 scale=50.0: no gen_frames — skipping
+  sample_0023 scale=50.0: no gen_frames — skipping
+  sample_0024 scale=50.0: no gen_frames — skipping
+  sample_0025 scale=50.0: no gen_frames — skipping
+  sample_0026 scale=50.0: no gen_frames — skipping
+  sample_0027 scale=50.0: no gen_frames — skipping
+  sample_0028 scale=50.0: no gen_frames — skipping
+  sample_0029 scale=50.0: no gen_frames — skipping
+  sample_0030 scale=50.0: no gen_frames — skipping
+  sample_0031 scale=50.0: no gen_frames — skipping
+  sample_0032 scale=50.0: no gen_frames — skipping
+  sample_0033 scale=50.0: no gen_frames — skipping
+  sample_0034 scale=50.0: no gen_frames — skipping
+  sample_0035 scale=50.0: no gen_frames — skipping
+  sample_0036 scale=50.0: no gen_frames — skipping
+  sample_0037 scale=50.0: no gen_frames — skipping
+  sample_0038 scale=50.0: no gen_frames — skipping
+  sample_0039 scale=50.0: no gen_frames — skipping
+  sample_0040 scale=50.0: no gen_frames — skipping
+  sample_0041 scale=50.0: no gen_frames — skipping
+  sample_0042 scale=50.0: no gen_frames — skipping
+  sample_0043 scale=50.0: no gen_frames — skipping
+  sample_0044 scale=50.0: no gen_frames — skipping
+  sample_0045 scale=50.0: no gen_frames — skipping
+  sample_0046 scale=50.0: no gen_frames — skipping
+  sample_0047 scale=50.0: no gen_frames — skipping
+  sample_0048 scale=50.0: no gen_frames — skipping
+  sample_0049 scale=50.0: no gen_frames — skipping
+
+--- Scale = 100.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=100.0:  LPIPS=0.7002  pose_err=30.14 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=100.0:  LPIPS=0.6963  pose_err=111.35 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=100.0:  LPIPS=0.6726  pose_err=47.57 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=100.0:  LPIPS=0.6317  pose_err=86.55 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=100.0:  LPIPS=0.6285  pose_err=28.69 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=100.0:  LPIPS=0.6982  pose_err=55.89 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=100.0:  LPIPS=0.7053  pose_err=42.45 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=100.0:  LPIPS=0.6352  pose_err=35.00 deg
+  sample_0008 scale=100.0: no gen_frames — skipping
+  sample_0009 scale=100.0: no gen_frames — skipping
+  sample_0010 scale=100.0: no gen_frames — skipping
+  sample_0011 scale=100.0: no gen_frames — skipping
+  sample_0012 scale=100.0: no gen_frames — skipping
+  sample_0013 scale=100.0: no gen_frames — skipping
+  sample_0014 scale=100.0: no gen_frames — skipping
+  sample_0015 scale=100.0: no gen_frames — skipping
+  sample_0016 scale=100.0: no gen_frames — skipping
+  sample_0017 scale=100.0: no gen_frames — skipping
+  sample_0018 scale=100.0: no gen_frames — skipping
+  sample_0019 scale=100.0: no gen_frames — skipping
+  sample_0020 scale=100.0: no gen_frames — skipping
+  sample_0021 scale=100.0: no gen_frames — skipping
+  sample_0022 scale=100.0: no gen_frames — skipping
+  sample_0023 scale=100.0: no gen_frames — skipping
+  sample_0024 scale=100.0: no gen_frames — skipping
+  sample_0025 scale=100.0: no gen_frames — skipping
+  sample_0026 scale=100.0: no gen_frames — skipping
+  sample_0027 scale=100.0: no gen_frames — skipping
+  sample_0028 scale=100.0: no gen_frames — skipping
+  sample_0029 scale=100.0: no gen_frames — skipping
+  sample_0030 scale=100.0: no gen_frames — skipping
+  sample_0031 scale=100.0: no gen_frames — skipping
+  sample_0032 scale=100.0: no gen_frames — skipping
+  sample_0033 scale=100.0: no gen_frames — skipping
+  sample_0034 scale=100.0: no gen_frames — skipping
+  sample_0035 scale=100.0: no gen_frames — skipping
+  sample_0036 scale=100.0: no gen_frames — skipping
+  sample_0037 scale=100.0: no gen_frames — skipping
+  sample_0038 scale=100.0: no gen_frames — skipping
+  sample_0039 scale=100.0: no gen_frames — skipping
+  sample_0040 scale=100.0: no gen_frames — skipping
+  sample_0041 scale=100.0: no gen_frames — skipping
+  sample_0042 scale=100.0: no gen_frames — skipping
+  sample_0043 scale=100.0: no gen_frames — skipping
+  sample_0044 scale=100.0: no gen_frames — skipping
+  sample_0045 scale=100.0: no gen_frames — skipping
+  sample_0046 scale=100.0: no gen_frames — skipping
+  sample_0047 scale=100.0: no gen_frames — skipping
+  sample_0048 scale=100.0: no gen_frames — skipping
+  sample_0049 scale=100.0: no gen_frames — skipping
+
+  Saved: runs/action_mismatch/phase2/phase2_evaluation.csv
+
+============================================================
+PHASE 2 EVALUATION SUMMARY
+============================================================
+                   lpips         final_pose_error_deg         
+                    mean     std                 mean      std
+corruption_scale                                              
+0.0               0.3359  0.0608               0.8938   0.5890
+10.0              0.4184  0.0469               5.7820   0.8678
+50.0              0.6281  0.0524              29.0059   6.8005
+100.0             0.6710  0.0339              54.7053  29.5058
+  Plot saved: runs/action_mismatch/phase2/phase2_evaluation.png
+
+  Phase 2 evaluation complete!
+✓ Step 6 complete (Phase 2 DONE): Wed Feb 25 01:41:26 EST 2026
+
+=========================================
+✓✓✓ FULL PIPELINE COMPLETE (Steps 1-6) ✓✓✓
+=========================================
+
+End time: Wed Feb 25 01:41:26 EST 2026
+
+Results summary:
+----------------
+Generated videos:  runs/action_mismatch/generated/
+Phase 1 analysis:  runs/action_mismatch/aggregate/
+Phase 2 frames:    runs/action_mismatch/phase2/
+Phase 2 results:   runs/action_mismatch/phase2/phase2_evaluation.csv
+Phase 2 plot:      runs/action_mismatch/phase2/phase2_evaluation.png
+
+Key outputs:
+-rw-rw-r-- 1 akshatat akshatat 4.2K Feb 25 01:04 runs/action_mismatch/aggregate/mismatch_all.csv
+-rw-rw-r-- 1 akshatat akshatat 1.8K Feb 25 01:41 runs/action_mismatch/phase2/phase2_evaluation.csv
+
