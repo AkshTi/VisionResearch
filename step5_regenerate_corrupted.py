@@ -319,6 +319,13 @@ def run_dfot_with_corruption(
         "++algorithm.diffusion.training_schedule.shift=0.125",
         "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
         "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
+        # Sampling noise schedule matching RE10K training checkpoint.
+        # Default beta_schedule=cosine/shift=1.0 gives wrong logsnr values during inference
+        # causing all-black generated frames. RE10K was trained with cosine_simple_diffusion
+        # shifted=0.125 (see configurations/dataset_experiment/realestate10k_video_generation.yaml).
+        "algorithm.diffusion.beta_schedule=cosine_simple_diffusion",
+        "++algorithm.diffusion.schedule_fn_kwargs.shifted=0.125",
+        "++algorithm.diffusion.schedule_fn_kwargs.interpolated=false",
         f"++algorithm.logging.raw_dir={raw_dir}",
     ]
 
