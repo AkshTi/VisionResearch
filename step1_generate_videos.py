@@ -410,6 +410,7 @@ def main() -> None:
         "++algorithm.diffusion.training_schedule.shift=0.125",
         "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
         "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
+        f"++algorithm.logging.raw_dir={str(output_dir / '_raw_outputs')}",
     ]
 
     # Run DFoT via runner
@@ -447,37 +448,39 @@ def main() -> None:
     # Stage outputs
     staged = stage_into_samples(output_dir, discovered)
 
-    # Extract predicted future frames from GIFs into gen_frames/
-    # DFoT log_video does: torch.cat([prediction, gt], dim=-1)
-    # so GIF layout is [Predicted | GT] — left half = predicted.
-    print("\n[Frame Extraction] Extracting predicted frames from GIFs...")
+    # Extract predicted future frames from NPZ into gen_frames/
+    print("\n[Frame Extraction] Extracting predicted frames from NPZ...")
     extract_count = 0
-    for sample_dir in sorted(output_dir.glob("sample_*")):
-        gif_paths = sorted((sample_dir / "videos").glob("*.gif"))
-        if not gif_paths:
+    raw_dir = output_dir / '_raw_outputs'
+    for i in range(N_SAMPLES):
+        sample_dir = output_dir / f"sample_{i:04d}"
+        frames_dir = sample_dir / "gen_frames"
+        npz_path = raw_dir / str(i) / "data.npz"
+        
+        if not npz_path.exists():
             continue
-        gif_path = gif_paths[0]  # take first GIF for this sample
-
+            
         try:
             from PIL import Image
-            gif = Image.open(gif_path)
-            frames_dir = sample_dir / "gen_frames"
             frames_dir.mkdir(exist_ok=True)
-
+            data = np.load(npz_path)
+            gen = data["gen"]  # (T, C, H, W)
+            
             frame_idx = 0
-            for i in range(gif.n_frames):
-                gif.seek(i)
-                frame = gif.convert("RGB")
-                if i >= K_HISTORY:  # future frames only
-                    w = frame.size[0]
-                    predicted = frame.crop((0, 0, w // 2, frame.size[1]))
-                    predicted.save(frames_dir / f"frame_{frame_idx:04d}.png")
-                    frame_idx += 1
+            for t in range(K_HISTORY, gen.shape[0]):
+                gen_frame = np.transpose(gen[t], (1, 2, 0))  # (H, W, C)
+                img = Image.fromarray(gen_frame)
+                img.save(frames_dir / f"frame_{frame_idx:04d}.png")
+                frame_idx += 1
 
             print(f"  {sample_dir.name}: extracted {frame_idx} frames → gen_frames/")
             extract_count += 1
         except Exception as e:
             print(f"  {sample_dir.name}: frame extraction failed — {e}")
+
+    # Clean up raw npz files
+    if raw_dir.exists():
+        shutil.rmtree(raw_dir)
 
     print(f"[Frame Extraction] Done ({extract_count}/{N_SAMPLES} samples)")
 

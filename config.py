@@ -29,16 +29,18 @@ RUNS_DIR = Path("./runs/action_mismatch")
 N_SAMPLES = 5  # Set to 50+ for real experiment
 
 # Number of history (context) frames given to DFoT
-K_HISTORY = 4  # DFoT RE10k default uses 4 history frames
+# MUST be 1: RE10k pretrained model was trained for single-image conditioning.
+K_HISTORY = 1
 
 # Number of future frames to generate
-# MUST be 4: RE10k model has max_frames=8, context_frames=4, so it generates
-# exactly 4 future frames. Asking for more causes sliding-window autoregression
+# MUST be 7: RE10k model has max_frames=8, context_frames=1, so it generates
+# exactly 7 future frames. Asking for more causes sliding-window autoregression
 # past the training horizon, which collapses to all-black outputs.
-T_FUTURE = 4
+T_FUTURE = 7
 
 # Frame skip (temporal stride in the RE10k clip)
-FRAME_SKIP = 10  # RE10k default; matches training frame_skip
+# MUST be 20: This is the default used by the DFoT authors for single-image-to-short
+FRAME_SKIP = 20
 
 # DFoT pretrained checkpoint name
 DFOT_CHECKPOINT = "DFoT_RE10K.ckpt"
