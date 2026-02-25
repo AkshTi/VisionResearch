@@ -1,0 +1,195 @@
+=========================================
+Step 5: Regenerate with Corrupted Poses
+Action-Video Mismatch Experiment - Phase 2
+=========================================
+
+Job ID: 9644648
+Node: node2804
+Start time: Tue Feb 24 23:19:34 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.14
+
+Checking GPU availability...
+Tue Feb 24 23:19:38 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:61:00.0 Off |                    0 |
+| N/A   31C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting corrupted pose regeneration...
+=========================================
+
+============================================================
+STEP 5: Regenerate videos with corrupted poses
+============================================================
+  Phase 1 median drift: 0.46 deg
+  Corruption scales: [10.0, 50.0, 100.0]
+  Runner: diffusion-forcing-transformer/_phase2_runner.py
+
+============================================================
+  CLEAN BASELINE (scale=0.0)
+============================================================
+
+  [RUN] DFoT with corruption scale=0.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~0.0 deg
+  [OK] scale=0.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=0.0)
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5/5 0:01:00 • 0:00:00 0.09it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-19-59/wandb/offline-run-20260224_232005-tqmtfe3w[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-24/23-19-59/wandb/offline-run-20260224_232005-tqmtfe3w/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-19-59
+  Found 5 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0
+    sample_0000: saved 7 frames (mean=172.3, std=65.1)
+    sample_0001: saved 7 frames (mean=99.3, std=72.5)
+    sample_0002: saved 7 frames (mean=125.6, std=72.2)
+    sample_0003: saved 7 frames (mean=123.6, std=68.9)
+    sample_0004: saved 7 frames (mean=155.5, std=79.3)
+
+============================================================
+  CORRUPTION SCALE = 10.0  (~4.6 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=10.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~4.6 deg
+  [OK] scale=10.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=10.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=0.65, actual_diff=0.65
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4796268045902252, 0.852669894695282, 0.5, 0.5, 0.9916183948516846]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=0.65, actual_diff=0.65
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5/5 0:00:57 • 0:00:00 0.09it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-21-28/wandb/offline-run-20260224_232132-2jqsuw5t[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-24/23-21-28/wandb/offline-run-20260224_232132-2jqsuw5t/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-21-28
+  Found 5 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0
+    sample_0000: saved 7 frames (mean=173.2, std=66.2)
+    sample_0001: saved 7 frames (mean=92.1, std=73.6)
+    sample_0002: saved 7 frames (mean=126.2, std=72.8)
+    sample_0003: saved 7 frames (mean=124.4, std=71.3)
+    sample_0004: saved 7 frames (mean=155.8, std=79.3)
+
+============================================================
+  CORRUPTION SCALE = 50.0  (~22.9 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=50.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~22.9 deg
+  [OK] scale=50.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=50.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=3.27, actual_diff=3.27
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4796268045902252, 0.852669894695282, 0.5, 0.5, 0.9916183948516846]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=3.27, actual_diff=3.27
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5/5 0:00:58 • 0:00:00 0.09it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-22-47/wandb/offline-run-20260224_232252-pgtv2sx9[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-24/23-22-47/wandb/offline-run-20260224_232252-pgtv2sx9/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-22-47
+  Found 5 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0
+    sample_0000: saved 7 frames (mean=151.4, std=73.7)
+    sample_0001: saved 7 frames (mean=94.0, std=75.2)
+    sample_0002: saved 7 frames (mean=120.2, std=75.3)
+    sample_0003: saved 7 frames (mean=126.5, std=74.3)
+    sample_0004: saved 7 frames (mean=155.9, std=83.0)
+
+============================================================
+  CORRUPTION SCALE = 100.0  (~45.8 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=100.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~45.8 deg
+  [OK] scale=100.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=100.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=6.54, actual_diff=6.54
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4796268045902252, 0.852669894695282, 0.5, 0.5, 0.9916183948516846]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=6.54, actual_diff=6.54
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5/5 0:00:58 • 0:00:00 0.09it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-24-07/wandb/offline-run-20260224_232412-bhioizg4[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-24/23-24-07/wandb/offline-run-20260224_232412-bhioizg4/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-24/23-24-07
+  Found 5 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0
+    sample_0000: saved 7 frames (mean=152.8, std=71.2)
+    sample_0001: saved 7 frames (mean=94.8, std=79.2)
+    sample_0002: saved 7 frames (mean=130.1, std=71.2)
+    sample_0003: saved 7 frames (mean=131.9, std=72.5)
+    sample_0004: saved 7 frames (mean=167.1, std=73.3)
+
+  Step 5 complete!
+  Scales generated: [0.0, 10.0, 50.0, 100.0]
+  Next: run step6_evaluate_phase2.py
+
+=========================================
+Step 5 Complete
+=========================================
+Exit code: 0
+End time: Tue Feb 24 23:25:18 EST 2026
+
+Phase 2 generated frames:
+runs/action_mismatch/phase2/sample_0000_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0000_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0000_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0001_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0001_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0001_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0002_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0002_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0002_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0003_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0003_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0003_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0004_scale10.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0004_scale50.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0004_scale100.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/sample_0000_scale0.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/gt_frames_sample_0000/frame_0000.png
+runs/action_mismatch/phase2/sample_0001_scale0.0/gen_frames/frame_0000.png
+runs/action_mismatch/phase2/gt_frames_sample_0001/frame_0000.png
+runs/action_mismatch/phase2/sample_0002_scale0.0/gen_frames/frame_0000.png
