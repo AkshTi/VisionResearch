@@ -7,30 +7,29 @@
   "discovered": {
     "hydra_runs": [
       "diffusion-forcing-transformer/outputs/latest-run",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15",
       "diffusion-forcing-transformer/outputs/2026-02-24/21-58-33",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-40-18",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-39-03"
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40"
     ],
     "wandb_runs": [],
     "videos": [],
     "gifs": [
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_0_0_c45d575516f9e64d63a8.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_1_1_fd2a4234266f097e7bdb.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_2_2_f4bc012694d3b2ea5ddf.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_3_3_29e59758f47b3713ddb2.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_4_4_4bab306a0089eff14108.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_5_5_c45d575516f9e64d63a8.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/21-58-33/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_0_0_c45d575516f9e64d63a8.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/21-58-33/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_1_1_fd2a4234266f097e7bdb.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/21-58-33/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_2_2_f4bc012694d3b2ea5ddf.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/21-58-33/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_3_3_29e59758f47b3713ddb2.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/21-58-33/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_4_4_4bab306a0089eff14108.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_0_0_c45d575516f9e64d63a8.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_1_1_fd2a4234266f097e7bdb.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_2_2_f4bc012694d3b2ea5ddf.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_3_3_29e59758f47b3713ddb2.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_215839-ov98f5z6/files/media/videos/prediction_vis/video_4_4_4bab306a0089eff14108.gif"
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_0_0_c45d575516f9e64d63a8.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_1_1_fd2a4234266f097e7bdb.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_2_2_f4bc012694d3b2ea5ddf.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_3_3_29e59758f47b3713ddb2.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_4_4_4bab306a0089eff14108.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_0_0_fc4976f6870f58790174.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_1_1_f5e927cb4583a6d97145.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_2_2_66d02b1888cd479e98d4.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_3_3_abeb94ecaf30227f6944.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_4_4_184b9fe41e7525188fbf.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_0_0_fc4976f6870f58790174.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_1_1_f5e927cb4583a6d97145.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_2_2_66d02b1888cd479e98d4.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_3_3_abeb94ecaf30227f6944.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_4_4_184b9fe41e7525188fbf.gif"
     ],
     "frames_dirs": [],
     "poses": []
