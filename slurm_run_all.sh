@@ -2,7 +2,7 @@
 #SBATCH --job-name=action_mismatch_pipeline
 #SBATCH --output=results/slurm_%j_pipeline.out
 #SBATCH --error=results/slurm_%j_pipeline.err
-#SBATCH --time=8:00:00
+#SBATCH --time=6:00:00
 #SBATCH --mem=64G
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
