@@ -26,7 +26,7 @@ RUNS_DIR = Path("./runs/action_mismatch")
 # ============================================================
 
 # Number of samples to generate (start with 5 for debugging, scale to 50+)
-N_SAMPLES = 5  # Set to 50+ for real experiment
+N_SAMPLES = 50  # Set to 50+ for real experiment
 
 # Number of history (context) frames given to DFoT
 # MUST be 1: RE10k pretrained model was trained for single-image conditioning.
