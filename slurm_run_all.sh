@@ -2,19 +2,19 @@
 #SBATCH --job-name=action_mismatch_pipeline
 #SBATCH --output=results/slurm_%j_pipeline.out
 #SBATCH --error=results/slurm_%j_pipeline.err
-#SBATCH --time=12:00:00
+#SBATCH --time=24:00:00
 #SBATCH --mem=64G
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-task=8
 #SBATCH --chdir=/orcd/home/002/akshatat/VisionResearch
 
-# Full pipeline: All 4 steps in sequence
+# Full pipeline: All 6 steps in sequence (N_SAMPLES=50)
 # Submit with: sbatch slurm_run_all.sh
 # Monitor with: tail -f results/slurm_<JOBID>_pipeline.out
 
 echo "========================================="
 echo "Action-Video Mismatch Experiment"
-echo "FULL PIPELINE (Steps 1-4)"
+echo "FULL PIPELINE (Steps 1-6)"
 echo "========================================="
 echo ""
 echo "Job ID: $SLURM_JOB_ID"
@@ -60,16 +60,16 @@ echo "========================================="
 echo "Start: $(date)"
 echo ""
 
-python step1_generate_videos.py
-STEP1_EXIT=$?
+# python step1_generate_videos.py
+# STEP1_EXIT=$?
 
-if [ $STEP1_EXIT -ne 0 ]; then
-    echo "ERROR: Step 1 failed with exit code $STEP1_EXIT"
-    echo "Aborting pipeline."
-    exit $STEP1_EXIT
-fi
+# if [ $STEP1_EXIT -ne 0 ]; then
+#     echo "ERROR: Step 1 failed with exit code $STEP1_EXIT"
+#     echo "Aborting pipeline."
+#     exit $STEP1_EXIT
+# fi
 
-echo "✓ Step 1 complete: $(date)"
+# echo "✓ Step 1 complete: $(date)"
 
 # =========================================
 # STEP 2: Estimate Poses
@@ -134,28 +134,65 @@ fi
 echo "✓ Step 4 complete (Phase 2 setup DONE): $(date)"
 
 # =========================================
+# STEP 5: Regenerate with Corrupted Poses
+# =========================================
+echo ""
+echo "========================================="
+echo "STEP 5: Regenerating with corrupted poses..."
+echo "========================================="
+echo "Start: $(date)"
+echo ""
+
+python step5_regenerate_corrupted.py
+STEP5_EXIT=$?
+
+if [ $STEP5_EXIT -ne 0 ]; then
+    echo "ERROR: Step 5 failed with exit code $STEP5_EXIT"
+    exit $STEP5_EXIT
+fi
+
+echo "✓ Step 5 complete: $(date)"
+
+# =========================================
+# STEP 6: Evaluate Phase 2
+# =========================================
+echo ""
+echo "========================================="
+echo "STEP 6: Evaluating Phase 2 (LPIPS + pose error)..."
+echo "========================================="
+echo "Start: $(date)"
+echo ""
+
+python step6_evaluate_phase2.py
+STEP6_EXIT=$?
+
+if [ $STEP6_EXIT -ne 0 ]; then
+    echo "ERROR: Step 6 failed with exit code $STEP6_EXIT"
+    exit $STEP6_EXIT
+fi
+
+echo "✓ Step 6 complete (Phase 2 DONE): $(date)"
+
+# =========================================
 # PIPELINE COMPLETE
 # =========================================
 echo ""
 echo "========================================="
-echo "✓✓✓ FULL PIPELINE COMPLETE ✓✓✓"
+echo "✓✓✓ FULL PIPELINE COMPLETE (Steps 1-6) ✓✓✓"
 echo "========================================="
 echo ""
 echo "End time: $(date)"
 echo ""
 echo "Results summary:"
 echo "----------------"
-echo "Generated videos: runs/action_mismatch/generated/"
-echo "Phase 1 analysis: runs/action_mismatch/aggregate/"
-echo "Phase 2 setup:    runs/action_mismatch/phase2/"
+echo "Generated videos:  runs/action_mismatch/generated/"
+echo "Phase 1 analysis:  runs/action_mismatch/aggregate/"
+echo "Phase 2 frames:    runs/action_mismatch/phase2/"
+echo "Phase 2 results:   runs/action_mismatch/phase2/phase2_evaluation.csv"
+echo "Phase 2 plot:      runs/action_mismatch/phase2/phase2_evaluation.png"
 echo ""
 echo "Key outputs:"
-ls -lh runs/action_mismatch/aggregate/*.png runs/action_mismatch/aggregate/*.csv 2>/dev/null
-echo ""
-echo "Next steps:"
-echo "1. Review Phase 1 plots in runs/action_mismatch/aggregate/"
-echo "2. Check drift statistics in mismatch_all.csv"
-echo "3. Plan Phase 2 video regeneration with corrupted poses"
+ls -lh runs/action_mismatch/aggregate/*.csv runs/action_mismatch/phase2/phase2_evaluation.csv 2>/dev/null
 echo ""
 
 exit 0
