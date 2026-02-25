@@ -1,0 +1,25 @@
+flatpak: error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory
+Lmod has detected the following error: The following module(s) are unknown:
+"slurm"
+
+Please check the spelling or version number. Also try "module spider ..."
+It is also possible your cache file is out-of-date; it may help to try:
+  $ module --ignore_cache load "slurm"
+
+Also make sure that all modulefiles written in TCL start with the string
+#%Module
+
+
+
+Traceback (most recent call last):
+  File "/orcd/home/002/akshatat/VisionResearch/step1_generate_videos.py", line 513, in <module>
+    main()
+  File "/orcd/home/002/akshatat/VisionResearch/step1_generate_videos.py", line 491, in main
+    shutil.rmtree(raw_dir)
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/shutil.py", line 725, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/shutil.py", line 664, in _rmtree_safe_fd
+    onerror(os.rmdir, fullname, sys.exc_info())
+  File "/home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/shutil.py", line 662, in _rmtree_safe_fd
+    os.rmdir(entry.name, dir_fd=topfd)
+OSError: [Errno 39] Directory not empty: '4'
