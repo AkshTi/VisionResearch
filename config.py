@@ -32,10 +32,13 @@ N_SAMPLES = 5  # Set to 50+ for real experiment
 K_HISTORY = 4  # DFoT RE10k default uses 4 history frames
 
 # Number of future frames to generate
-T_FUTURE = 8  # Start small; DFoT RE10k uses 4 predicted frames for LPIPS eval
+# MUST be 4: RE10k model has max_frames=8, context_frames=4, so it generates
+# exactly 4 future frames. Asking for more causes sliding-window autoregression
+# past the training horizon, which collapses to all-black outputs.
+T_FUTURE = 4
 
 # Frame skip (temporal stride in the RE10k clip)
-FRAME_SKIP = 20  # Matches DFoT's default for short generation
+FRAME_SKIP = 10  # RE10k default; matches training frame_skip
 
 # DFoT pretrained checkpoint name
 DFOT_CHECKPOINT = "DFoT_RE10K.ckpt"

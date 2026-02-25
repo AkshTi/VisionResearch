@@ -96,7 +96,6 @@ def main():
     print("=" * 60)
 
     phase2_dir = RUNS_DIR / "phase2"
-    generated_dir = RUNS_DIR / "generated"
 
     # Load pose oracle
     oracle = load_oracle()
@@ -139,26 +138,30 @@ def main():
                 if scores is not None:
                     lpips_mean = float(np.mean(scores))
 
-            # --- 2) Pose accuracy: VGGT(generated) vs GT poses ---
+            # --- 2) Pose accuracy: VGGT(gen_frames) vs VGGT(gt_frames) ---
+            # GT poses come from VGGT on the clean gt_frames (scale=0.0 from step5 NPZ).
+            # This is fully self-consistent regardless of frame_skip used in step5.
             pose_err_final = None
-            gt_poses_path = generated_dir / sample_id / "poses_gt_future.npy"
+            gt_poses_npy = phase2_dir / f"gt_poses_sample_{i:04d}.npy"
 
-            if gt_poses_path.exists():
+            if gt_frames and not gt_poses_npy.exists():
+                try:
+                    gt_poses = oracle.estimate_poses_from_frames(np.stack(gt_frames))
+                    np.save(gt_poses_npy, gt_poses)
+                except Exception as e:
+                    print(f"  {sample_id}: GT pose estimation error: {e}")
+
+            if gt_poses_npy.exists() and gen_frames:
                 try:
                     frames_np = np.stack(gen_frames)
                     poses_est = oracle.estimate_poses_from_frames(frames_np)
-                    poses_gt = np.load(gt_poses_path)
+                    poses_gt = np.load(gt_poses_npy)
 
                     T_min = min(len(poses_est), len(poses_gt))
                     cum_err = compute_cumulative_rotation_error(
                         poses_gt[:T_min], poses_est[:T_min]
                     )
                     pose_err_final = float(cum_err[-1]) if len(cum_err) > 0 else None
-
-                    # Per-frame relative errors
-                    rel_errors = compute_rotation_errors_over_time(
-                        poses_gt[:T_min], poses_est[:T_min]
-                    )
 
                     out_dir = phase2_dir / f"{sample_id}_scale{scale:.1f}"
                     np.save(out_dir / "poses_est_phase2.npy", poses_est)
