@@ -1,5 +1,5 @@
 {
-  "n_samples": 5,
+  "n_samples": 50,
   "k_history": 1,
   "t_future": 7,
   "frame_skip": 20,
@@ -7,29 +7,35 @@
   "discovered": {
     "hydra_runs": [
       "diffusion-forcing-transformer/outputs/latest-run",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15",
-      "diffusion-forcing-transformer/outputs/2026-02-24/21-58-33",
-      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40"
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47",
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-24-07",
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-22-47",
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-21-28"
     ],
     "wandb_runs": [],
     "videos": [],
     "gifs": [
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_0_0_c45d575516f9e64d63a8.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_1_1_fd2a4234266f097e7bdb.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_2_2_f4bc012694d3b2ea5ddf.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_3_3_29e59758f47b3713ddb2.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-17-15/wandb/offline-run-20260224_221721-m72zplvo/files/media/videos/prediction_vis/video_4_4_4bab306a0089eff14108.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_0_0_fc4976f6870f58790174.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_1_1_f5e927cb4583a6d97145.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_2_2_66d02b1888cd479e98d4.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_3_3_abeb94ecaf30227f6944.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/22-54-55/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_4_4_184b9fe41e7525188fbf.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_0_0_fc4976f6870f58790174.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_1_1_f5e927cb4583a6d97145.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_2_2_66d02b1888cd479e98d4.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_3_3_abeb94ecaf30227f6944.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_225500-sov30gm9/files/media/videos/prediction_vis/video_4_4_184b9fe41e7525188fbf.gif"
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-24-07/wandb/offline-run-20260224_232412-bhioizg4/files/media/videos/prediction_vis/video_0_0_a3270db37faf6562a3bc.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-24-07/wandb/offline-run-20260224_232412-bhioizg4/files/media/videos/prediction_vis/video_1_1_05fd4dcc81f7e3a1e7cf.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-24-07/wandb/offline-run-20260224_232412-bhioizg4/files/media/videos/prediction_vis/video_2_2_8a39048b9d929b694376.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-24-07/wandb/offline-run-20260224_232412-bhioizg4/files/media/videos/prediction_vis/video_3_3_740f54c41bddd70ed2c1.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/23-24-07/wandb/offline-run-20260224_232412-bhioizg4/files/media/videos/prediction_vis/video_4_4_38ee58c9bfc556695c2a.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_0_0_3e9a02de8e287b19a552.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_1_1_b7024beff19b06e3efbe.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_2_2_0fd5ae706d72de2edbd1.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_3_3_d1659af3b42f0d044657.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_4_4_c54ce44b336ee14b37b8.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_5_5_27900af806b9c6441c27.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_6_6_476c9e66272e16b7ff58.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_7_7_7f590506f49ce98d20db.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_0_0_3e9a02de8e287b19a552.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_1_1_b7024beff19b06e3efbe.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_2_2_0fd5ae706d72de2edbd1.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_3_3_d1659af3b42f0d044657.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_4_4_c54ce44b336ee14b37b8.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_5_5_27900af806b9c6441c27.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_6_6_476c9e66272e16b7ff58.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260225_002953-2bcacdfd/files/media/videos/prediction_vis/video_7_7_7f590506f49ce98d20db.gif"
     ],
     "frames_dirs": [],
     "poses": []
@@ -38,32 +44,128 @@
     "samples": [
       {
         "id": 0,
-        "video": "runs/action_mismatch/generated/sample_0000/videos/video_0_0_c45d575516f9e64d63a8.gif",
+        "video": "runs/action_mismatch/generated/sample_0000/videos/video_0_0_a3270db37faf6562a3bc.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0000/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 1,
-        "video": "runs/action_mismatch/generated/sample_0001/videos/video_1_1_fd2a4234266f097e7bdb.gif",
+        "video": "runs/action_mismatch/generated/sample_0001/videos/video_1_1_05fd4dcc81f7e3a1e7cf.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0001/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 2,
-        "video": "runs/action_mismatch/generated/sample_0002/videos/video_2_2_f4bc012694d3b2ea5ddf.gif",
+        "video": "runs/action_mismatch/generated/sample_0002/videos/video_2_2_8a39048b9d929b694376.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0002/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 3,
-        "video": "runs/action_mismatch/generated/sample_0003/videos/video_3_3_29e59758f47b3713ddb2.gif",
+        "video": "runs/action_mismatch/generated/sample_0003/videos/video_3_3_740f54c41bddd70ed2c1.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0003/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 4,
-        "video": "runs/action_mismatch/generated/sample_0004/videos/video_4_4_4bab306a0089eff14108.gif",
+        "video": "runs/action_mismatch/generated/sample_0004/videos/video_4_4_38ee58c9bfc556695c2a.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0004/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 5,
+        "video": "runs/action_mismatch/generated/sample_0005/videos/video_0_0_3e9a02de8e287b19a552.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0005/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 6,
+        "video": "runs/action_mismatch/generated/sample_0006/videos/video_1_1_b7024beff19b06e3efbe.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0006/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 7,
+        "video": "runs/action_mismatch/generated/sample_0007/videos/video_2_2_0fd5ae706d72de2edbd1.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0007/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 8,
+        "video": "runs/action_mismatch/generated/sample_0008/videos/video_3_3_d1659af3b42f0d044657.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0008/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 9,
+        "video": "runs/action_mismatch/generated/sample_0009/videos/video_4_4_c54ce44b336ee14b37b8.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0009/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 10,
+        "video": "runs/action_mismatch/generated/sample_0010/videos/video_5_5_27900af806b9c6441c27.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0010/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 11,
+        "video": "runs/action_mismatch/generated/sample_0011/videos/video_6_6_476c9e66272e16b7ff58.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0011/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 12,
+        "video": "runs/action_mismatch/generated/sample_0012/videos/video_7_7_7f590506f49ce98d20db.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0012/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 13,
+        "video": "runs/action_mismatch/generated/sample_0013/videos/video_0_0_3e9a02de8e287b19a552.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0013/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 14,
+        "video": "runs/action_mismatch/generated/sample_0014/videos/video_1_1_b7024beff19b06e3efbe.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0014/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 15,
+        "video": "runs/action_mismatch/generated/sample_0015/videos/video_2_2_0fd5ae706d72de2edbd1.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0015/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 16,
+        "video": "runs/action_mismatch/generated/sample_0016/videos/video_3_3_d1659af3b42f0d044657.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0016/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 17,
+        "video": "runs/action_mismatch/generated/sample_0017/videos/video_4_4_c54ce44b336ee14b37b8.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0017/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 18,
+        "video": "runs/action_mismatch/generated/sample_0018/videos/video_5_5_27900af806b9c6441c27.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0018/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 19,
+        "video": "runs/action_mismatch/generated/sample_0019/videos/video_6_6_476c9e66272e16b7ff58.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0019/poses",
+        "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
+      },
+      {
+        "id": 20,
+        "video": "runs/action_mismatch/generated/sample_0020/videos/video_7_7_7f590506f49ce98d20db.gif",
+        "poses_dir": "runs/action_mismatch/generated/sample_0020/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       }
     ]

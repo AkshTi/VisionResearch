@@ -1,0 +1,170 @@
+=========================================
+Step 1: Generate Videos with DFoT
+Action-Video Mismatch Experiment
+=========================================
+
+Job ID: 9646980
+Node: node3207
+Start time: Wed Feb 25 00:29:11 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.14
+
+Checking GPU availability...
+Wed Feb 25 00:29:14 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:4A:00.0 Off |                    0 |
+| N/A   33C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting DFoT video generation...
+=========================================
+
+============================================================
+STEP 1: Generate videos with DFoT
+============================================================
+
+[Preflight]
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python -c import main; print('ok')
+[Warn] DFOT_CHECKPOINT looks like a file/path but does not exist: DFoT_RE10K.ckpt
+      If you intended pretrained name (e.g. DFoT_RE10K.ckpt), set it exactly like DFoT wiki uses.
+  Runner: diffusion-forcing-transformer/_step1_runner.py
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python _step1_runner.py +name=action_mismatch_step1 dataset=realestate10k_mini algorithm=dfot_video_pose experiment=video_generation @diffusion/continuous load=pretrained:DFoT_RE10K.ckpt algorithm.checkpoint.strict=false experiment.tasks=[validation] experiment.validation.data.shuffle=False dataset.context_length=1 dataset.frame_skip=20 dataset.n_frames=8 experiment.validation.batch_size=1 dataset.num_eval_videos=50 algorithm.tasks.prediction.history_guidance.name=vanilla +algorithm.tasks.prediction.history_guidance.guidance_scale=4.0 wandb.entity=akshatatiwari55 wandb.mode=offline dataset.subdataset_size=null experiment.reload_dataloaders_every_n_epochs=0 algorithm.backbone.channels=[128,256,576,1152] algorithm.backbone.num_updown_blocks=[3,3,6] algorithm.backbone.num_mid_blocks=20 algorithm.backbone.num_heads=9 ++algorithm.diffusion.training_schedule.name=cosine ++algorithm.diffusion.training_schedule.shift=0.125 ++algorithm.diffusion.loss_weighting.strategy=sigmoid ++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0 algorithm.diffusion.beta_schedule=cosine_simple_diffusion ++algorithm.diffusion.schedule_fn_kwargs.shifted=0.125 ++algorithm.diffusion.schedule_fn_kwargs.interpolated=false ++algorithm.logging.raw_dir=/orcd/home/002/akshatat/VisionResearch/runs/action_mismatch/generated/_raw_outputs
+
+[DFoT OK]
+stdout (tail):
+ oses saved: sample_0043 (7 future frames)
+[Step1Runner] GT poses saved: sample_0044 (7 future frames)
+[Step1Runner] GT poses saved: sample_0045 (7 future frames)
+[Step1Runner] GT poses saved: sample_0046 (7 future frames)
+[Step1Runner] GT poses saved: sample_0047 (7 future frames)
+[Step1Runner] GT poses saved: sample_0048 (7 future frames)
+[Step1Runner] GT poses saved: sample_0049 (7 future frames)
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│      prediction/fid       │          65.375           │
+│      prediction/fvd       │          474.75           │
+│       prediction/is       │        3.94140625         │
+│     prediction/lpips      │    0.42964982986450195    │
+│      prediction/mse       │    0.05019943416118622    │
+│      prediction/psnr      │    12.993010520935059     │
+│      prediction/ssim      │    0.42158764600753784    │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50/50 0:08:44 • 0:00:00 0.10it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/00-29-47/wandb/offline-run-20260225_002953-2bcacdfd/logs[0m
+
+
+[GT Poses] Saved 50 poses_gt_future.npy files
+
+[Discovered]
+{
+  "hydra_runs": 5,
+  "wandb_runs": 0,
+  "videos": 0,
+  "gifs": 21,
+  "frames_dirs": 0,
+  "poses": 0
+}
+
+[Frame Extraction] Extracting predicted frames from NPZ...
+  sample_0000: extracted 7 frames → gen_frames/
+  sample_0001: extracted 7 frames → gen_frames/
+  sample_0002: extracted 7 frames → gen_frames/
+  sample_0003: extracted 7 frames → gen_frames/
+  sample_0004: extracted 7 frames → gen_frames/
+  sample_0005: extracted 7 frames → gen_frames/
+  sample_0006: extracted 7 frames → gen_frames/
+  sample_0007: extracted 7 frames → gen_frames/
+  [WARN] Could not remove runs/action_mismatch/generated/_raw_outputs: [Errno 39] Directory not empty: '7' (non-fatal, continuing)
+[Frame Extraction] Done (8/50 samples)
+
+[Done] Wrote manifest: runs/action_mismatch/generated/manifest.json
+[Done] Staged samples under: runs/action_mismatch/generated
+
+=========================================
+Step 1 Complete
+=========================================
+Exit code: 0
+End time: Wed Feb 25 00:38:52 EST 2026
+
+Generated outputs:
+total 204K
+-rw-rw-r-- 1 akshatat akshatat  11K Feb 25 00:38 manifest.json
+drwxrwxr-x 3 akshatat akshatat 4.0K Feb 25 00:38 _raw_outputs
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 24 23:04 sample_0000
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 24 23:04 sample_0001
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 24 23:04 sample_0002
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 24 23:04 sample_0003
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 24 23:04 sample_0004
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 25 00:38 sample_0005
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 25 00:38 sample_0006
+drwxrwxr-x 5 akshatat akshatat 4.0K Feb 25 00:38 sample_0007
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0008
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0009
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0010
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0011
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0012
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0013
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0014
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0015
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0016
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0017
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0018
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0019
+drwxrwxr-x 4 akshatat akshatat 4.0K Feb 25 00:38 sample_0020
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:33 sample_0021
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:33 sample_0022
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:34 sample_0023
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:34 sample_0024
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:34 sample_0025
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:34 sample_0026
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:34 sample_0027
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:34 sample_0028
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:35 sample_0029
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:35 sample_0030
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:35 sample_0031
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:35 sample_0032
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:35 sample_0033
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:36 sample_0034
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:36 sample_0035
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:36 sample_0036
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:36 sample_0037
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:36 sample_0038
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:36 sample_0039
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:37 sample_0040
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:37 sample_0041
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:37 sample_0042
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:37 sample_0043
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:37 sample_0044
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:37 sample_0045
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:38 sample_0046
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:38 sample_0047
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:38 sample_0048
+drwxrwxr-x 2 akshatat akshatat 4.0K Feb 25 00:38 sample_0049
