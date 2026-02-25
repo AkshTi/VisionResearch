@@ -410,7 +410,7 @@ def main() -> None:
         "++algorithm.diffusion.training_schedule.shift=0.125",
         "++algorithm.diffusion.loss_weighting.strategy=sigmoid",
         "++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0",
-        f"++algorithm.logging.raw_dir={str(output_dir / '_raw_outputs')}",
+        f"++algorithm.logging.raw_dir={str((output_dir / '_raw_outputs').resolve())}",
     ]
 
     # Run DFoT via runner
