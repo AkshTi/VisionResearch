@@ -1,0 +1,158 @@
+=========================================
+Step 6: Phase 2 Evaluation
+Action-Video Mismatch Experiment - Phase 2
+=========================================
+
+Job ID: 9645266
+Node: node3402
+Start time: Tue Feb 24 23:29:06 EST 2026
+GPU: 0
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.14
+
+Checking GPU availability...
+Tue Feb 24 23:29:11 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:4A:00.0 Off |                    0 |
+| N/A   28C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+=========================================
+Starting Phase 2 evaluation...
+=========================================
+
+============================================================
+STEP 6: Evaluate Phase 2 — Impact of Pose Corruption
+============================================================
+Loading VGGT model...
+VGGT loaded successfully.
+  Pose oracle: VGGT
+
+--- Scale = 0.0 (clean baseline) ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=0.0:  LPIPS=0.3847  pose_err=0.85 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=0.0:  LPIPS=0.3405  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=0.0:  LPIPS=0.3267  pose_err=1.04 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=0.0:  LPIPS=0.2914  pose_err=0.61 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=0.0:  LPIPS=0.3749  pose_err=1.35 deg
+
+--- Scale = 10.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=10.0:  LPIPS=0.4200  pose_err=4.56 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=10.0:  LPIPS=0.3985  pose_err=3.18 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=10.0:  LPIPS=0.3754  pose_err=4.51 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=10.0:  LPIPS=0.3565  pose_err=3.55 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=10.0:  LPIPS=0.4365  pose_err=3.47 deg
+
+--- Scale = 50.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=50.0:  LPIPS=0.6003  pose_err=21.60 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=50.0:  LPIPS=0.6453  pose_err=20.13 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=50.0:  LPIPS=0.5958  pose_err=14.22 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=50.0:  LPIPS=0.5874  pose_err=20.90 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=50.0:  LPIPS=0.5220  pose_err=22.25 deg
+
+--- Scale = 100.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=100.0:  LPIPS=0.6965  pose_err=30.95 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=100.0:  LPIPS=0.6758  pose_err=31.14 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=100.0:  LPIPS=0.6761  pose_err=46.78 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=100.0:  LPIPS=0.5811  pose_err=68.82 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=100.0:  LPIPS=0.5939  pose_err=34.46 deg
+
+  Saved: runs/action_mismatch/phase2/phase2_evaluation.csv
+
+============================================================
+PHASE 2 EVALUATION SUMMARY
+============================================================
+                   lpips         final_pose_error_deg         
+                    mean     std                 mean      std
+corruption_scale                                              
+0.0               0.3437  0.0377               0.7710   0.5078
+10.0              0.3974  0.0324               3.8539   0.6394
+50.0              0.5902  0.0442              19.8185   3.2306
+100.0             0.6447  0.0531              42.4295  16.1097
+  Plot saved: runs/action_mismatch/phase2/phase2_evaluation.png
+
+  Phase 2 evaluation complete!
+
+=========================================
+Step 6 Complete - PHASE 2 DONE!
+=========================================
+Exit code: 0
+End time: Tue Feb 24 23:29:40 EST 2026
+
+Evaluation results:
+sample_id,corruption_scale,lpips,final_pose_error_deg
+sample_0000,0.0,0.3846542239189148,0.8527767420969877
+sample_0001,0.0,0.3405311235359737,0.0
+sample_0002,0.0,0.32673145830631256,1.0377868315207328
+sample_0003,0.0,0.2914489337376186,0.6148747314922614
+sample_0004,0.0,0.374930420092174,1.34948822688466
+sample_0000,10.0,0.420047972883497,4.563074738439911
+sample_0001,10.0,0.39845367840358187,3.1805568176135193
+sample_0002,10.0,0.3753605229513986,4.512879480013152
+sample_0003,10.0,0.35645174980163574,3.547664002422915
+sample_0004,10.0,0.43650226507868084,3.4654581437822065
+sample_0000,50.0,0.6002947602953229,21.603119313195396
+sample_0001,50.0,0.6453070896012443,20.125310752235908
+sample_0002,50.0,0.5958344170025417,14.216326301098674
+sample_0003,50.0,0.5873969495296478,20.895134727579766
+sample_0004,50.0,0.5219838832105909,22.252547567241955
+sample_0000,100.0,0.696465185710362,30.948129314258843
+sample_0001,100.0,0.6758360947881427,31.141983258177177
+sample_0002,100.0,0.6760625456060682,46.77850197430192
+sample_0003,100.0,0.581104793718883,68.8192741243737
+sample_0004,100.0,0.5938751527241298,34.45946601669926
