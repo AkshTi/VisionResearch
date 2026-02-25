@@ -464,8 +464,16 @@ def main() -> None:
             from PIL import Image
             frames_dir.mkdir(exist_ok=True)
             data = np.load(npz_path)
+            if "gen" not in data:
+                print(f"  {sample_dir.name}: NPZ missing 'gen' key (keys: {list(data.keys())})")
+                continue
             gen = data["gen"]  # (T, C, H, W)
-            
+
+            # Validate frames aren't all black
+            for t in range(gen.shape[0]):
+                if gen[t].mean() < 1.0:
+                    print(f"  WARNING: {sample_dir.name} frame {t} is black (mean={gen[t].mean():.2f})")
+
             frame_idx = 0
             for t in range(K_HISTORY, gen.shape[0]):
                 gen_frame = np.transpose(gen[t], (1, 2, 0))  # (H, W, C)

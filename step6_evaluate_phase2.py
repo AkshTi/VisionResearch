@@ -36,7 +36,14 @@ def load_frames(frames_dir: Path):
     frame_paths = sorted(frames_dir.glob("*.png"))
     if not frame_paths:
         return []
-    return [np.array(Image.open(p).convert("RGB")) for p in frame_paths]
+    frames = []
+    for p in frame_paths:
+        arr = np.array(Image.open(p).convert("RGB"))
+        if arr.mean() < 1.0:
+            print(f"  WARNING: {p.name} is black (mean={arr.mean():.2f}) — "
+                  "this will corrupt evaluation metrics")
+        frames.append(arr)
+    return frames
 
 
 def compute_lpips_scores(frames_a, frames_b, device="cuda"):

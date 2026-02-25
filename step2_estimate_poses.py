@@ -64,7 +64,17 @@ def main():
         
         # Load frames as numpy array
         frames = np.array([np.array(Image.open(p).convert("RGB")) for p in frame_paths])
-        
+
+        # Validate frames aren't black (mean pixel value near zero)
+        frame_means = frames.mean(axis=(1, 2, 3))  # per-frame mean
+        black_mask = frame_means < 1.0  # effectively all-black
+        if black_mask.any():
+            n_black = black_mask.sum()
+            print(f"  WARNING: {sample_id} has {n_black}/{len(frames)} black frames "
+                  f"(indices: {np.where(black_mask)[0].tolist()}). "
+                  f"Skipping — black frames corrupt pose estimation.")
+            continue
+
         # Estimate poses
         try:
             poses_est = oracle.estimate_poses_from_frames(frames)

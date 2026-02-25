@@ -138,7 +138,16 @@ class VGGTOracle:
         Returns:
             extrinsics: (T, 4, 4) camera-from-world extrinsic matrices
         """
-        frames = [Image.open(p).convert("RGB") for p in sorted(frame_paths)]
+        frames = []
+        for p in sorted(frame_paths):
+            img = Image.open(p).convert("RGB")
+            arr = np.array(img)
+            if arr.mean() < 1.0:
+                raise RuntimeError(
+                    f"Frame {p} is black (mean={arr.mean():.2f}). "
+                    "Black frames produce invalid pose estimates."
+                )
+            frames.append(img)
         return self.estimate_poses_from_frames(frames)
     
     def estimate_poses_from_directory(
@@ -256,6 +265,12 @@ class OpenCVPoseEstimator:
         kp2, des2 = self.detector.detectAndCompute(gray2, None)
         
         if des1 is None or des2 is None or len(kp1) < 8 or len(kp2) < 8:
+            import warnings
+            warnings.warn(
+                "Too few features detected (<8) — returning identity pose. "
+                "This may indicate black or featureless frames.",
+                RuntimeWarning,
+            )
             return np.eye(3), np.zeros((3, 1))
         
         # Match features
@@ -270,6 +285,12 @@ class OpenCVPoseEstimator:
                     good.append(m)
         
         if len(good) < 8:
+            import warnings
+            warnings.warn(
+                f"Too few good matches ({len(good)}<8) — returning identity pose. "
+                "This may indicate black or featureless frames.",
+                RuntimeWarning,
+            )
             return np.eye(3), np.zeros((3, 1))
         
         pts1 = np.float32([kp1[m.queryIdx].pt for m in good])
@@ -278,6 +299,12 @@ class OpenCVPoseEstimator:
         E, mask = cv2.findEssentialMat(pts1, pts2, K, method=cv2.RANSAC, threshold=1.0)
         
         if E is None:
+            import warnings
+            warnings.warn(
+                "Essential matrix estimation failed — returning identity pose. "
+                "This may indicate black or featureless frames.",
+                RuntimeWarning,
+            )
             return np.eye(3), np.zeros((3, 1))
         
         _, R, t, _ = cv2.recoverPose(E, pts1, pts2, K)

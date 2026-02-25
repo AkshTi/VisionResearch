@@ -384,8 +384,16 @@ def extract_frames_from_npz(raw_dir: Path, sample_idx: int, k_history: int = 4):
         return [], []
 
     data = np.load(npz_path)
+    if "gen" not in data or "gt" not in data:
+        print(f"    WARNING: NPZ missing expected keys (has: {list(data.keys())})")
+        return [], []
     gen = data["gen"]  # (T, C, H, W)
     gt = data["gt"]    # (T, C, H, W)
+
+    # Warn about black frames
+    for t in range(gen.shape[0]):
+        if gen[t].mean() < 1.0:
+            print(f"    WARNING: sample {sample_idx} gen frame {t} is black (mean={gen[t].mean():.2f})")
 
     gen_future = []
     gt_future = []
