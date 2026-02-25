@@ -1,35 +1,37 @@
 {
   "n_samples": 5,
-  "k_history": 4,
-  "t_future": 8,
+  "k_history": 1,
+  "t_future": 7,
   "frame_skip": 20,
   "dfot_checkpoint": "DFoT_RE10K.ckpt",
   "discovered": {
     "hydra_runs": [
       "diffusion-forcing-transformer/outputs/latest-run",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-19-03",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36",
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-59-36",
-      "diffusion-forcing-transformer/outputs/2026-02-24/10-53-36"
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-40-18",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-39-03",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-37-47"
     ],
     "wandb_runs": [],
     "videos": [],
     "gifs": [
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-10-36/wandb/offline-run-20260224_111041-akwmxo1y/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-19-03/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-19-03/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-19-03/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-19-03/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
-      "diffusion-forcing-transformer/outputs/2026-02-24/11-19-03/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_0_0_d88444ef016dbbda4e8d.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_1_1_7b3d9fd06dda92c4f097.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_2_2_6c47d70d22270b8ffa8b.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_3_3_ee725723a7be2076b017.gif",
-      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_111907-rm48grsp/files/media/videos/prediction_vis/video_4_4_8cdb8bbcddba96d573bf.gif"
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-40-18/wandb/offline-run-20260224_194022-qeis1bo7/files/media/videos/prediction_vis/video_0_0_f6f7b0f5e6e21d250a5d.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-40-18/wandb/offline-run-20260224_194022-qeis1bo7/files/media/videos/prediction_vis/video_1_1_35933c1ce132ec2dbd90.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-40-18/wandb/offline-run-20260224_194022-qeis1bo7/files/media/videos/prediction_vis/video_2_2_9698193aeb3f186978ff.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-40-18/wandb/offline-run-20260224_194022-qeis1bo7/files/media/videos/prediction_vis/video_3_3_8c6822937e7e228dd7f7.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-40-18/wandb/offline-run-20260224_194022-qeis1bo7/files/media/videos/prediction_vis/video_4_4_ced7313630bdd4df51ee.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_0_0_c45d575516f9e64d63a8.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_1_1_fd2a4234266f097e7bdb.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_2_2_f4bc012694d3b2ea5ddf.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_3_3_29e59758f47b3713ddb2.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_4_4_4bab306a0089eff14108.gif",
+      "diffusion-forcing-transformer/outputs/2026-02-24/19-51-40/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_5_5_c45d575516f9e64d63a8.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_0_0_c45d575516f9e64d63a8.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_1_1_fd2a4234266f097e7bdb.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_2_2_f4bc012694d3b2ea5ddf.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_3_3_29e59758f47b3713ddb2.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_4_4_4bab306a0089eff14108.gif",
+      "diffusion-forcing-transformer/outputs/latest-run/wandb/offline-run-20260224_195158-az9ahrba/files/media/videos/prediction_vis/video_5_5_c45d575516f9e64d63a8.gif"
     ],
     "frames_dirs": [],
     "poses": []
@@ -38,31 +40,31 @@
     "samples": [
       {
         "id": 0,
-        "video": "runs/action_mismatch/generated/sample_0000/videos/video_0_0_d88444ef016dbbda4e8d.gif",
+        "video": "runs/action_mismatch/generated/sample_0000/videos/video_0_0_f6f7b0f5e6e21d250a5d.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0000/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 1,
-        "video": "runs/action_mismatch/generated/sample_0001/videos/video_1_1_7b3d9fd06dda92c4f097.gif",
+        "video": "runs/action_mismatch/generated/sample_0001/videos/video_1_1_35933c1ce132ec2dbd90.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0001/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 2,
-        "video": "runs/action_mismatch/generated/sample_0002/videos/video_2_2_6c47d70d22270b8ffa8b.gif",
+        "video": "runs/action_mismatch/generated/sample_0002/videos/video_2_2_9698193aeb3f186978ff.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0002/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 3,
-        "video": "runs/action_mismatch/generated/sample_0003/videos/video_3_3_ee725723a7be2076b017.gif",
+        "video": "runs/action_mismatch/generated/sample_0003/videos/video_3_3_8c6822937e7e228dd7f7.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0003/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       },
       {
         "id": 4,
-        "video": "runs/action_mismatch/generated/sample_0004/videos/video_4_4_8cdb8bbcddba96d573bf.gif",
+        "video": "runs/action_mismatch/generated/sample_0004/videos/video_4_4_ced7313630bdd4df51ee.gif",
         "poses_dir": "runs/action_mismatch/generated/sample_0004/poses",
         "note": "Pose association is heuristic; adjust once you inspect DFoT filenames."
       }
