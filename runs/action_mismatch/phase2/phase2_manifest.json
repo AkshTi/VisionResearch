@@ -1,8 +1,8 @@
 {
   "drift_statistics": {
-    "p10": 0.0,
-    "p50": 0.6270811487208422,
-    "p90": 1.3982255643098003
+    "p10": 0.4467677644424754,
+    "p50": 6.465500019333113,
+    "p90": 58.609943275256285
   },
   "corruption_scales": [
     10.0,
@@ -14,152 +14,152 @@
     {
       "sample_id": "sample_0000",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270729064941406
+      "corruption_final_deg": 64.65499877929688
     },
     {
       "sample_id": "sample_0000",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354045867919922
+      "corruption_final_deg": 36.72499465942383
     },
     {
       "sample_id": "sample_0000",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.708106994628906
+      "corruption_final_deg": 73.44998931884766
     },
     {
       "sample_id": "sample_0001",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.2708539962768555
+      "corruption_final_deg": 64.65499877929688
     },
     {
       "sample_id": "sample_0001",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354061126708984
+      "corruption_final_deg": 36.72499465942383
     },
     {
       "sample_id": "sample_0001",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44998931884766
     },
     {
       "sample_id": "sample_0002",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270791530609131
+      "corruption_final_deg": 64.65499877929688
     },
     {
       "sample_id": "sample_0002",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354061126708984
+      "corruption_final_deg": 36.72500228881836
     },
     {
       "sample_id": "sample_0002",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44998931884766
     },
     {
       "sample_id": "sample_0003",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.2708539962768555
+      "corruption_final_deg": 64.65499114990234
     },
     {
       "sample_id": "sample_0003",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354045867919922
+      "corruption_final_deg": 36.72500228881836
     },
     {
       "sample_id": "sample_0003",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44998931884766
     },
     {
       "sample_id": "sample_0004",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270729064941406
+      "corruption_final_deg": 64.65499877929688
     },
     {
       "sample_id": "sample_0004",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354061126708984
+      "corruption_final_deg": 36.72499465942383
     },
     {
       "sample_id": "sample_0004",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44999694824219
     },
     {
       "sample_id": "sample_0005",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270729064941406
+      "corruption_final_deg": 64.65499114990234
     },
     {
       "sample_id": "sample_0005",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354045867919922
+      "corruption_final_deg": 36.72499465942383
     },
     {
       "sample_id": "sample_0005",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44998931884766
     },
     {
       "sample_id": "sample_0006",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270791530609131
+      "corruption_final_deg": 64.65499877929688
     },
     {
       "sample_id": "sample_0006",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354045867919922
+      "corruption_final_deg": 36.72499465942383
     },
     {
       "sample_id": "sample_0006",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44999694824219
     },
     {
       "sample_id": "sample_0007",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270729064941406
+      "corruption_final_deg": 64.65499114990234
     },
     {
       "sample_id": "sample_0007",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354045867919922
+      "corruption_final_deg": 36.72499465942383
     },
     {
       "sample_id": "sample_0007",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44998931884766
     },
     {
       "sample_id": "sample_0008",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270791530609131
+      "corruption_final_deg": 64.65499877929688
     },
     {
       "sample_id": "sample_0008",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354061126708984
+      "corruption_final_deg": 36.72500228881836
     },
     {
       "sample_id": "sample_0008",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70812225341797
+      "corruption_final_deg": 73.44999694824219
     },
     {
       "sample_id": "sample_0009",
       "corruption_scale": 10.0,
-      "corruption_final_deg": 6.270791530609131
+      "corruption_final_deg": 64.65499877929688
     },
     {
       "sample_id": "sample_0009",
       "corruption_scale": 50.0,
-      "corruption_final_deg": 31.354045867919922
+      "corruption_final_deg": 36.72500228881836
     },
     {
       "sample_id": "sample_0009",
       "corruption_scale": 100.0,
-      "corruption_final_deg": 62.70811462402344
+      "corruption_final_deg": 73.44999694824219
     }
   ],
   "regeneration_complete": true,

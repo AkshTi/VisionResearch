@@ -1,0 +1,1509 @@
+=========================================
+Action-Video Mismatch Experiment
+FULL PIPELINE (Steps 1-6)
+=========================================
+
+Job ID: 9679763
+Node: node3202
+Start time: Wed Feb 25 22:16:26 EST 2026
+GPU: 0,1
+
+Python: /home/akshatat/.conda/envs/mech_interp_gpu/bin/python
+Python version: Python 3.10.14
+
+GPU availability:
+Wed Feb 25 22:16:30 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 590.48.01              Driver Version: 590.48.01      CUDA Version: 13.1     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA L40S                    On  |   00000000:CA:00.0 Off |                    0 |
+| N/A   32C    P8             33W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  NVIDIA L40S                    On  |   00000000:E1:00.0 Off |                    0 |
+| N/A   29C    P8             32W /  350W |       0MiB /  46068MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+
+=========================================
+STEP 1: Generating videos with DFoT...
+=========================================
+Start: Wed Feb 25 22:16:30 EST 2026
+
+============================================================
+STEP 1: Generate videos with DFoT
+============================================================
+
+[Preflight]
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python -c import main; print('ok')
+[Warn] DFOT_CHECKPOINT looks like a file/path but does not exist: DFoT_RE10K.ckpt
+      If you intended pretrained name (e.g. DFoT_RE10K.ckpt), set it exactly like DFoT wiki uses.
+  Runner: diffusion-forcing-transformer/_step1_runner.py
+
+[RUN]
+  cwd: diffusion-forcing-transformer
+  cmd: python _step1_runner.py +name=action_mismatch_step1 dataset=realestate10k_mini algorithm=dfot_video_pose experiment=video_generation @diffusion/continuous load=pretrained:DFoT_RE10K.ckpt algorithm.checkpoint.strict=false experiment.tasks=[validation] experiment.validation.data.shuffle=False dataset.context_length=1 dataset.frame_skip=20 dataset.n_frames=8 experiment.validation.batch_size=1 dataset.num_eval_videos=50 algorithm.logging.max_num_videos=50 algorithm.tasks.prediction.history_guidance.name=vanilla +algorithm.tasks.prediction.history_guidance.guidance_scale=4.0 wandb.entity=akshatatiwari55 wandb.mode=offline dataset.subdataset_size=null experiment.reload_dataloaders_every_n_epochs=0 algorithm.backbone.channels=[128,256,576,1152] algorithm.backbone.num_updown_blocks=[3,3,6] algorithm.backbone.num_mid_blocks=20 algorithm.backbone.num_heads=9 ++algorithm.diffusion.training_schedule.name=cosine ++algorithm.diffusion.training_schedule.shift=0.125 ++algorithm.diffusion.loss_weighting.strategy=sigmoid ++algorithm.diffusion.loss_weighting.sigmoid_bias=-1.0 algorithm.diffusion.beta_schedule=cosine_simple_diffusion ++algorithm.diffusion.schedule_fn_kwargs.shifted=0.125 ++algorithm.diffusion.schedule_fn_kwargs.interpolated=false ++algorithm.logging.raw_dir=/orcd/home/002/akshatat/VisionResearch/runs/action_mismatch/generated/_raw_outputs
+
+[DFoT OK]
+stdout (tail):
+ oses saved: sample_0018 (7 future frames)
+[Step1Runner] GT poses saved: sample_0019 (7 future frames)
+[Step1Runner] GT poses saved: sample_0020 (7 future frames)
+[Step1Runner] GT poses saved: sample_0021 (7 future frames)
+[Step1Runner] GT poses saved: sample_0022 (7 future frames)
+[Step1Runner] GT poses saved: sample_0023 (7 future frames)
+[Step1Runner] GT poses saved: sample_0024 (7 future frames)
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric      ┃       DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│      prediction/fid       │          64.6875          │
+│      prediction/fvd       │          461.75           │
+│       prediction/is       │        3.990234375        │
+│     prediction/lpips      │    0.43136438727378845    │
+│      prediction/mse       │    0.04992290586233139    │
+│      prediction/psnr      │    13.017001152038574     │
+│      prediction/ssim      │    0.4204184412956238     │
+└───────────────────────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25/25 0:05:04 • 0:00:00 0.08it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-17-10/wandb/offline-run-20260225_221730-razpntcb[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/22-17-10/wandb/offline-run-20260225_221730-razpntcb/logs[0m
+
+
+[GT Poses] Saved 50 poses_gt_future.npy files
+
+[Discovered]
+{
+  "hydra_runs": 5,
+  "wandb_runs": 0,
+  "videos": 0,
+  "gifs": 108,
+  "frames_dirs": 0,
+  "poses": 0
+}
+
+[Frame Extraction] Extracting predicted frames from NPZ...
+  sample_0000: extracted 7 frames → gen_frames/
+  sample_0001: extracted 7 frames → gen_frames/
+  sample_0002: extracted 7 frames → gen_frames/
+  sample_0003: extracted 7 frames → gen_frames/
+  sample_0004: extracted 7 frames → gen_frames/
+  sample_0005: extracted 7 frames → gen_frames/
+  sample_0006: extracted 7 frames → gen_frames/
+  sample_0007: extracted 7 frames → gen_frames/
+  sample_0008: extracted 7 frames → gen_frames/
+  sample_0009: extracted 7 frames → gen_frames/
+  sample_0010: extracted 7 frames → gen_frames/
+  sample_0011: extracted 7 frames → gen_frames/
+  sample_0012: extracted 7 frames → gen_frames/
+  sample_0013: extracted 7 frames → gen_frames/
+  sample_0014: extracted 7 frames → gen_frames/
+  sample_0015: extracted 7 frames → gen_frames/
+  sample_0016: extracted 7 frames → gen_frames/
+  sample_0017: extracted 7 frames → gen_frames/
+  sample_0018: extracted 7 frames → gen_frames/
+  sample_0019: extracted 7 frames → gen_frames/
+  sample_0020: extracted 7 frames → gen_frames/
+  sample_0021: extracted 7 frames → gen_frames/
+  sample_0022: extracted 7 frames → gen_frames/
+  sample_0023: extracted 7 frames → gen_frames/
+  sample_0024: extracted 7 frames → gen_frames/
+  sample_0025: extracted 7 frames → gen_frames/
+  sample_0026: extracted 7 frames → gen_frames/
+  sample_0027: extracted 7 frames → gen_frames/
+  sample_0028: extracted 7 frames → gen_frames/
+  sample_0029: extracted 7 frames → gen_frames/
+  sample_0030: extracted 7 frames → gen_frames/
+  sample_0031: extracted 7 frames → gen_frames/
+  sample_0032: extracted 7 frames → gen_frames/
+  sample_0033: extracted 7 frames → gen_frames/
+  sample_0034: extracted 7 frames → gen_frames/
+  sample_0035: extracted 7 frames → gen_frames/
+  sample_0036: extracted 7 frames → gen_frames/
+  sample_0037: extracted 7 frames → gen_frames/
+  sample_0038: extracted 7 frames → gen_frames/
+  sample_0039: extracted 7 frames → gen_frames/
+  sample_0040: extracted 7 frames → gen_frames/
+  sample_0041: extracted 7 frames → gen_frames/
+  sample_0042: extracted 7 frames → gen_frames/
+  sample_0043: extracted 7 frames → gen_frames/
+  sample_0044: extracted 7 frames → gen_frames/
+  sample_0045: extracted 7 frames → gen_frames/
+  sample_0046: extracted 7 frames → gen_frames/
+  sample_0047: extracted 7 frames → gen_frames/
+  sample_0048: extracted 7 frames → gen_frames/
+  sample_0049: extracted 7 frames → gen_frames/
+  [WARN] Could not remove runs/action_mismatch/generated/_raw_outputs: [Errno 39] Directory not empty: '49' (non-fatal, continuing)
+[Frame Extraction] Done (50/50 samples)
+
+[Done] Wrote manifest: runs/action_mismatch/generated/manifest.json
+[Done] Staged samples under: runs/action_mismatch/generated
+✓ Step 1 complete: Wed Feb 25 22:23:01 EST 2026
+
+=========================================
+STEP 2: Estimating poses with VGGT...
+=========================================
+Start: Wed Feb 25 22:23:01 EST 2026
+
+============================================================
+STEP 2: Estimate poses from generated videos (VGGT oracle)
+============================================================
+  Found 50 samples
+Loading VGGT model...
+VGGT loaded successfully.
+  Using VGGT oracle (recommended)
+  Processing sample_0000 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0000/poses_est_from_gen.npy
+  Processing sample_0001 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0001/poses_est_from_gen.npy
+  Processing sample_0002 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0002/poses_est_from_gen.npy
+  Processing sample_0003 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0003/poses_est_from_gen.npy
+  Processing sample_0004 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0004/poses_est_from_gen.npy
+  Processing sample_0005 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0005/poses_est_from_gen.npy
+  Processing sample_0006 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0006/poses_est_from_gen.npy
+  Processing sample_0007 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0007/poses_est_from_gen.npy
+  Processing sample_0008 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0008/poses_est_from_gen.npy
+  Processing sample_0009 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0009/poses_est_from_gen.npy
+  Processing sample_0010 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0010/poses_est_from_gen.npy
+  Processing sample_0011 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0011/poses_est_from_gen.npy
+  Processing sample_0012 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0012/poses_est_from_gen.npy
+  Processing sample_0013 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0013/poses_est_from_gen.npy
+  Processing sample_0014 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0014/poses_est_from_gen.npy
+  Processing sample_0015 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0015/poses_est_from_gen.npy
+  Processing sample_0016 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0016/poses_est_from_gen.npy
+  Processing sample_0017 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0017/poses_est_from_gen.npy
+  Processing sample_0018 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0018/poses_est_from_gen.npy
+  Processing sample_0019 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0019/poses_est_from_gen.npy
+  Processing sample_0020 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0020/poses_est_from_gen.npy
+  Processing sample_0021 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0021/poses_est_from_gen.npy
+  Processing sample_0022 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0022/poses_est_from_gen.npy
+  Processing sample_0023 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0023/poses_est_from_gen.npy
+  Processing sample_0024 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0024/poses_est_from_gen.npy
+  Processing sample_0025 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0025/poses_est_from_gen.npy
+  Processing sample_0026 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0026/poses_est_from_gen.npy
+  Processing sample_0027 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0027/poses_est_from_gen.npy
+  Processing sample_0028 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0028/poses_est_from_gen.npy
+  Processing sample_0029 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0029/poses_est_from_gen.npy
+  Processing sample_0030 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0030/poses_est_from_gen.npy
+  Processing sample_0031 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0031/poses_est_from_gen.npy
+  Processing sample_0032 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0032/poses_est_from_gen.npy
+  Processing sample_0033 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0033/poses_est_from_gen.npy
+  Processing sample_0034 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0034/poses_est_from_gen.npy
+  Processing sample_0035 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0035/poses_est_from_gen.npy
+  Processing sample_0036 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0036/poses_est_from_gen.npy
+  Processing sample_0037 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0037/poses_est_from_gen.npy
+  Processing sample_0038 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0038/poses_est_from_gen.npy
+  Processing sample_0039 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0039/poses_est_from_gen.npy
+  Processing sample_0040 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0040/poses_est_from_gen.npy
+  Processing sample_0041 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0041/poses_est_from_gen.npy
+  Processing sample_0042 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0042/poses_est_from_gen.npy
+  Processing sample_0043 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0043/poses_est_from_gen.npy
+  Processing sample_0044 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0044/poses_est_from_gen.npy
+  Processing sample_0045 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0045/poses_est_from_gen.npy
+  Processing sample_0046 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0046/poses_est_from_gen.npy
+  Processing sample_0047 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0047/poses_est_from_gen.npy
+  Processing sample_0048 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0048/poses_est_from_gen.npy
+  Processing sample_0049 (7 frames)...
+  Saved: runs/action_mismatch/generated/sample_0049/poses_est_from_gen.npy
+
+  Done! Estimated poses saved for all samples.
+  Next: run step3_compute_mismatch.py
+✓ Step 2 complete: Wed Feb 25 22:23:37 EST 2026
+
+=========================================
+STEP 3: Computing pose mismatch...
+=========================================
+Start: Wed Feb 25 22:23:37 EST 2026
+
+============================================================
+STEP 3: Compute pose mismatch
+============================================================
+  sample_0000: 7 frames
+    Relative rot error: mean=0.26°, max=0.58°
+    Cumulative drift at final frame: 0.48°
+  sample_0001: 7 frames
+    Relative rot error: mean=9.77°, max=13.46°
+    Cumulative drift at final frame: 58.60°
+  sample_0002: 7 frames
+    Relative rot error: mean=9.63°, max=11.66°
+    Cumulative drift at final frame: 57.54°
+  sample_0003: 7 frames
+    Relative rot error: mean=3.63°, max=6.33°
+    Cumulative drift at final frame: 19.25°
+  sample_0004: 7 frames
+    Relative rot error: mean=8.28°, max=17.59°
+    Cumulative drift at final frame: 42.08°
+  sample_0005: 7 frames
+    Relative rot error: mean=2.54°, max=5.52°
+    Cumulative drift at final frame: 13.74°
+  sample_0006: 7 frames
+    Relative rot error: mean=1.05°, max=1.84°
+    Cumulative drift at final frame: 5.81°
+  sample_0007: 7 frames
+    Relative rot error: mean=5.50°, max=7.41°
+    Cumulative drift at final frame: 32.93°
+  sample_0008: 7 frames
+    Relative rot error: mean=7.73°, max=10.99°
+    Cumulative drift at final frame: 20.38°
+  sample_0009: 7 frames
+    Relative rot error: mean=1.43°, max=3.21°
+    Cumulative drift at final frame: 7.12°
+  sample_0010: 7 frames
+    Relative rot error: mean=3.54°, max=6.93°
+    Cumulative drift at final frame: 11.81°
+  sample_0011: 7 frames
+    Relative rot error: mean=6.06°, max=8.08°
+    Cumulative drift at final frame: 35.82°
+  sample_0012: 7 frames
+    Relative rot error: mean=10.95°, max=12.96°
+    Cumulative drift at final frame: 65.72°
+  sample_0013: 7 frames
+    Relative rot error: mean=9.44°, max=17.10°
+    Cumulative drift at final frame: 55.59°
+  sample_0014: 7 frames
+    Relative rot error: mean=6.98°, max=13.08°
+    Cumulative drift at final frame: 41.80°
+  sample_0015: 7 frames
+    Relative rot error: mean=15.30°, max=17.00°
+    Cumulative drift at final frame: 91.58°
+  sample_0016: 7 frames
+    Relative rot error: mean=10.17°, max=13.62°
+    Cumulative drift at final frame: 60.61°
+  sample_0017: 7 frames
+    Relative rot error: mean=1.84°, max=3.79°
+    Cumulative drift at final frame: 10.08°
+  sample_0018: 7 frames
+    Relative rot error: mean=9.79°, max=14.59°
+    Cumulative drift at final frame: 58.70°
+  sample_0019: 7 frames
+    Relative rot error: mean=6.27°, max=13.75°
+    Cumulative drift at final frame: 37.28°
+  sample_0020: 7 frames
+    Relative rot error: mean=16.27°, max=31.81°
+    Cumulative drift at final frame: 95.56°
+  sample_0021: 7 frames
+    Relative rot error: mean=4.39°, max=6.14°
+    Cumulative drift at final frame: 19.68°
+  sample_0022: 7 frames
+    Relative rot error: mean=2.81°, max=5.76°
+    Cumulative drift at final frame: 16.31°
+  sample_0023: 7 frames
+    Relative rot error: mean=5.68°, max=12.11°
+    Cumulative drift at final frame: 33.86°
+  sample_0024: 7 frames
+    Relative rot error: mean=2.81°, max=4.61°
+    Cumulative drift at final frame: 7.62°
+  sample_0025: 7 frames
+    Relative rot error: mean=0.12°, max=0.18°
+    Cumulative drift at final frame: 0.37°
+  sample_0026: 7 frames
+    Relative rot error: mean=0.16°, max=0.48°
+    Cumulative drift at final frame: 0.75°
+  sample_0027: 7 frames
+    Relative rot error: mean=0.15°, max=0.19°
+    Cumulative drift at final frame: 0.75°
+  sample_0028: 7 frames
+    Relative rot error: mean=0.24°, max=0.29°
+    Cumulative drift at final frame: 0.73°
+  sample_0029: 7 frames
+    Relative rot error: mean=1.57°, max=2.50°
+    Cumulative drift at final frame: 9.29°
+  sample_0030: 7 frames
+    Relative rot error: mean=0.38°, max=1.24°
+    Cumulative drift at final frame: 0.84°
+  sample_0031: 7 frames
+    Relative rot error: mean=0.19°, max=0.28°
+    Cumulative drift at final frame: 0.93°
+  sample_0032: 7 frames
+    Relative rot error: mean=0.13°, max=0.35°
+    Cumulative drift at final frame: 0.39°
+  sample_0033: 7 frames
+    Relative rot error: mean=0.49°, max=1.45°
+    Cumulative drift at final frame: 1.24°
+  sample_0034: 7 frames
+    Relative rot error: mean=0.25°, max=0.48°
+    Cumulative drift at final frame: 1.11°
+  sample_0035: 7 frames
+    Relative rot error: mean=0.19°, max=0.35°
+    Cumulative drift at final frame: 0.71°
+  sample_0036: 7 frames
+    Relative rot error: mean=0.32°, max=0.65°
+    Cumulative drift at final frame: 0.98°
+  sample_0037: 7 frames
+    Relative rot error: mean=0.13°, max=0.20°
+    Cumulative drift at final frame: 0.47°
+  sample_0038: 7 frames
+    Relative rot error: mean=0.19°, max=0.26°
+    Cumulative drift at final frame: 0.49°
+  sample_0039: 7 frames
+    Relative rot error: mean=0.14°, max=0.25°
+    Cumulative drift at final frame: 0.45°
+  sample_0040: 7 frames
+    Relative rot error: mean=1.94°, max=4.03°
+    Cumulative drift at final frame: 9.62°
+  sample_0041: 7 frames
+    Relative rot error: mean=0.27°, max=0.37°
+    Cumulative drift at final frame: 1.88°
+  sample_0042: 7 frames
+    Relative rot error: mean=0.40°, max=0.76°
+    Cumulative drift at final frame: 0.63°
+  sample_0043: 7 frames
+    Relative rot error: mean=0.11°, max=0.17°
+    Cumulative drift at final frame: 0.61°
+  sample_0044: 7 frames
+    Relative rot error: mean=0.15°, max=0.20°
+    Cumulative drift at final frame: 0.16°
+  sample_0045: 7 frames
+    Relative rot error: mean=0.07°, max=0.21°
+    Cumulative drift at final frame: 0.25°
+  sample_0046: 7 frames
+    Relative rot error: mean=0.14°, max=0.30°
+    Cumulative drift at final frame: 0.48°
+  sample_0047: 7 frames
+    Relative rot error: mean=0.18°, max=0.33°
+    Cumulative drift at final frame: 0.66°
+  sample_0048: 7 frames
+    Relative rot error: mean=0.88°, max=1.99°
+    Cumulative drift at final frame: 0.92°
+  sample_0049: 7 frames
+    Relative rot error: mean=0.14°, max=0.35°
+    Cumulative drift at final frame: 0.00°
+
+  Saved: runs/action_mismatch/aggregate/mismatch_all.csv
+
+  OVERALL STATISTICS:
+  Samples analyzed: 50
+
+  Per-frame relative rotation error:
+    Mean:   3.42°
+    Median: 0.76°
+    Std:    4.97°
+
+  Cumulative drift at final frame:
+    Mean:   18.69°
+    Median: 6.47°
+    10th %: 0.45°
+    90th %: 58.61°
+  Plot 1 saved: runs/action_mismatch/aggregate/rot_err_vs_time.png
+  Plot 2 saved: runs/action_mismatch/aggregate/rot_err_histogram.png
+  Plot 3 saved: runs/action_mismatch/aggregate/rel_rot_err_vs_time.png
+
+  ✅ Phase 1 complete!
+  You've quantified the accumulation of divergence.
+  Next: run step4_fabricate_and_evaluate.py for Phase 2.
+✓ Step 3 complete (Phase 1 DONE): Wed Feb 25 22:23:38 EST 2026
+
+=========================================
+STEP 4: Fabricating corrupted histories...
+=========================================
+Start: Wed Feb 25 22:23:38 EST 2026
+
+============================================================
+STEP 4: Fabricate mismatched history + measure impact
+============================================================
+
+--- Step 4.1: Building drift library from Phase 1 ---
+  Drift statistics from Phase 1:
+  10th percentile (low drift):  0.45°
+  50th percentile (median):     6.47°
+  90th percentile (high drift): 58.61°
+  Low-drift sample:  sample_0039 (final err: 0.45°)
+  High-drift sample: sample_0018 (final err: 58.70°)
+
+--- Step 4.2: Creating corrupted pose histories ---
+  sample_0000 scale=10.0: final corruption = 64.65°
+  sample_0000 scale=50.0: final corruption = 36.72°
+  sample_0000 scale=100.0: final corruption = 73.45°
+  sample_0001 scale=10.0: final corruption = 64.65°
+  sample_0001 scale=50.0: final corruption = 36.72°
+  sample_0001 scale=100.0: final corruption = 73.45°
+  sample_0002 scale=10.0: final corruption = 64.65°
+  sample_0002 scale=50.0: final corruption = 36.73°
+  sample_0002 scale=100.0: final corruption = 73.45°
+  sample_0003 scale=10.0: final corruption = 64.65°
+  sample_0003 scale=50.0: final corruption = 36.73°
+  sample_0003 scale=100.0: final corruption = 73.45°
+  sample_0004 scale=10.0: final corruption = 64.65°
+  sample_0004 scale=50.0: final corruption = 36.72°
+  sample_0004 scale=100.0: final corruption = 73.45°
+  sample_0005 scale=10.0: final corruption = 64.65°
+  sample_0005 scale=50.0: final corruption = 36.72°
+  sample_0005 scale=100.0: final corruption = 73.45°
+  sample_0006 scale=10.0: final corruption = 64.65°
+  sample_0006 scale=50.0: final corruption = 36.72°
+  sample_0006 scale=100.0: final corruption = 73.45°
+  sample_0007 scale=10.0: final corruption = 64.65°
+  sample_0007 scale=50.0: final corruption = 36.72°
+  sample_0007 scale=100.0: final corruption = 73.45°
+  sample_0008 scale=10.0: final corruption = 64.65°
+  sample_0008 scale=50.0: final corruption = 36.73°
+  sample_0008 scale=100.0: final corruption = 73.45°
+  sample_0009 scale=10.0: final corruption = 64.65°
+  sample_0009 scale=50.0: final corruption = 36.73°
+  sample_0009 scale=100.0: final corruption = 73.45°
+
+--- Step 4.3: Regenerating with corrupted history ---
+  
+  To regenerate videos with corrupted poses, you have two options:
+  
+  OPTION A (Recommended): Modify RE10k data files
+    1. Copy the RE10k clip data to a new directory
+    2. Replace the pose values with corrupted ones
+    3. Run DFoT on this modified dataset
+    This keeps DFoT's code unchanged.
+  
+  OPTION B: Direct model API (requires more DFoT internals)
+    1. Load the DFoT model programmatically
+    2. Call its generation function with custom pose tensors
+    3. Requires understanding DFoT's internal sample() API
+  
+  Helper script: runs/action_mismatch/phase2/regenerate_with_corruption.sh
+
+--- Step 4.4: Evaluation template ---
+
+  Saved: runs/action_mismatch/phase2/phase2_results.csv
+  Plot saved: runs/action_mismatch/phase2/corruption_magnitudes.png
+
+  ✅ Phase 2 corruption setup complete!
+  Corrupted poses saved to runs/action_mismatch/phase2/
+  
+  TO COMPLETE PHASE 2:
+  1. Regenerate videos with corrupted poses (see options above)
+  2. Run step2 (pose estimation) on the new videos
+  3. Compare clean vs corrupted pose accuracy & perceptual quality
+✓ Step 4 complete (Phase 2 setup DONE): Wed Feb 25 22:23:40 EST 2026
+
+=========================================
+STEP 5: Regenerating with corrupted poses...
+=========================================
+Start: Wed Feb 25 22:23:40 EST 2026
+
+============================================================
+STEP 5: Regenerate videos with corrupted poses
+============================================================
+  Phase 1 median drift: 6.47 deg
+  Corruption scales: [10.0, 50.0, 100.0]
+  Runner: diffusion-forcing-transformer/_phase2_runner.py
+
+============================================================
+  CLEAN BASELINE (scale=0.0)
+============================================================
+
+  [RUN] DFoT with corruption scale=0.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~0.0 deg
+  [OK] scale=0.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=0.0)
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25/25 0:05:00 • 0:00:00 0.08it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-23-50/wandb/offline-run-20260225_222407-oumd4yrp[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/22-23-50/wandb/offline-run-20260225_222407-oumd4yrp/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-23-50
+  Found 50 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale0.0
+    sample_0000: saved 7 frames (mean=172.3, std=65.1)
+    sample_0001: saved 7 frames (mean=101.5, std=71.4)
+    sample_0002: saved 7 frames (mean=128.5, std=71.7)
+    sample_0003: saved 7 frames (mean=126.1, std=68.5)
+    sample_0004: saved 7 frames (mean=157.1, std=78.1)
+    sample_0005: saved 7 frames (mean=131.7, std=63.4)
+    sample_0006: saved 7 frames (mean=168.8, std=75.5)
+    sample_0007: saved 7 frames (mean=100.9, std=77.6)
+    sample_0008: saved 7 frames (mean=120.4, std=59.9)
+    sample_0009: saved 7 frames (mean=85.1, std=58.8)
+    sample_0010: saved 7 frames (mean=149.6, std=56.5)
+    sample_0011: saved 7 frames (mean=158.0, std=87.6)
+    sample_0012: saved 7 frames (mean=158.5, std=62.6)
+    sample_0013: saved 7 frames (mean=157.6, std=43.6)
+    sample_0014: saved 7 frames (mean=146.5, std=80.0)
+    sample_0015: saved 7 frames (mean=120.0, std=81.7)
+    sample_0016: saved 7 frames (mean=138.7, std=82.8)
+    sample_0017: saved 7 frames (mean=158.1, std=67.0)
+    sample_0018: saved 7 frames (mean=140.9, std=69.9)
+    sample_0019: saved 7 frames (mean=46.5, std=47.0)
+    sample_0020: saved 7 frames (mean=141.3, std=67.0)
+    sample_0021: saved 7 frames (mean=111.8, std=81.2)
+    sample_0022: saved 7 frames (mean=171.8, std=66.2)
+    sample_0023: saved 7 frames (mean=139.8, std=43.7)
+    sample_0024: saved 7 frames (mean=150.1, std=57.3)
+    sample_0025: saved 7 frames (mean=85.7, std=74.5)
+    sample_0026: saved 7 frames (mean=91.7, std=79.6)
+    sample_0027: saved 7 frames (mean=130.2, std=65.6)
+    sample_0028: saved 7 frames (mean=120.6, std=34.0)
+    sample_0029: saved 7 frames (mean=89.2, std=68.7)
+    sample_0030: saved 7 frames (mean=101.7, std=69.0)
+    sample_0031: saved 7 frames (mean=167.4, std=77.5)
+    sample_0032: saved 7 frames (mean=119.6, std=62.8)
+    sample_0033: saved 7 frames (mean=127.0, std=32.7)
+    sample_0034: saved 7 frames (mean=129.6, std=76.2)
+    sample_0035: saved 7 frames (mean=106.6, std=68.0)
+    sample_0036: saved 7 frames (mean=77.7, std=50.1)
+    sample_0037: saved 7 frames (mean=167.2, std=65.8)
+    sample_0038: saved 7 frames (mean=131.7, std=57.7)
+    sample_0039: saved 7 frames (mean=144.2, std=69.4)
+    sample_0040: saved 7 frames (mean=53.9, std=59.0)
+    sample_0041: saved 7 frames (mean=67.3, std=62.9)
+    sample_0042: saved 7 frames (mean=122.7, std=58.9)
+    sample_0043: saved 7 frames (mean=139.9, std=77.6)
+    sample_0044: saved 7 frames (mean=123.9, std=65.6)
+    sample_0045: saved 7 frames (mean=190.0, std=68.5)
+    sample_0046: saved 7 frames (mean=130.4, std=46.8)
+    sample_0047: saved 7 frames (mean=101.0, std=77.6)
+    sample_0048: saved 7 frames (mean=137.4, std=69.0)
+    sample_0049: saved 7 frames (mean=128.5, std=68.6)
+
+============================================================
+  CORRUPTION SCALE = 10.0  (~64.7 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=10.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~64.7 deg
+  [OK] scale=10.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=10.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=9.24, actual_diff=9.24
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4967322051525116, 0.883079469203949, 0.5, 0.5, 0.340665727853775]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=9.24, actual_diff=9.24
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25/25 0:05:00 • 0:00:00 0.08it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-29-43/wandb/offline-run-20260225_222959-xaue26qs[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/22-29-43/wandb/offline-run-20260225_222959-xaue26qs/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-29-43
+  Found 50 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale10.0
+    sample_0000: saved 7 frames (mean=150.9, std=66.7)
+    sample_0001: saved 7 frames (mean=101.3, std=71.4)
+    sample_0002: saved 7 frames (mean=138.1, std=68.5)
+    sample_0003: saved 7 frames (mean=126.1, std=68.5)
+    sample_0004: saved 7 frames (mean=149.8, std=75.8)
+    sample_0005: saved 7 frames (mean=131.7, std=63.4)
+    sample_0006: saved 7 frames (mean=162.7, std=73.7)
+    sample_0007: saved 7 frames (mean=100.9, std=77.6)
+    sample_0008: saved 7 frames (mean=126.9, std=60.0)
+    sample_0009: saved 7 frames (mean=85.4, std=58.6)
+    sample_0010: saved 7 frames (mean=164.6, std=64.2)
+    sample_0011: saved 7 frames (mean=158.2, std=87.5)
+    sample_0012: saved 7 frames (mean=152.8, std=63.8)
+    sample_0013: saved 7 frames (mean=157.8, std=42.8)
+    sample_0014: saved 7 frames (mean=150.8, std=80.6)
+    sample_0015: saved 7 frames (mean=119.8, std=81.7)
+    sample_0016: saved 7 frames (mean=154.0, std=75.6)
+    sample_0017: saved 7 frames (mean=158.1, std=67.0)
+    sample_0018: saved 7 frames (mean=128.1, std=66.7)
+    sample_0019: saved 7 frames (mean=46.2, std=47.0)
+    sample_0020: saved 7 frames (mean=145.8, std=79.6)
+    sample_0021: saved 7 frames (mean=111.9, std=81.2)
+    sample_0022: saved 7 frames (mean=153.6, std=83.6)
+    sample_0023: saved 7 frames (mean=139.7, std=43.7)
+    sample_0024: saved 7 frames (mean=150.1, std=56.9)
+    sample_0025: saved 7 frames (mean=85.8, std=74.5)
+    sample_0026: saved 7 frames (mean=95.1, std=84.8)
+    sample_0027: saved 7 frames (mean=130.0, std=65.5)
+    sample_0028: saved 7 frames (mean=116.0, std=30.9)
+    sample_0029: saved 7 frames (mean=89.3, std=68.8)
+    sample_0030: saved 7 frames (mean=110.4, std=59.5)
+    sample_0031: saved 7 frames (mean=167.4, std=77.5)
+    sample_0032: saved 7 frames (mean=119.2, std=61.6)
+    sample_0033: saved 7 frames (mean=127.1, std=32.6)
+    sample_0034: saved 7 frames (mean=130.7, std=71.3)
+    sample_0035: saved 7 frames (mean=106.7, std=67.9)
+    sample_0036: saved 7 frames (mean=89.0, std=58.6)
+    sample_0037: saved 7 frames (mean=167.2, std=65.8)
+    sample_0038: saved 7 frames (mean=151.3, std=64.7)
+    sample_0039: saved 7 frames (mean=144.2, std=69.4)
+    sample_0040: saved 7 frames (mean=53.0, std=71.8)
+    sample_0041: saved 7 frames (mean=67.4, std=63.0)
+    sample_0042: saved 7 frames (mean=131.0, std=57.6)
+    sample_0043: saved 7 frames (mean=139.9, std=77.6)
+    sample_0044: saved 7 frames (mean=123.8, std=78.5)
+    sample_0045: saved 7 frames (mean=190.1, std=68.4)
+    sample_0046: saved 7 frames (mean=139.6, std=46.8)
+    sample_0047: saved 7 frames (mean=100.9, std=77.7)
+    sample_0048: saved 7 frames (mean=144.3, std=74.7)
+    sample_0049: saved 7 frames (mean=128.7, std=68.7)
+
+============================================================
+  CORRUPTION SCALE = 50.0  (~323.3 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=50.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~323.3 deg
+  [OK] scale=50.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=50.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=46.18, actual_diff=46.18
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4967322051525116, 0.883079469203949, 0.5, 0.5, 0.340665727853775]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=46.18, actual_diff=46.18
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25/25 0:05:00 • 0:00:00 0.08it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-35-29/wandb/offline-run-20260225_223546-kngelj9r[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/22-35-29/wandb/offline-run-20260225_223546-kngelj9r/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-35-29
+  Found 50 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale50.0
+    sample_0000: saved 7 frames (mean=152.2, std=69.9)
+    sample_0001: saved 7 frames (mean=101.5, std=71.5)
+    sample_0002: saved 7 frames (mean=109.9, std=64.9)
+    sample_0003: saved 7 frames (mean=126.0, std=68.5)
+    sample_0004: saved 7 frames (mean=154.5, std=69.7)
+    sample_0005: saved 7 frames (mean=131.7, std=63.3)
+    sample_0006: saved 7 frames (mean=127.1, std=79.8)
+    sample_0007: saved 7 frames (mean=100.8, std=77.7)
+    sample_0008: saved 7 frames (mean=118.6, std=63.5)
+    sample_0009: saved 7 frames (mean=85.5, std=58.7)
+    sample_0010: saved 7 frames (mean=152.7, std=56.1)
+    sample_0011: saved 7 frames (mean=158.3, std=87.5)
+    sample_0012: saved 7 frames (mean=151.9, std=77.6)
+    sample_0013: saved 7 frames (mean=157.5, std=43.6)
+    sample_0014: saved 7 frames (mean=125.9, std=88.3)
+    sample_0015: saved 7 frames (mean=119.9, std=81.7)
+    sample_0016: saved 7 frames (mean=182.4, std=66.2)
+    sample_0017: saved 7 frames (mean=157.9, std=67.0)
+    sample_0018: saved 7 frames (mean=161.5, std=58.7)
+    sample_0019: saved 7 frames (mean=46.8, std=46.8)
+    sample_0020: saved 7 frames (mean=155.7, std=62.7)
+    sample_0021: saved 7 frames (mean=112.0, std=81.1)
+    sample_0022: saved 7 frames (mean=133.9, std=76.7)
+    sample_0023: saved 7 frames (mean=139.7, std=43.7)
+    sample_0024: saved 7 frames (mean=176.4, std=52.4)
+    sample_0025: saved 7 frames (mean=85.7, std=74.6)
+    sample_0026: saved 7 frames (mean=98.1, std=73.6)
+    sample_0027: saved 7 frames (mean=130.1, std=65.5)
+    sample_0028: saved 7 frames (mean=72.2, std=66.9)
+    sample_0029: saved 7 frames (mean=89.2, std=68.7)
+    sample_0030: saved 7 frames (mean=116.6, std=63.4)
+    sample_0031: saved 7 frames (mean=167.5, std=77.5)
+    sample_0032: saved 7 frames (mean=130.4, std=65.5)
+    sample_0033: saved 7 frames (mean=127.2, std=32.6)
+    sample_0034: saved 7 frames (mean=142.4, std=89.7)
+    sample_0035: saved 7 frames (mean=106.7, std=67.9)
+    sample_0036: saved 7 frames (mean=94.2, std=51.5)
+    sample_0037: saved 7 frames (mean=167.1, std=65.8)
+    sample_0038: saved 7 frames (mean=152.3, std=62.9)
+    sample_0039: saved 7 frames (mean=144.0, std=69.4)
+    sample_0040: saved 7 frames (mean=82.9, std=69.8)
+    sample_0041: saved 7 frames (mean=67.4, std=62.9)
+    sample_0042: saved 7 frames (mean=78.4, std=57.4)
+    sample_0043: saved 7 frames (mean=139.8, std=77.6)
+    sample_0044: saved 7 frames (mean=116.9, std=70.3)
+    sample_0045: saved 7 frames (mean=190.1, std=68.6)
+    sample_0046: saved 7 frames (mean=129.0, std=58.0)
+    sample_0047: saved 7 frames (mean=100.9, std=77.7)
+    sample_0048: saved 7 frames (mean=137.7, std=59.4)
+    sample_0049: saved 7 frames (mean=128.5, std=68.6)
+
+============================================================
+  CORRUPTION SCALE = 100.0  (~646.6 deg final)
+============================================================
+
+  [RUN] DFoT with corruption scale=100.0
+    cwd: diffusion-forcing-transformer
+    Expected final corruption: ~646.6 deg
+  [OK] scale=100.0 completed
+  [Phase2] on_after_batch_transfer patch applied (scale=100.0)
+  [Phase2 DEBUG] _patched called (call #1): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4917617738246918, 0.8742431402206421, 0.5, 0.5, 0.9911800622940063]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=92.36, actual_diff=92.36
+  [Phase2 DEBUG] _patched called (call #2): conditions.shape=torch.Size([1, 8, 16]), D=16, intr_offset=4
+  [Phase2 DEBUG]   conditions[0,0,:5] = [0.4967322051525116, 0.883079469203949, 0.5, 0.5, 0.340665727853775]
+  [Phase2 DEBUG]   b=0 t=1: perturbation_deg=92.36, actual_diff=92.36
+  stdout (tail):
+ ──────────┴───────────────────────────┘
+Validation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 25/25 0:05:01 • 0:00:00 0.08it/s 
+[1;34mwandb[0m: 
+[1;34mwandb[0m: You can sync this run to the cloud by running:
+[1;34mwandb[0m: [1mwandb sync /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-41-16/wandb/offline-run-20260225_224132-5wx9xryo[0m
+[1;34mwandb[0m: Find logs at: [1;35moutputs/2026-02-25/22-41-16/wandb/offline-run-20260225_224132-5wx9xryo/logs[0m
+
+  Output dir: /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/outputs/2026-02-25/22-41-16
+  Found 50 NPZ files in /orcd/home/002/akshatat/VisionResearch/diffusion-forcing-transformer/_raw_scale100.0
+    sample_0000: saved 7 frames (mean=141.9, std=73.0)
+    sample_0001: saved 7 frames (mean=101.3, std=71.5)
+    sample_0002: saved 7 frames (mean=97.2, std=68.8)
+    sample_0003: saved 7 frames (mean=126.3, std=68.4)
+    sample_0004: saved 7 frames (mean=166.0, std=73.6)
+    sample_0005: saved 7 frames (mean=131.8, std=63.4)
+    sample_0006: saved 7 frames (mean=132.0, std=82.3)
+    sample_0007: saved 7 frames (mean=100.9, std=77.6)
+    sample_0008: saved 7 frames (mean=85.9, std=81.3)
+    sample_0009: saved 7 frames (mean=85.5, std=58.5)
+    sample_0010: saved 7 frames (mean=117.5, std=85.4)
+    sample_0011: saved 7 frames (mean=158.0, std=87.6)
+    sample_0012: saved 7 frames (mean=133.3, std=63.1)
+    sample_0013: saved 7 frames (mean=157.4, std=43.6)
+    sample_0014: saved 7 frames (mean=112.4, std=86.3)
+    sample_0015: saved 7 frames (mean=119.9, std=81.7)
+    sample_0016: saved 7 frames (mean=200.3, std=57.8)
+    sample_0017: saved 7 frames (mean=158.0, std=67.0)
+    sample_0018: saved 7 frames (mean=147.9, std=67.1)
+    sample_0019: saved 7 frames (mean=46.5, std=46.9)
+    sample_0020: saved 7 frames (mean=108.3, std=83.2)
+    sample_0021: saved 7 frames (mean=111.8, std=81.2)
+    sample_0022: saved 7 frames (mean=125.2, std=77.7)
+    sample_0023: saved 7 frames (mean=139.8, std=43.7)
+    sample_0024: saved 7 frames (mean=157.5, std=86.5)
+    sample_0025: saved 7 frames (mean=85.9, std=74.5)
+    sample_0026: saved 7 frames (mean=86.4, std=76.8)
+    sample_0027: saved 7 frames (mean=130.3, std=65.6)
+    sample_0028: saved 7 frames (mean=114.9, std=49.1)
+    sample_0029: saved 7 frames (mean=89.2, std=68.8)
+    sample_0030: saved 7 frames (mean=87.9, std=87.2)
+    sample_0031: saved 7 frames (mean=167.4, std=77.5)
+    sample_0032: saved 7 frames (mean=94.7, std=77.8)
+    sample_0033: saved 7 frames (mean=127.1, std=32.6)
+    sample_0034: saved 7 frames (mean=124.4, std=67.7)
+    sample_0035: saved 7 frames (mean=107.0, std=67.8)
+    sample_0036: saved 7 frames (mean=82.9, std=51.2)
+    sample_0037: saved 7 frames (mean=167.1, std=65.8)
+    sample_0038: saved 7 frames (mean=137.5, std=64.5)
+    sample_0039: saved 7 frames (mean=144.2, std=69.4)
+    sample_0040: saved 7 frames (mean=53.4, std=53.5)
+    sample_0041: saved 7 frames (mean=67.5, std=63.0)
+    sample_0042: saved 7 frames (mean=124.0, std=66.3)
+    sample_0043: saved 7 frames (mean=139.8, std=77.6)
+    sample_0044: saved 7 frames (mean=118.6, std=66.0)
+    sample_0045: saved 7 frames (mean=190.1, std=68.4)
+    sample_0046: saved 7 frames (mean=108.3, std=79.6)
+    sample_0047: saved 7 frames (mean=100.9, std=77.7)
+    sample_0048: saved 7 frames (mean=135.4, std=79.6)
+    sample_0049: saved 7 frames (mean=128.3, std=68.6)
+
+  Step 5 complete!
+  Scales generated: [0.0, 10.0, 50.0, 100.0]
+  Next: run step6_evaluate_phase2.py
+✓ Step 5 complete: Wed Feb 25 22:46:53 EST 2026
+
+=========================================
+STEP 6: Evaluating Phase 2 (LPIPS + pose error)...
+=========================================
+Start: Wed Feb 25 22:46:53 EST 2026
+
+============================================================
+STEP 6: Evaluate Phase 2 — Impact of Pose Corruption
+============================================================
+Loading VGGT model...
+VGGT loaded successfully.
+  Pose oracle: VGGT
+
+--- Scale = 0.0 (clean baseline) ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=0.0:  LPIPS=0.3846  pose_err=0.86 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=0.0:  LPIPS=0.2804  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=0.0:  LPIPS=0.3434  pose_err=0.98 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=0.0:  LPIPS=0.2978  pose_err=0.38 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=0.0:  LPIPS=0.3752  pose_err=0.83 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=0.0:  LPIPS=0.3864  pose_err=0.60 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=0.0:  LPIPS=0.2266  pose_err=0.34 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=0.0:  LPIPS=0.3399  pose_err=0.82 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0008 scale=0.0:  LPIPS=0.2419  pose_err=0.52 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0009 scale=0.0:  LPIPS=0.4662  pose_err=0.69 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0010 scale=0.0:  LPIPS=0.3677  pose_err=0.68 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0011 scale=0.0:  LPIPS=0.5168  pose_err=4.31 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0012 scale=0.0:  LPIPS=0.2598  pose_err=0.87 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0013 scale=0.0:  LPIPS=0.5275  pose_err=1.21 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0014 scale=0.0:  LPIPS=0.2978  pose_err=0.89 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0015 scale=0.0:  LPIPS=0.3066  pose_err=1.15 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0016 scale=0.0:  LPIPS=0.3658  pose_err=1.59 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0017 scale=0.0:  LPIPS=0.1869  pose_err=0.13 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0018 scale=0.0:  LPIPS=0.2488  pose_err=0.43 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0019 scale=0.0:  LPIPS=0.3497  pose_err=1.97 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0020 scale=0.0:  LPIPS=0.5358  pose_err=1.77 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0021 scale=0.0:  LPIPS=0.2753  pose_err=0.12 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0022 scale=0.0:  LPIPS=0.2375  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0023 scale=0.0:  LPIPS=0.3167  pose_err=4.05 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0024 scale=0.0:  LPIPS=0.2733  pose_err=3.09 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0025 scale=0.0:  LPIPS=0.4964  pose_err=0.32 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0026 scale=0.0:  LPIPS=0.3620  pose_err=2.29 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0027 scale=0.0:  LPIPS=0.4615  pose_err=0.51 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0028 scale=0.0:  LPIPS=0.2566  pose_err=1.14 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0029 scale=0.0:  LPIPS=0.3999  pose_err=5.84 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0030 scale=0.0:  LPIPS=0.3751  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0031 scale=0.0:  LPIPS=0.4246  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0032 scale=0.0:  LPIPS=0.1834  pose_err=0.84 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0033 scale=0.0:  LPIPS=0.5778  pose_err=3.22 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0034 scale=0.0:  LPIPS=0.3245  pose_err=1.80 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0035 scale=0.0:  LPIPS=0.4012  pose_err=0.79 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0036 scale=0.0:  LPIPS=0.1826  pose_err=2.07 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0037 scale=0.0:  LPIPS=0.1775  pose_err=0.36 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0038 scale=0.0:  LPIPS=0.4733  pose_err=0.49 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0039 scale=0.0:  LPIPS=0.2195  pose_err=0.38 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0040 scale=0.0:  LPIPS=0.6779  pose_err=6.77 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0041 scale=0.0:  LPIPS=0.3174  pose_err=0.83 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0042 scale=0.0:  LPIPS=0.2568  pose_err=0.88 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0043 scale=0.0:  LPIPS=0.2530  pose_err=0.12 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0044 scale=0.0:  LPIPS=0.4792  pose_err=0.12 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0045 scale=0.0:  LPIPS=0.2857  pose_err=1.50 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0046 scale=0.0:  LPIPS=0.2649  pose_err=0.66 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0047 scale=0.0:  LPIPS=0.2663  pose_err=0.36 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0048 scale=0.0:  LPIPS=0.4700  pose_err=0.45 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0049 scale=0.0:  LPIPS=0.1894  pose_err=0.00 deg
+
+--- Scale = 10.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=10.0:  LPIPS=0.6953  pose_err=36.33 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=10.0:  LPIPS=0.2802  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=10.0:  LPIPS=0.7462  pose_err=16.03 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=10.0:  LPIPS=0.2973  pose_err=0.40 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=10.0:  LPIPS=0.6581  pose_err=40.04 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=10.0:  LPIPS=0.3865  pose_err=0.67 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=10.0:  LPIPS=0.7062  pose_err=50.98 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=10.0:  LPIPS=0.3402  pose_err=0.81 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0008 scale=10.0:  LPIPS=0.7180  pose_err=22.72 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0009 scale=10.0:  LPIPS=0.4651  pose_err=0.95 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0010 scale=10.0:  LPIPS=0.7280  pose_err=61.14 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0011 scale=10.0:  LPIPS=0.5165  pose_err=4.21 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0012 scale=10.0:  LPIPS=0.6961  pose_err=30.01 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0013 scale=10.0:  LPIPS=0.5263  pose_err=1.40 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0014 scale=10.0:  LPIPS=0.7268  pose_err=15.34 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0015 scale=10.0:  LPIPS=0.3010  pose_err=1.32 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0016 scale=10.0:  LPIPS=0.7324  pose_err=27.17 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0017 scale=10.0:  LPIPS=0.1866  pose_err=0.11 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0018 scale=10.0:  LPIPS=0.6873  pose_err=46.96 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0019 scale=10.0:  LPIPS=0.3495  pose_err=1.98 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0020 scale=10.0:  LPIPS=0.7091  pose_err=16.98 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0021 scale=10.0:  LPIPS=0.2754  pose_err=0.10 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0022 scale=10.0:  LPIPS=0.7174  pose_err=75.09 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0023 scale=10.0:  LPIPS=0.3185  pose_err=4.01 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0024 scale=10.0:  LPIPS=0.6971  pose_err=30.47 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0025 scale=10.0:  LPIPS=0.4963  pose_err=0.40 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0026 scale=10.0:  LPIPS=0.7017  pose_err=55.78 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0027 scale=10.0:  LPIPS=0.4614  pose_err=0.50 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0028 scale=10.0:  LPIPS=0.6364  pose_err=55.12 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0029 scale=10.0:  LPIPS=0.4007  pose_err=5.54 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0030 scale=10.0:  LPIPS=0.7051  pose_err=64.17 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0031 scale=10.0:  LPIPS=0.4247  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0032 scale=10.0:  LPIPS=0.7237  pose_err=32.10 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0033 scale=10.0:  LPIPS=0.5776  pose_err=3.51 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0034 scale=10.0:  LPIPS=0.6018  pose_err=48.33 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0035 scale=10.0:  LPIPS=0.4015  pose_err=0.94 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0036 scale=10.0:  LPIPS=0.6450  pose_err=68.07 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0037 scale=10.0:  LPIPS=0.1769  pose_err=0.37 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0038 scale=10.0:  LPIPS=0.7309  pose_err=33.55 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0039 scale=10.0:  LPIPS=0.2189  pose_err=0.44 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0040 scale=10.0:  LPIPS=0.7692  pose_err=34.90 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0041 scale=10.0:  LPIPS=0.3175  pose_err=0.83 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0042 scale=10.0:  LPIPS=0.6526  pose_err=36.34 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0043 scale=10.0:  LPIPS=0.2532  pose_err=0.13 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0044 scale=10.0:  LPIPS=0.7133  pose_err=31.59 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0045 scale=10.0:  LPIPS=0.2849  pose_err=1.81 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0046 scale=10.0:  LPIPS=0.6826  pose_err=43.99 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0047 scale=10.0:  LPIPS=0.2668  pose_err=0.37 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0048 scale=10.0:  LPIPS=0.7123  pose_err=54.87 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0049 scale=10.0:  LPIPS=0.1899  pose_err=0.00 deg
+
+--- Scale = 50.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=50.0:  LPIPS=0.6992  pose_err=28.26 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=50.0:  LPIPS=0.2808  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=50.0:  LPIPS=0.7217  pose_err=37.70 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=50.0:  LPIPS=0.2981  pose_err=0.37 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=50.0:  LPIPS=0.6492  pose_err=47.01 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=50.0:  LPIPS=0.3865  pose_err=0.65 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=50.0:  LPIPS=0.7778  pose_err=32.96 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=50.0:  LPIPS=0.3401  pose_err=0.83 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0008 scale=50.0:  LPIPS=0.6463  pose_err=17.48 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0009 scale=50.0:  LPIPS=0.4652  pose_err=0.63 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0010 scale=50.0:  LPIPS=0.7329  pose_err=46.47 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0011 scale=50.0:  LPIPS=0.5182  pose_err=4.20 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0012 scale=50.0:  LPIPS=0.7617  pose_err=29.11 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0013 scale=50.0:  LPIPS=0.5268  pose_err=0.99 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0014 scale=50.0:  LPIPS=0.7255  pose_err=25.40 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0015 scale=50.0:  LPIPS=0.3056  pose_err=1.54 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0016 scale=50.0:  LPIPS=0.7357  pose_err=25.09 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0017 scale=50.0:  LPIPS=0.1868  pose_err=0.11 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0018 scale=50.0:  LPIPS=0.7018  pose_err=53.01 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0019 scale=50.0:  LPIPS=0.3487  pose_err=1.97 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0020 scale=50.0:  LPIPS=0.7331  pose_err=17.35 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0021 scale=50.0:  LPIPS=0.2751  pose_err=0.12 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0022 scale=50.0:  LPIPS=0.7393  pose_err=21.47 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0023 scale=50.0:  LPIPS=0.3174  pose_err=3.91 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0024 scale=50.0:  LPIPS=0.7370  pose_err=34.70 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0025 scale=50.0:  LPIPS=0.4961  pose_err=0.39 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0026 scale=50.0:  LPIPS=0.6930  pose_err=36.26 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0027 scale=50.0:  LPIPS=0.4614  pose_err=0.52 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0028 scale=50.0:  LPIPS=0.6845  pose_err=23.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0029 scale=50.0:  LPIPS=0.4002  pose_err=5.81 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0030 scale=50.0:  LPIPS=0.7044  pose_err=26.31 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0031 scale=50.0:  LPIPS=0.4245  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0032 scale=50.0:  LPIPS=0.7239  pose_err=24.10 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0033 scale=50.0:  LPIPS=0.5786  pose_err=2.48 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0034 scale=50.0:  LPIPS=0.6298  pose_err=43.15 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0035 scale=50.0:  LPIPS=0.4018  pose_err=0.86 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0036 scale=50.0:  LPIPS=0.6897  pose_err=15.92 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0037 scale=50.0:  LPIPS=0.1775  pose_err=0.39 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0038 scale=50.0:  LPIPS=0.6941  pose_err=72.24 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0039 scale=50.0:  LPIPS=0.2192  pose_err=0.47 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0040 scale=50.0:  LPIPS=0.7393  pose_err=97.39 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0041 scale=50.0:  LPIPS=0.3175  pose_err=0.81 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0042 scale=50.0:  LPIPS=0.7269  pose_err=36.34 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0043 scale=50.0:  LPIPS=0.2533  pose_err=0.13 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0044 scale=50.0:  LPIPS=0.7502  pose_err=20.77 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0045 scale=50.0:  LPIPS=0.2851  pose_err=1.95 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0046 scale=50.0:  LPIPS=0.6940  pose_err=44.85 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0047 scale=50.0:  LPIPS=0.2669  pose_err=0.38 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0048 scale=50.0:  LPIPS=0.7408  pose_err=41.64 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0049 scale=50.0:  LPIPS=0.1895  pose_err=0.00 deg
+
+--- Scale = 100.0  ---
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0000 scale=100.0:  LPIPS=0.7110  pose_err=5.12 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0001 scale=100.0:  LPIPS=0.2808  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0002 scale=100.0:  LPIPS=0.6952  pose_err=82.59 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0003 scale=100.0:  LPIPS=0.2980  pose_err=0.38 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0004 scale=100.0:  LPIPS=0.6341  pose_err=18.27 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0005 scale=100.0:  LPIPS=0.3862  pose_err=0.65 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0006 scale=100.0:  LPIPS=0.7890  pose_err=13.32 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0007 scale=100.0:  LPIPS=0.3402  pose_err=0.98 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0008 scale=100.0:  LPIPS=0.6611  pose_err=46.55 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0009 scale=100.0:  LPIPS=0.4658  pose_err=0.83 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0010 scale=100.0:  LPIPS=0.7076  pose_err=37.86 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0011 scale=100.0:  LPIPS=0.5176  pose_err=4.35 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0012 scale=100.0:  LPIPS=0.7529  pose_err=45.46 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0013 scale=100.0:  LPIPS=0.5273  pose_err=0.76 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0014 scale=100.0:  LPIPS=0.7221  pose_err=40.08 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0015 scale=100.0:  LPIPS=0.3041  pose_err=1.46 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0016 scale=100.0:  LPIPS=0.7513  pose_err=58.71 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0017 scale=100.0:  LPIPS=0.1871  pose_err=0.14 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0018 scale=100.0:  LPIPS=0.7017  pose_err=33.98 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0019 scale=100.0:  LPIPS=0.3491  pose_err=1.95 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0020 scale=100.0:  LPIPS=0.7507  pose_err=50.09 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0021 scale=100.0:  LPIPS=0.2755  pose_err=0.11 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0022 scale=100.0:  LPIPS=0.7148  pose_err=28.31 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0023 scale=100.0:  LPIPS=0.3183  pose_err=4.01 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0024 scale=100.0:  LPIPS=0.7309  pose_err=60.61 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0025 scale=100.0:  LPIPS=0.4954  pose_err=0.39 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0026 scale=100.0:  LPIPS=0.6969  pose_err=22.31 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0027 scale=100.0:  LPIPS=0.4614  pose_err=0.51 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0028 scale=100.0:  LPIPS=0.7098  pose_err=21.29 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0029 scale=100.0:  LPIPS=0.4007  pose_err=5.70 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0030 scale=100.0:  LPIPS=0.7009  pose_err=49.26 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0031 scale=100.0:  LPIPS=0.4245  pose_err=0.00 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0032 scale=100.0:  LPIPS=0.6915  pose_err=30.67 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0033 scale=100.0:  LPIPS=0.5797  pose_err=2.54 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0034 scale=100.0:  LPIPS=0.6301  pose_err=19.85 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0035 scale=100.0:  LPIPS=0.4021  pose_err=0.62 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0036 scale=100.0:  LPIPS=0.6490  pose_err=26.23 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0037 scale=100.0:  LPIPS=0.1772  pose_err=0.36 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0038 scale=100.0:  LPIPS=0.6960  pose_err=41.08 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0039 scale=100.0:  LPIPS=0.2190  pose_err=0.46 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0040 scale=100.0:  LPIPS=0.7091  pose_err=114.47 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0041 scale=100.0:  LPIPS=0.3176  pose_err=0.81 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0042 scale=100.0:  LPIPS=0.6468  pose_err=12.55 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0043 scale=100.0:  LPIPS=0.2534  pose_err=0.11 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0044 scale=100.0:  LPIPS=0.7193  pose_err=37.41 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0045 scale=100.0:  LPIPS=0.2836  pose_err=1.95 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0046 scale=100.0:  LPIPS=0.7030  pose_err=38.32 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0047 scale=100.0:  LPIPS=0.2666  pose_err=0.33 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0048 scale=100.0:  LPIPS=0.7191  pose_err=9.37 deg
+Setting up [LPIPS] perceptual loss: trunk [alex], v[0.1], spatial [off]
+Loading model from: /home/akshatat/.conda/envs/mech_interp_gpu/lib/python3.10/site-packages/lpips/weights/v0.1/alex.pth
+  sample_0049 scale=100.0:  LPIPS=0.1892  pose_err=0.00 deg
+
+  Saved: runs/action_mismatch/phase2/phase2_evaluation.csv
+
+============================================================
+PHASE 2 EVALUATION SUMMARY
+============================================================
+                   lpips         final_pose_error_deg         
+                    mean     std                 mean      std
+corruption_scale                                              
+0.0               0.3437  0.1147               1.2010   1.4467
+10.0              0.5241  0.1960              21.1776  23.2604
+50.0              0.5311  0.2020              18.5506  21.7575
+100.0             0.5263  0.1979              19.4636  25.0176
+  Plot saved: runs/action_mismatch/phase2/phase2_evaluation.png
+
+  Phase 2 evaluation complete!
+✓ Step 6 complete (Phase 2 DONE): Wed Feb 25 22:49:51 EST 2026
+
+=========================================
+✓✓✓ FULL PIPELINE COMPLETE (Steps 1-6) ✓✓✓
+=========================================
+
+End time: Wed Feb 25 22:49:51 EST 2026
+
+Results summary:
+----------------
+Generated videos:  runs/action_mismatch/generated/
+Phase 1 analysis:  runs/action_mismatch/aggregate/
+Phase 2 frames:    runs/action_mismatch/phase2/
+Phase 2 results:   runs/action_mismatch/phase2/phase2_evaluation.csv
+Phase 2 plot:      runs/action_mismatch/phase2/phase2_evaluation.png
+
+Key outputs:
+-rw-rw-r-- 1 akshatat akshatat 27K Feb 25 22:23 runs/action_mismatch/aggregate/mismatch_all.csv
+-rw-rw-r-- 1 akshatat akshatat 11K Feb 25 22:49 runs/action_mismatch/phase2/phase2_evaluation.csv
+
