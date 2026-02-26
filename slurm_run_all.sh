@@ -60,16 +60,16 @@ echo "========================================="
 echo "Start: $(date)"
 echo ""
 
-# python step1_generate_videos.py
-# STEP1_EXIT=$?
+python step1_generate_videos.py
+STEP1_EXIT=$?
 
-# if [ $STEP1_EXIT -ne 0 ]; then
-#     echo "ERROR: Step 1 failed with exit code $STEP1_EXIT"
-#     echo "Aborting pipeline."
-#     exit $STEP1_EXIT
-# fi
+if [ $STEP1_EXIT -ne 0 ]; then
+    echo "ERROR: Step 1 failed with exit code $STEP1_EXIT"
+    echo "Aborting pipeline."
+    exit $STEP1_EXIT
+fi
 
-# echo "✓ Step 1 complete: $(date)"
+echo "✓ Step 1 complete: $(date)"
 
 # =========================================
 # STEP 2: Estimate Poses

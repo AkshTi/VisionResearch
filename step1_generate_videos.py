@@ -392,6 +392,9 @@ def main() -> None:
         f"dataset.n_frames={n_frames}",
         f"experiment.validation.batch_size=1",
         f"dataset.num_eval_videos={N_SAMPLES}",
+        # Default max_num_videos=8 in dfot_video.yaml caps NPZ output regardless of
+        # num_eval_videos. Must match N_SAMPLES so all clips get saved to raw_dir.
+        f"algorithm.logging.max_num_videos={N_SAMPLES}",
         f"algorithm.tasks.prediction.history_guidance.name={HISTORY_GUIDANCE_NAME}",
         f"+algorithm.tasks.prediction.history_guidance.guidance_scale={HISTORY_GUIDANCE_SCALE}",
         # Wandb config
