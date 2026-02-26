@@ -22,7 +22,7 @@ import pandas as pd
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
-from config import RUNS_DIR
+from config import RUNS_DIR, MAX_BASELINE_DRIFT
 from utils.pose_utils import (
     rotation_error_deg,
     compute_rotation_errors_over_time,
@@ -129,9 +129,30 @@ def main():
     print(f"    10th %: {final_frame_errors.quantile(0.1):.2f}°")
     print(f"    90th %: {final_frame_errors.quantile(0.9):.2f}°")
     
+    # Filter clean samples (low baseline drift) for Phase 2
+    clean_ids = final_frame_errors[final_frame_errors <= MAX_BASELINE_DRIFT].index.tolist()
+    clean_indices = [int(sid.replace("sample_", "")) for sid in clean_ids]
+
+    clean_manifest = {
+        "threshold_deg": MAX_BASELINE_DRIFT,
+        "n_total": len(final_frame_errors),
+        "n_clean": len(clean_ids),
+        "clean_sample_ids": clean_ids,
+        "clean_sample_indices": clean_indices,
+    }
+    clean_path = aggregate_dir / "clean_samples.json"
+    with open(clean_path, "w") as f:
+        json.dump(clean_manifest, f, indent=2)
+
+    print(f"\n  Drift filtering (threshold={MAX_BASELINE_DRIFT}°):")
+    print(f"    {len(clean_ids)}/{len(final_frame_errors)} samples pass → saved {clean_path}")
+    if len(clean_ids) > 0:
+        clean_drifts = final_frame_errors[final_frame_errors <= MAX_BASELINE_DRIFT]
+        print(f"    Clean subset median drift: {clean_drifts.median():.2f}°")
+
     # Generate plots
     make_plots(df, aggregate_dir)
-    
+
     print(f"\n  ✅ Phase 1 complete!")
     print(f"  You've quantified the accumulation of divergence.")
     print(f"  Next: run step4_fabricate_and_evaluate.py for Phase 2.")

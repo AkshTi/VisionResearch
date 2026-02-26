@@ -66,6 +66,12 @@ VGGT_DEVICE = "cuda"  # or "cpu" if no GPU
 # Number of clips to evaluate in Phase 2
 N_PHASE2_CLIPS = 10
 
+# Maximum baseline cumulative drift (degrees) for a sample to be included in
+# Phase 2.  Clips with higher drift under clean pose conditioning are excluded
+# because VGGT cannot reliably track them, which inflates the median drift and
+# miscalibrates the corruption scaling (see 50-sample run analysis).
+MAX_BASELINE_DRIFT = 2.0
+
 # Corruption levels (scale factors applied to measured drift)
 CORRUPTION_SCALES = [10.0, 50.0, 100.0]#[0.5, 1.0, 2.0]
 

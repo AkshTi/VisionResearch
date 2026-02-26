@@ -46,53 +46,68 @@ def main():
     phase2_dir.mkdir(parents=True, exist_ok=True)
     
     # ================================================================
-    # Step 4.1: Build drift library from Phase 1
+    # Step 4.1: Build drift library from Phase 1 (clean samples only)
     # ================================================================
     print("\n--- Step 4.1: Building drift library from Phase 1 ---")
-    
+
     csv_path = aggregate_dir / "mismatch_all.csv"
     if not csv_path.exists():
         print(f"  ERROR: {csv_path} not found. Run step3 first.")
         return
-    
+
+    # Load clean sample list
+    clean_path = aggregate_dir / "clean_samples.json"
+    if not clean_path.exists():
+        print(f"  ERROR: {clean_path} not found. Run step3 first (with MAX_BASELINE_DRIFT filtering).")
+        return
+
+    with open(clean_path) as f:
+        clean_manifest = json.load(f)
+    clean_ids = set(clean_manifest["clean_sample_ids"])
+    print(f"  Using {len(clean_ids)} clean samples (drift ≤ {clean_manifest['threshold_deg']}°)")
+
     df = pd.read_csv(csv_path)
     df_cum = df[df["error_type"] == "cumulative"]
-    
-    # Get final-frame errors for each sample
-    final_errors = df_cum.groupby("sample_id")["rot_err_deg"].apply(lambda x: x.iloc[-1]).sort_values()
-    
-    print(f"  Drift statistics from Phase 1:")
+
+    # Filter to clean samples only for drift statistics
+    df_cum_clean = df_cum[df_cum["sample_id"].isin(clean_ids)]
+
+    # Get final-frame errors for clean samples
+    final_errors = df_cum_clean.groupby("sample_id")["rot_err_deg"].apply(lambda x: x.iloc[-1]).sort_values()
+
+    print(f"  Drift statistics from Phase 1 (clean subset):")
     print(f"  10th percentile (low drift):  {final_errors.quantile(0.1):.2f}°")
     print(f"  50th percentile (median):     {final_errors.quantile(0.5):.2f}°")
     print(f"  90th percentile (high drift): {final_errors.quantile(0.9):.2f}°")
-    
+
     # Extract representative drift trajectories
-    # Low drift: 10th percentile sample
     low_drift_sample = final_errors.index[max(0, int(len(final_errors) * 0.1))]
-    # High drift: 90th percentile sample
     high_drift_sample = final_errors.index[min(len(final_errors) - 1, int(len(final_errors) * 0.9))]
-    
-    # Get the cumulative error trajectory for these samples
-    drift_low = df_cum[df_cum["sample_id"] == low_drift_sample].sort_values("t")["rot_err_deg"].values
-    drift_high = df_cum[df_cum["sample_id"] == high_drift_sample].sort_values("t")["rot_err_deg"].values
-    
-    # Use median drift across all samples as the "typical" drift
-    drift_median = df_cum.groupby("t")["rot_err_deg"].median().values
-    
+
+    drift_low = df_cum_clean[df_cum_clean["sample_id"] == low_drift_sample].sort_values("t")["rot_err_deg"].values
+    drift_high = df_cum_clean[df_cum_clean["sample_id"] == high_drift_sample].sort_values("t")["rot_err_deg"].values
+
+    # Use median drift across CLEAN samples only
+    drift_median = df_cum_clean.groupby("t")["rot_err_deg"].median().values
+
     print(f"  Low-drift sample:  {low_drift_sample} (final err: {drift_low[-1]:.2f}°)")
     print(f"  High-drift sample: {high_drift_sample} (final err: {drift_high[-1]:.2f}°)")
-    
+
     # ================================================================
-    # Step 4.2: Corrupt pose history
+    # Step 4.2: Corrupt pose history (clean samples only)
     # ================================================================
     print("\n--- Step 4.2: Creating corrupted pose histories ---")
-    
+
     generated_dir = RUNS_DIR / "generated"
-    sample_dirs = sorted(generated_dir.glob("sample_*"))[:N_PHASE2_CLIPS]
-    
+    sample_dirs = sorted(
+        d for d in generated_dir.glob("sample_*") if d.name in clean_ids
+    )
+
     if not sample_dirs:
-        print(f"  ERROR: No samples found. Run step1 first.")
+        print(f"  ERROR: No clean samples found. Run step1 first.")
         return
+
+    print(f"  Processing {len(sample_dirs)} clean samples")
     
     results = []
     
@@ -168,6 +183,8 @@ def main():
         },
         "corruption_scales": CORRUPTION_SCALES,
         "n_clips": len(sample_dirs),
+        "clean_sample_ids": list(clean_ids),
+        "baseline_drift_threshold": clean_manifest["threshold_deg"],
         "results": results,
     }
     

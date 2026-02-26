@@ -437,8 +437,11 @@ def main():
         manifest = json.load(f)
 
     drift_median = manifest["drift_statistics"]["p50"]
+    clean_ids = set(manifest.get("clean_sample_ids", []))
+    clean_indices = sorted(int(sid.replace("sample_", "")) for sid in clean_ids) if clean_ids else list(range(N_SAMPLES))
     print(f"  Phase 1 median drift: {drift_median:.2f} deg")
     print(f"  Corruption scales: {CORRUPTION_SCALES}")
+    print(f"  Clean samples: {len(clean_indices)}/{N_SAMPLES}")
 
     # Create the monkey-patch runner in the DFoT repo
     runner_path = create_runner(DFOT_REPO)
@@ -481,7 +484,7 @@ def main():
             print(f"  WARNING: No NPZ files — raw_dir may not be supported")
             continue
 
-        for i in range(N_SAMPLES):
+        for i in clean_indices:
             gen_frames, gt_frames = extract_frames_from_npz(
                 raw_path, i, k_history=K_HISTORY
             )

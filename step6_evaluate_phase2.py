@@ -107,6 +107,17 @@ def main():
     # Load pose oracle
     oracle = load_oracle()
 
+    # Load clean sample list from manifest
+    manifest_path = phase2_dir / "phase2_manifest.json"
+    if manifest_path.exists():
+        with open(manifest_path) as f:
+            manifest = json.load(f)
+        clean_ids = manifest.get("clean_sample_ids", [])
+        clean_indices = sorted(int(sid.replace("sample_", "")) for sid in clean_ids) if clean_ids else list(range(N_SAMPLES))
+        print(f"  Evaluating {len(clean_indices)} clean samples")
+    else:
+        clean_indices = list(range(N_SAMPLES))
+
     # Determine LPIPS device
     lpips_device = VGGT_DEVICE  # typically "cuda"
 
@@ -118,7 +129,7 @@ def main():
     for scale in conditions:
         print(f"\n--- Scale = {scale:.1f} {'(clean baseline)' if scale == 0 else ''} ---")
 
-        for i in range(N_SAMPLES):
+        for i in clean_indices:
             sample_id = f"sample_{i:04d}"
 
             # --- Locate generated frames ---
